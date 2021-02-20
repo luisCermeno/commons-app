@@ -10,16 +10,17 @@ class UserSerializer(serializers.ModelSerializer):
 
 # to handle sign ups
 class UserSerializerWithToken(serializers.ModelSerializer):
-
+    # manually define some fields to include them in the
+    # serialized response
     token = serializers.SerializerMethodField()
     password = serializers.CharField(write_only=True)
 
-    # create a newly generated token adn return it
+    # manually create a token and return it
     def get_token(self, obj):
         # get payload handler and encoder methods from DRF JWT package
         jwt_payload_handler = api_settings.JWT_PAYLOAD_HANDLER
         jwt_encode_handler = api_settings.JWT_ENCODE_HANDLER
-        # get payload
+        # get payload (the user data)
         payload = jwt_payload_handler(obj)
         # encode payload and generate token
         token = jwt_encode_handler(payload)
