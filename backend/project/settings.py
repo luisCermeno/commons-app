@@ -40,6 +40,8 @@ INSTALLED_APPS = [
     #install rest and corsheaders
     'rest_framework',
     'corsheaders',
+    # installed apps
+    'handsflow'
 ]
 
 MIDDLEWARE = [
