@@ -142,3 +142,10 @@ REST_FRAMEWORK = {
 CORS_ORIGIN_WHITELIST = (
     'https://localhost:3000',
 )
+
+#JWT config
+JWT_AUTH = {
+    # to modify the default responses of DRF JWT 
+    # check out utils.py for details
+    'JWT_RESPONSE_PAYLOAD_HANDLER': 'mysite.utils.my_jwt_response_handler'
+}
