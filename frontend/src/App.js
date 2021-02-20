@@ -15,7 +15,7 @@ class App extends React.Component{
 
     componentDidMount() {
         if (this.state.logged_in) {
-            fetch('http://localhost:8000/handsflow/current_user/', {
+            fetch('http://localhost:8000/getuser/', {
                 headers: {
                     Authorization: `JWT ${localStorage.getItem('token')}`
                 }
@@ -48,8 +48,9 @@ class App extends React.Component{
     };
 
     handle_signup = (e, data) => {
+        console.log(JSON.stringify(data))
         e.preventDefault();
-        fetch('http://localhost:8000/handsflow/users/', {
+        fetch('http://localhost:8000/signup/', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -65,7 +66,7 @@ class App extends React.Component{
                 username: json.username
             });
         });
-      };
+    };
 
     handle_logout = () => {
         localStorage.removeItem('token');

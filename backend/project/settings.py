@@ -149,5 +149,5 @@ CORS_ORIGIN_WHITELIST = (
 JWT_AUTH = {
     # to modify the default responses of DRF JWT 
     # check out utils.py for details
-    'JWT_RESPONSE_PAYLOAD_HANDLER': 'project.utils.my_jwt_response_handler'
+    'JWT_RESPONSE_PAYLOAD_HANDLER': 'project.utils.jwt_response_payload_handler'
 }

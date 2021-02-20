@@ -1,7 +1,11 @@
 from django.urls import path
-from .views import current_user, UserList
+from .views import signup, getuser
+from rest_framework_jwt.views import obtain_jwt_token
 
 urlpatterns = [
-    path('current_user/', current_user),
-    path('users/', UserList.as_view())
+    # Authentication APIs
+    path('token-auth/', obtain_jwt_token), # login
+    path('getuser/', getuser.as_view()), # get user
+    path('signup/', signup.as_view()) # signup
+    # ... APIs
 ]
