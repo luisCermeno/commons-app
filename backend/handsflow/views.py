@@ -55,5 +55,6 @@ class signup(APIView):
             }
             print (f'->response: {response}')
             return Response(response, status=status.HTTP_201_CREATED)
+            # In case username is already taken
         except IntegrityError:
-            return Response(status=status.HTTP_226_IM_USED)
+            return Response({'error': 'Username already taken'},status=status.HTTP_200_OK)
