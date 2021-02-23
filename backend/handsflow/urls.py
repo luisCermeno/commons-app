@@ -6,6 +6,6 @@ urlpatterns = [
     # Authentication APIs
     path('login/', obtain_jwt_token), # REST built-in
     path('getuser/', views.getuser.as_view()), 
-    path('signup/', views.signup.as_view())
+    path('signup/', views.signup.as_view()),
     # ... APIs
 ]
