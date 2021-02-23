@@ -1,20 +1,20 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-function Nav(props) {
-    //navbar for logged out
+const Nav = (props) => {
+    //Logged out case
     const logged_out_nav = (
         <ul>
             <li onClick={() => props.display_form('login')}>login</li>
             <li onClick={() => props.display_form('signup')}>signup</li>
         </ul>
-    );
-    //navbar for logged in
+    )
+    //Logged in case
     const logged_in_nav = (
         <ul>
           <li onClick={props.handle_logout}>logout</li>
         </ul>
-    );
+    )
 
 
     return <div>{props.logged_in ? logged_in_nav : logged_out_nav}</div>;
@@ -22,7 +22,7 @@ function Nav(props) {
 
 export default Nav;
 
-//type verification: helps debuggin
+//type verification: helps debugging
 Nav.propTypes = {
     logged_in: PropTypes.bool.isRequired,
     display_form: PropTypes.func.isRequired,
