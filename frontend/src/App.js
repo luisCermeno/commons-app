@@ -1,15 +1,17 @@
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import Nav from './components/Nav'
-import LoginForm from './archived/LoginForm class'
-import SignupForm from './components/SignupForm class'
+import LoginForm from './components/LoginForm'
+import SignupForm from './components/SignupForm'
 
 const App = () => {
     //state hooks
     const [displayed_form, set_displayed_form] = useState('')
     const [logged_in, setlogged_in] = useState(localStorage.getItem('token')? true : false)
     const [username, setusername] = useState('')
+    const [errormsg, seterrormsg] = useState('')
 
-    //effect that gets fired off everytime component mounts
+    //effect hooks
+    //onMount (when user returns to the app after closing it)
     useEffect(() => {
         if (logged_in) {
             fetch('http://localhost:8000/getuser/', {
@@ -22,11 +24,10 @@ const App = () => {
                 setusername(json.username)
             })
         }
-        // return () => {
-        //     cleanup
-        // }
+        // eslint-disable-next-line 
     }, [])
 
+    //functions
     const handle_login = (e, credentials) => {
         console.log('handle_login running')
         e.preventDefault()
@@ -39,10 +40,17 @@ const App = () => {
         })
         .then(res => res.json())
         .then(json => {
-            localStorage.setItem('token', json.token)
-            setlogged_in(true)
-            set_displayed_form('')
-            setusername(json.user.username)
+            if (json.token) {
+                localStorage.setItem('token', json.token)
+                setlogged_in(true)
+                set_displayed_form('')
+                setusername(json.user.username)
+                seterrormsg('')
+            }
+            else {
+                console.log('invalid credentials')
+                seterrormsg('Invalid credentials, please try again!')
+            }
         })
     }
 
@@ -74,12 +82,13 @@ const App = () => {
 
     const display_form = form => {
         set_displayed_form(form)
+        seterrormsg('')
     }
 
     let form
     switch (displayed_form) {
       case 'login':
-        form = <LoginForm handle_login={handle_login} />
+        form = <LoginForm handle_login={handle_login} errormsg = {errormsg}/>
         break
       case 'signup':
         form = <SignupForm handle_signup={handle_signup} />
@@ -103,6 +112,5 @@ const App = () => {
     )
 
 }
-
 
 export default App

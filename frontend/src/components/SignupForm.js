@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import PropTypes from 'prop-types';
 
 const LoginForm = (props) => {
+    //state hooks
     const [username, setusername] = useState('')
     const [password, setpassword] = useState('')
 
@@ -15,6 +16,7 @@ const LoginForm = (props) => {
                 break
             case 'password':
                 setpassword(value)
+                break
             default:
                 console.log('error on switch')
         }

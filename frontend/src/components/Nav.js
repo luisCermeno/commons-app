@@ -1,6 +1,3 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-
 const Nav = (props) => {
     //Logged out case
     const logged_out_nav = (
@@ -16,15 +13,11 @@ const Nav = (props) => {
         </ul>
     )
 
-
-    return <div>{props.logged_in ? logged_in_nav : logged_out_nav}</div>;
+    return (
+    <div>
+        {props.logged_in ? logged_in_nav : logged_out_nav}
+    </div>
+    );
 }
 
 export default Nav;
-
-//type verification: helps debugging
-Nav.propTypes = {
-    logged_in: PropTypes.bool.isRequired,
-    display_form: PropTypes.func.isRequired,
-    handle_logout: PropTypes.func.isRequired
-  };

@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
-import PropTypes from 'prop-types';
+import { useState } from 'react';
 
 const LoginForm = (props) => {
+    //state hooks
     const [username, setusername] = useState('')
     const [password, setpassword] = useState('')
 
@@ -15,6 +15,7 @@ const LoginForm = (props) => {
                 break
             case 'password':
                 setpassword(value)
+                break
             default:
                 console.log('error on switch')
         }
@@ -22,8 +23,10 @@ const LoginForm = (props) => {
 
 
     return (
+        <>
         <form onSubmit={e => props.handle_login(e, {username: username, password: password})}>
             <h4>Log In</h4>
+            <h3>{props.errormsg}</h3>
             <label htmlFor="username">Username</label>
             <input
                 type="text"
@@ -40,12 +43,9 @@ const LoginForm = (props) => {
             />
             <input type="submit" />
         </form>
+        </>
     )
     
 }
 
 export default LoginForm;
-
-LoginForm.propTypes = {
-    handle_login: PropTypes.func.isRequired
-}
