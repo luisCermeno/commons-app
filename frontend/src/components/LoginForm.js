@@ -1,10 +1,17 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 const LoginForm = (props) => {
     //state hooks
     const [username, setusername] = useState('')
     const [password, setpassword] = useState('')
 
+    //effect hooks
+    useEffect(() => {
+        return () => {
+            props.seterrormsg('')
+        }
+        // eslint-disable-next-line
+    }, [])
 
     const handle_change = e => {
         const name = e.target.name;

@@ -2,10 +2,11 @@ import { useEffect, useState } from 'react'
 import Nav from './components/Nav'
 import LoginForm from './components/LoginForm'
 import SignupForm from './components/SignupForm'
+import {BrowserRouter as Router, Switch, Route, Redirect} from 'react-router-dom'
+import Home from './components/Home'
 
 const App = () => {
     //state hooks
-    const [displayed_form, set_displayed_form] = useState('')
     const [logged_in, setlogged_in] = useState(localStorage.getItem('token')? true : false)
     const [username, setusername] = useState('')
     const [errormsg, seterrormsg] = useState('')
@@ -29,7 +30,6 @@ const App = () => {
 
     //functions
     const handle_login = (e, credentials) => {
-        console.log('handle_login running')
         e.preventDefault()
         fetch('http://localhost:8000/login/', {
             method: 'POST',
@@ -43,20 +43,15 @@ const App = () => {
             if (json.token) {
                 localStorage.setItem('token', json.token)
                 setlogged_in(true)
-                set_displayed_form('')
                 setusername(json.user.username)
-                seterrormsg('')
             }
             else {
-                console.log('invalid credentials')
                 seterrormsg('Invalid credentials, please try again!')
             }
         })
     }
 
     const handle_signup = (e, credentials) => {
-        console.log('handle_signup running')
-        console.log(JSON.stringify(credentials))
         e.preventDefault()
         fetch('http://localhost:8000/signup/', {
             method: 'POST',
@@ -67,10 +62,15 @@ const App = () => {
         })
         .then(res => res.json())
         .then(json => {
-            localStorage.setItem('token', json.token)
-            setlogged_in(true)
-            set_displayed_form('')
-            setusername(json.username)
+            console.log(json)
+            if (json.token) {
+                localStorage.setItem('token', json.token)
+                setlogged_in(true)
+                setusername(json.username)
+            }
+            else {
+                seterrormsg('Username already taken')
+            }
         })
     }
 
@@ -80,35 +80,28 @@ const App = () => {
         setusername('')
     }
 
-    const display_form = form => {
-        set_displayed_form(form)
-        seterrormsg('')
-    }
-
-    let form
-    switch (displayed_form) {
-      case 'login':
-        form = <LoginForm handle_login={handle_login} errormsg = {errormsg}/>
-        break
-      case 'signup':
-        form = <SignupForm handle_signup={handle_signup} />
-        break
-      default:
-        form = null
-    }
-
     return (
-        <div className="App">
-            <Nav
-                logged_in={logged_in}
-                display_form={display_form}
-                handle_logout={handle_logout}
-            />
-            {form}
-            <h3>
-                {logged_in? `Hello, ${username}`: 'Please Log In'}
-            </h3>
-        </div>
+        <Router>
+            <div className="App">
+                <Nav
+                    logged_in={logged_in}
+                    handle_logout={handle_logout}
+                />
+                <Switch>
+                    <Route exact path='/'> <Home logged_in={logged_in} username={username}/> </Route>
+                    <Route exact path='/login' > 
+                        {logged_in? <Redirect to="/" />
+                        : <LoginForm handle_login={handle_login} errormsg = {errormsg} seterrormsg={seterrormsg}/> 
+                        }
+                    </Route>
+                    <Route exact path='/signup'> 
+                        {logged_in? <Redirect to="/" />
+                        : <SignupForm handle_signup={handle_signup} errormsg = {errormsg} seterrormsg={seterrormsg}/>
+                        }
+                    </Route>
+                </Switch>
+            </div>
+        </Router>
     )
 
 }

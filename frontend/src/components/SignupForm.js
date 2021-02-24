@@ -1,10 +1,17 @@
-import { useState } from 'react';
-import PropTypes from 'prop-types';
+import { useState, useEffect } from 'react';
 
 const LoginForm = (props) => {
     //state hooks
     const [username, setusername] = useState('')
     const [password, setpassword] = useState('')
+
+    //effect hooks
+    useEffect(() => {
+        return () => {
+            props.seterrormsg('')
+        }
+        // eslint-disable-next-line
+    }, [])
 
 
     const handle_change = e => {
@@ -26,6 +33,7 @@ const LoginForm = (props) => {
     return (
         <form onSubmit={e => props.handle_signup(e, {username: username, password: password})}>
             <h4>Sign up</h4>
+            <h3>{props.errormsg}</h3>
             <label htmlFor="username">Username</label>
             <input
                 type="text"
@@ -47,7 +55,3 @@ const LoginForm = (props) => {
 }
 
 export default LoginForm;
-
-LoginForm.propTypes = {
-    handle_login: PropTypes.func.isRequired
-}

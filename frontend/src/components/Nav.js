@@ -1,15 +1,24 @@
+import {Link} from 'react-router-dom'
+
 const Nav = (props) => {
     //Logged out case
     const logged_out_nav = (
         <ul>
-            <li onClick={() => props.display_form('login')}>login</li>
-            <li onClick={() => props.display_form('signup')}>signup</li>
+            <Link to='/'>
+                <li>Home</li>
+            </Link>
+            <Link to='/login'>
+                <li>Login</li>
+            </Link>
+            <Link to='/signup'>
+                <li>Sign Up</li>
+            </Link>
         </ul>
     )
     //Logged in case
     const logged_in_nav = (
         <ul>
-          <li onClick={props.handle_logout}>logout</li>
+          <li onClick={props.handle_logout}>Log out</li>
         </ul>
     )
 

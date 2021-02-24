@@ -1,17 +1,14 @@
-from django.shortcuts import render
+# django library
 from django.db import IntegrityError
-
-# Create your views here.
-
-from django.http import HttpResponseRedirect
+# models
 from django.contrib.auth.models import User
+# frameworks
 from rest_framework import permissions, status
-from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from .serializers import UserSerializer
 from rest_framework_jwt.settings import api_settings
-import json
+# serializers
+from .serializers import UserSerializer
 
 class getuser(APIView):
     permission_classes = (permissions.IsAuthenticated,)
