@@ -1,9 +1,8 @@
 
 import { makeStyles } from '@material-ui/core/styles';
 
-const drawerWidth = 240;
 
-const useStyles = makeStyles((theme) => ({
+const  useStyles = makeStyles((theme) => ({
   root: {
     display: 'flex',
   },
@@ -15,8 +14,8 @@ const useStyles = makeStyles((theme) => ({
     }),
   },
   appBarShift: {
-    marginLeft: drawerWidth,
-    width: `calc(100% - ${drawerWidth}px)`,
+    marginLeft: 240,
+    width: `calc(100% - 240px)`,
     transition: theme.transitions.create(['width', 'margin'], {
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.enteringScreen,
@@ -29,12 +28,12 @@ const useStyles = makeStyles((theme) => ({
     display: 'none',
   },
   drawer: {
-    width: drawerWidth,
+    width: 240,
     flexShrink: 0,
     whiteSpace: 'nowrap',
   },
   drawerOpen: {
-    width: drawerWidth,
+    width: 240,
     transition: theme.transitions.create('width', {
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.enteringScreen,

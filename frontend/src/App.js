@@ -4,7 +4,7 @@ import LoginForm from './components/LoginForm'
 import SignupForm from './components/SignupForm'
 import {BrowserRouter as Router, Switch, Route, Redirect} from 'react-router-dom'
 import Home from './components/Home'
-import Test from './Test'
+import Layout from './Layout'
 import Test2 from './test2'
 
 const App = () => {
@@ -102,7 +102,7 @@ const App = () => {
                         }
                     </Route>
                 </Switch>
-                <Test2/>
+                <Layout/>
             </div>
         </Router>
     )
