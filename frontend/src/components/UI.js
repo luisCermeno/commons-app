@@ -1,10 +1,10 @@
 import {useState} from 'react';
 import CssBaseline from '@material-ui/core/CssBaseline';
-import CustomAppBar from './ui/CustomAppBar';
-import CustomDrawer from './ui/CustomDrawer';
-import useStyles from './styles'
+import CustomAppBar from '../ui/CustomAppBar';
+import CustomDrawer from '../ui/CustomDrawer';
+import useStyles from '../styles'
 
-const Layout = (props) => {
+const UI = (props) => {
   const classes = useStyles();
   const [open, setOpen] = useState(false);
 
@@ -29,4 +29,4 @@ const Layout = (props) => {
   );
 }
 
-export default Layout;
+export default UI;

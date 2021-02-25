@@ -1,10 +1,9 @@
 import { useEffect, useState } from 'react'
-import Nav from './components/Nav'
 import LoginForm from './components/LoginForm'
 import SignupForm from './components/SignupForm'
 import {BrowserRouter as Router, Switch, Route, Redirect} from 'react-router-dom'
 import Home from './components/Home'
-import Layout from './Layout'
+import UI from './components/UI'
 import Profile from './components/Profile';
 
 const App = () => {
@@ -85,28 +84,25 @@ const App = () => {
   return (
     <Router>
       <div className="App">
-        <Layout
-          logged_in={logged_in}
-          handle_logout={handle_logout}
-          username={username}
-        >
-          {/* <Nav
-            logged_in={logged_in}
-            handle_logout={handle_logout}
-          /> */}
 
           {logged_in?
-          <Switch>
-            <Route exact path='/login' > 
-              <Redirect to="/" />
-            </Route>
-            <Route exact path='/'>
-              <Home logged_in={logged_in} username={username}/> 
-            </Route>
-            <Route exact path='/profile'>
-              <Profile username={username}/> 
-            </Route>
-          </Switch>
+          <UI
+            logged_in={logged_in}
+            handle_logout={handle_logout}
+            username={username}
+          >
+            <Switch>
+              <Route exact path='/'>
+                <Home logged_in={logged_in} username={username}/> 
+              </Route>
+              <Route exact path='/profile'>
+                <Profile username={username}/> 
+              </Route>
+              <Route path='/' > 
+                <Redirect to="/" />
+              </Route>
+            </Switch>
+          </UI>
           :
           <Switch>
             <Route exact path='/login' > 
@@ -120,7 +116,6 @@ const App = () => {
             </Route>
           </Switch>
           }
-        </Layout>
       </div>
     </Router>
   )
