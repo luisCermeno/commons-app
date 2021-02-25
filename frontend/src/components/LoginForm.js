@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import {Link} from 'react-router-dom'
 
 const LoginForm = (props) => {
     //state hooks
@@ -50,6 +51,9 @@ const LoginForm = (props) => {
             />
             <input type="submit" />
         </form>
+        <div>
+          Not part of the community yet? <Link to='/signup'>Sign up</Link>
+        </div>
         </>
     )
     

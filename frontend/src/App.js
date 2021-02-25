@@ -5,6 +5,7 @@ import SignupForm from './components/SignupForm'
 import {BrowserRouter as Router, Switch, Route, Redirect} from 'react-router-dom'
 import Home from './components/Home'
 import Layout from './Layout'
+import Profile from './components/Profile';
 
 const App = () => {
   //state hooks
@@ -89,28 +90,36 @@ const App = () => {
           handle_logout={handle_logout}
           username={username}
         >
-          <Nav
+          {/* <Nav
             logged_in={logged_in}
             handle_logout={handle_logout}
-          />
-          <Switch>
-            <Route exact path='/' > 
-              {!logged_in? <Redirect to="/login" />
-              : <Home logged_in={logged_in} username={username}/> 
-              }
-            </Route>
+          /> */}
 
+          {logged_in?
+          <Switch>
             <Route exact path='/login' > 
-              {logged_in? <Redirect to="/" />
-              : <LoginForm handle_login={handle_login} errormsg = {errormsg} seterrormsg={seterrormsg}/> 
-              }
+              <Redirect to="/" />
             </Route>
-            <Route exact path='/signup'> 
-              {logged_in? <Redirect to="/" />
-              : <SignupForm handle_signup={handle_signup} errormsg = {errormsg} seterrormsg={seterrormsg}/>
-              }
+            <Route exact path='/'>
+              <Home logged_in={logged_in} username={username}/> 
+            </Route>
+            <Route exact path='/profile'>
+              <Profile username={username}/> 
             </Route>
           </Switch>
+          :
+          <Switch>
+            <Route exact path='/login' > 
+              <LoginForm handle_login={handle_login} errormsg = {errormsg} seterrormsg={seterrormsg}/> 
+            </Route>
+            <Route exact path='/signup'> 
+              <SignupForm handle_signup={handle_signup} errormsg = {errormsg} seterrormsg={seterrormsg}/>
+            </Route>
+            <Route path='/' > 
+              <Redirect to="/login" />
+            </Route>
+          </Switch>
+          }
         </Layout>
       </div>
     </Router>

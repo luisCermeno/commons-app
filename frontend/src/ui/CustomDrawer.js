@@ -12,6 +12,8 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
+import HomeIcon from '@material-ui/icons/Home';
+import {Link} from 'react-router-dom'
 
 const CustomDrawer = (props) => {
   const classes = props.classes;
@@ -37,12 +39,21 @@ const CustomDrawer = (props) => {
         </IconButton>
       </div>
       <Divider />
-
         <List>
-          <ListItem button key='{User}'>
+          <Link to= '/'>
+          <ListItem button key='Home'>
+            <ListItemIcon><HomeIcon/></ListItemIcon>
+            <ListItemText primary='Home' />
+          </ListItem>
+          </Link>
+        </List>
+        <List>
+          <Link to='/profile'>
+          <ListItem button key='User'>
             <ListItemIcon><AccountCircleIcon/></ListItemIcon>
             <ListItemText primary={props.username} />
           </ListItem>
+          </Link>
         </List>
         <Divider />
         <List>
