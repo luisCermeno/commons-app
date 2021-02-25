@@ -46,7 +46,7 @@ const CustomDrawer = (props) => {
         </List>
         <Divider />
         <List>
-          <ListItem button key='Logout'>
+          <ListItem button key='Logout' onClick = {props.handle_logout}>
             <ListItemIcon><ExitToAppIcon/></ListItemIcon>
             <ListItemText primary='Logout' />
           </ListItem>
