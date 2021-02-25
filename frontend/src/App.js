@@ -84,13 +84,22 @@ const App = () => {
   return (
     <Router>
       <div className="App">
-        <Layout>
+        <Layout
+          logged_in={logged_in}
+          handle_logout={handle_logout}
+          username={username}
+        >
           <Nav
             logged_in={logged_in}
             handle_logout={handle_logout}
           />
           <Switch>
-            <Route exact path='/'> <Home logged_in={logged_in} username={username}/> </Route>
+            <Route exact path='/' > 
+              {!logged_in? <Redirect to="/login" />
+              : <Home logged_in={logged_in} username={username}/> 
+              }
+            </Route>
+
             <Route exact path='/login' > 
               {logged_in? <Redirect to="/" />
               : <LoginForm handle_login={handle_login} errormsg = {errormsg} seterrormsg={seterrormsg}/> 

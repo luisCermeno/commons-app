@@ -20,8 +20,9 @@ const Layout = (props) => {
     <div className={classes.root}>
       <CssBaseline />
       <CustomAppBar classes = {classes} open = {open} handleDrawerOpen = {handleDrawerOpen}/>
-      <CustomDrawer classes = {classes} open = {open} handleDrawerClose = {handleDrawerClose}/>
+      <CustomDrawer {...props} classes = {classes} open = {open} handleDrawerClose = {handleDrawerClose}/>
       <main className={classes.content}>
+        <div className={classes.toolbar} />
         {props.children}
       </main>
     </div>
