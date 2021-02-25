@@ -6,8 +6,6 @@ import Typography from '@material-ui/core/Typography';
 import AppBar from '@material-ui/core/AppBar';
 
 
-
-
 const CustomAppBar = (props) => {
   const classes = props.classes;
 
@@ -31,7 +29,7 @@ const CustomAppBar = (props) => {
         <MenuIcon />
       </IconButton>
       <Typography variant="h6" noWrap>
-        Mini variant drawer
+        Charged!
       </Typography>
     </Toolbar>
   </AppBar>

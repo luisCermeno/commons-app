@@ -5,7 +5,6 @@ import SignupForm from './components/SignupForm'
 import {BrowserRouter as Router, Switch, Route, Redirect} from 'react-router-dom'
 import Home from './components/Home'
 import Layout from './Layout'
-import Test2 from './test2'
 
 const App = () => {
     //state hooks

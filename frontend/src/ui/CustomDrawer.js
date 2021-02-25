@@ -1,8 +1,6 @@
 
 import clsx from 'clsx';
 import {useTheme } from '@material-ui/core/styles';
-import useStyles from './useStyles'
-
 import Drawer from '@material-ui/core/Drawer';
 import IconButton from '@material-ui/core/IconButton';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
