@@ -17,7 +17,7 @@ import ListItemText from '@material-ui/core/ListItemText';
 
 
 const CustomDrawer = (props) => {
-  const classes = useStyles();
+  const classes = props.classes;
   const theme = useTheme();
 
   return (

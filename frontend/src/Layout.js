@@ -89,7 +89,6 @@ const useStyles = makeStyles((theme) => ({
 
 export default function MiniDrawer() {
   const classes = useStyles();
-  const theme = useTheme();
   const [open, setOpen] = useState(false);
 
   const handleDrawerOpen = () => {
@@ -103,8 +102,8 @@ export default function MiniDrawer() {
   return (
     <div className={classes.root}>
       <CssBaseline />
-      <CustomAppBar classes = {classes}open = {open} handleDrawerOpen = {handleDrawerOpen}/>
-      <CustomDrawer open = {open} handleDrawerClose = {handleDrawerClose}/>
+      <CustomAppBar classes = {classes} open = {open} handleDrawerOpen = {handleDrawerOpen}/>
+      <CustomDrawer classes = {classes} open = {open} handleDrawerClose = {handleDrawerClose}/>
       <main className={classes.content}>
         <div className={classes.toolbar} />
         <Typography paragraph>
