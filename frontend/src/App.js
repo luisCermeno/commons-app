@@ -4,6 +4,8 @@ import LoginForm from './components/LoginForm'
 import SignupForm from './components/SignupForm'
 import {BrowserRouter as Router, Switch, Route, Redirect} from 'react-router-dom'
 import Home from './components/Home'
+import Test from './Test'
+import Test2 from './test2'
 
 const App = () => {
     //state hooks
@@ -100,10 +102,10 @@ const App = () => {
                         }
                     </Route>
                 </Switch>
+                <Test2/>
             </div>
         </Router>
     )
-
 }
 
 export default App
