@@ -9,9 +9,11 @@ import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import HomeIcon from '@material-ui/icons/Home';
 
+import useStyles from '../styles'
+
 
 const CustomDrawer = (props) => {
-  const classes = props.classes;
+  const classes = useStyles();
   const theme = useTheme();
 
   return (

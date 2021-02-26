@@ -3,8 +3,10 @@ import clsx from 'clsx';
 import {AppBar, Toolbar, IconButton, Typography} from '@material-ui/core';
 import MenuIcon from '@material-ui/icons/Menu';
 
+import useStyles from '../styles'
+
 const CustomAppBar = (props) => {
-  const classes = props.classes;
+  const classes = useStyles();
 
   return(
   <AppBar
