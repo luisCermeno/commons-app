@@ -8,6 +8,7 @@ import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import HomeIcon from '@material-ui/icons/Home';
+import SportsEsportsIcon from '@material-ui/icons/SportsEsports';
 
 import useStyles from '../styles'
 
@@ -38,20 +39,26 @@ const CustomDrawer = (props) => {
       <Divider />
         <List>
           <Link to= '/'>
-          <ListItem button key='Home'>
-            <ListItemIcon><HomeIcon/></ListItemIcon>
-            <ListItemText primary='Home' />
-          </ListItem>
+            <ListItem button key='Home'>
+              <ListItemIcon><HomeIcon/></ListItemIcon>
+              <ListItemText primary='Home' />
+            </ListItem>
           </Link>
-        </List>
-        <List>
+        
+
+          <Link to='/play'>
+            <ListItem button key='Play'>
+              <ListItemIcon><SportsEsportsIcon/></ListItemIcon>
+              <ListItemText primary='Play' />
+            </ListItem>
+          </Link>
           <Link to='/profile'>
-          <ListItem button key='User'>
-            <ListItemIcon><AccountCircleIcon/></ListItemIcon>
-            <ListItemText primary={props.username} />
-          </ListItem>
+            <ListItem button key='Profile'>
+              <ListItemIcon><AccountCircleIcon/></ListItemIcon>
+              <ListItemText primary={props.username} />
+            </ListItem>
           </Link>
-        </List>
+          </List>
         <Divider />
         <List>
           <ListItem button key='Logout' onClick = {props.handle_logout}>

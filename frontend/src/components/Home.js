@@ -1,6 +1,6 @@
 const Home = (props) => {
     return (
-        <h3>{props.logged_in? `Welcome, ${props.username}`: 'Please Log In'}</h3>
+        <h1>{props.logged_in? `Welcome, ${props.username}`: 'Please Log In'}</h1>
     )
 }
 
