@@ -5,28 +5,37 @@ import Hand from './Hand'
 
 import '../../node_modules/react-vis/dist/style.css';
 
-import {XYPlot, XAxis, YAxis, MarkSeries, CircularGridLines, CustomSVGSeries} from 'react-vis';
+import {XYPlot, XAxis, YAxis, CircularGridLines, CustomSVGSeries} from 'react-vis';
 
-const data = [
-  {r: 1, theta: (1 * Math.PI) / 4, size: 1},
-  {r: 1, theta: (2 * Math.PI) / 4, size: 1},
-  {r: 1, theta: (3 * Math.PI) / 4, size: 1},
-  {r: 1, theta: (4 * Math.PI) / 4, size: 1},
-  {r: 1, theta: (5 * Math.PI) / 4, size: 1},
-  {r: 1, theta: (6 * Math.PI) / 4, size: 1},
-  {r: 1, theta: (7 * Math.PI) / 4, size: 1},
-  {r: 1, theta: (8 * Math.PI) / 4, size: 1, customComponent: (row, positionInPixels) => {
+
+const getHand = (username) => {
+  const compFunction = (row, positionInPixels) => {
     return (
       <g className="inner-inner-component">
-        <circle cx="0" cy="0" r={10} fill="green"/>
-        <text x={0} y={0}>
-          <tspan x="0" y="0">{`x: ${positionInPixels.x}`}</tspan>
-          <tspan x="0" y="1em">{`y: ${positionInPixels.y}`}</tspan>
-        </text>
+        <Hand player = {username}/>
       </g>
     );
-  }}
+  }
+  return compFunction;
+}
+
+
+
+const data = [
+  {r: 1, theta: (0 * Math.PI) / 4, size: 1, customComponent: getHand('hand 1')},
+  {r: 1, theta: (1 * Math.PI) / 4, size: 1, customComponent: getHand('hand 2')},
+  {r: 1, theta: (2 * Math.PI) / 4, size: 1, customComponent: getHand('hand 3')},
+  {r: 1, theta: (3 * Math.PI) / 4, size: 1, customComponent: getHand('hand 4')},
+  {r: 1, theta: (4 * Math.PI) / 4, size: 1, customComponent: getHand('hand 5')},
+  {r: 1, theta: (5 * Math.PI) / 4, size: 1, customComponent: getHand('hand 6')},
+  {r: 1, theta: (6 * Math.PI) / 4, size: 1, customComponent: getHand('hand 7')},
+  {r: 1, theta: (7 * Math.PI) / 4, size: 1, customComponent: getHand('hand 8')},
+  {r: 1, theta: (2 * Math.PI) / 4, size: 1, customComponent: getHand('hand 9')}
 ];
+
+//element 
+
+
 
 const newdata=data.map(row => ({
   ...row,
@@ -39,12 +48,12 @@ console.log(newdata)
 
 
 const MARGINS = 0;
-const WIDTH = 500;
-const HEIGHT = 500;
+const WIDTH = 600;
+const HEIGHT = 600;
 
 const margin = {
   top: MARGINS,
-  bottom: MARGINS,
+  handtom: MARGINS,
   left: MARGINS,
   right: MARGINS
 };
@@ -65,13 +74,11 @@ const Game = props => {
       <CircularGridLines />
       <XAxis top={(HEIGHT - margin.top) / 2} />
       <YAxis left={(WIDTH - margin.left - margin.right) / 2} />
-      <MarkSeries
-        strokeWidth={1}
-        sizeRange={[4, 4]}
+      <CustomSVGSeries
         data={data.map(row => ({
           ...row,
-          x: Math.cos(row.theta) * row.r,
-          y: Math.sin(row.theta) * row.r
+          x: (Math.cos(row.theta) * row.r)-0.1,
+          y: (Math.sin(row.theta) * row.r)+0.1
         }))}
       />
     </XYPlot>
