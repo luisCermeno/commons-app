@@ -46,10 +46,10 @@ const CustomDrawer = (props) => {
           </Link>
         
 
-          <Link to='/play'>
-            <ListItem button key='Play'>
+          <Link to='/chat'>
+            <ListItem button key='Chat'>
               <ListItemIcon><SportsEsportsIcon/></ListItemIcon>
-              <ListItemText primary='Play' />
+              <ListItemText primary='Chat' />
             </ListItem>
           </Link>
           <Link to='/profile'>
