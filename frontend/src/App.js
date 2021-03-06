@@ -25,7 +25,16 @@ const App = () => {
       })
       .then(res => res.json())
       .then(json => {
-        setusername(json.username)
+        if (json.username) {
+          setusername(json.username)
+        }
+        else {
+          setlogged_in(false)
+        }
+      })
+      .catch((error) => {
+        console.log(error)
+        setlogged_in(false)
       })
     }
     // eslint-disable-next-line 

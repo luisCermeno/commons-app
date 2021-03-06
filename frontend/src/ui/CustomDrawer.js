@@ -8,7 +8,7 @@ import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import HomeIcon from '@material-ui/icons/Home';
-import SportsEsportsIcon from '@material-ui/icons/SportsEsports';
+import ChatIcon from '@material-ui/icons/Chat';
 
 import useStyles from '../styles'
 
@@ -48,7 +48,7 @@ const CustomDrawer = (props) => {
 
           <Link to='/chat'>
             <ListItem button key='Chat'>
-              <ListItemIcon><SportsEsportsIcon/></ListItemIcon>
+              <ListItemIcon><ChatIcon/></ListItemIcon>
               <ListItemText primary='Chat' />
             </ListItem>
           </Link>
