@@ -2,8 +2,9 @@ import {useEffect, useState} from 'react'
 import Peer from 'peerjs'
 
 
-
+//peer variable in global scope
 let myPeer
+
 const Chat = props => {
   const [userID, setuserID] = useState('')
   const [start, setstart] = useState(false)
@@ -12,7 +13,7 @@ const Chat = props => {
     console.log('chat mounted')
     return () => {
       console.log('chat unmounted')
-      myPeer.destroy()
+      if (myPeer !== undefined){myPeer.destroy()}
     }
   }, [])
 
@@ -24,9 +25,12 @@ const Chat = props => {
       port: '3001'
     })
     myPeer.on('open', id => {
-      console.log(`local peer opened with id "${id}". listening for connections..`)
+      console.log(`Peer connection open. ID: "${id}" . Listening for calls..`)
+      setstart(true)
     })
-    setstart(true)
+    myPeer.on('disconnected', id => {
+      console.log(`Peer connection closed. ID:  "${id}"`)
+    })
   }
 
   const handleStop = e=>{
@@ -47,11 +51,11 @@ const Chat = props => {
   return (
     <div>
       Chat here!:
-      <form onSubmit={handleStart}>
-        <input type='submit' value='Start connection'/>
+      <form onSubmit={handleStart} >
+        <input type='submit' value='Start connection' disabled={start}/>
       </form>
       <form onSubmit={handleStop}>
-        <input type='submit' value='Stop connection'/>
+        <input type='submit' value='Stop connection'disabled={!start}/>
       </form>
       {start?
       <form onSubmit={handleCall}>
