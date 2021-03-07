@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
-import {BrowserRouter as Router, Switch, Route, Redirect} from 'react-router-dom'
+import {Router, Switch, Route, Redirect, matchPath} from 'react-router-dom'
+import history from './history'
 
 import LoginForm from './components/LoginForm'
 import SignupForm from './components/SignupForm'
@@ -7,6 +8,7 @@ import Home from './components/Home'
 import UI from './components/UI'
 import Profile from './components/Profile';
 import Testchat from './components/Testchat'
+import Room from './components/Room'
 
 const App = () => {
   //STATE HOOKS
@@ -92,7 +94,7 @@ const App = () => {
 
   //RENDER
   return (
-    <Router>
+    <Router history ={history}>
       <div className="App">
           {logged_in?
             <UI
@@ -112,6 +114,9 @@ const App = () => {
                 </Route>
                 <Route exact path='/profile'>
                   <Profile username={username}/> 
+                </Route>
+                <Route exact path='/room/:roomID'>
+                  <Room username={username}/> 
                 </Route>
                 <Route path='/' > 
                   <Redirect  to='/' />
