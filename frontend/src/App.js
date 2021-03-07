@@ -6,7 +6,7 @@ import SignupForm from './components/SignupForm'
 import Home from './components/Home'
 import UI from './components/UI'
 import Profile from './components/Profile';
-import Chat from './components/Chat'
+import Testchat from './components/Testchat'
 
 const App = () => {
   //STATE HOOKS
@@ -107,8 +107,8 @@ const App = () => {
                   username={username}
                   /> 
                 </Route>
-                <Route exact path='/chat'>
-                  <Chat username={username}/> 
+                <Route exact path='/testchat'>
+                  <Testchat username={username}/> 
                 </Route>
                 <Route exact path='/profile'>
                   <Profile username={username}/> 
