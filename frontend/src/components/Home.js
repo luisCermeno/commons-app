@@ -3,10 +3,30 @@ import history from '../history'
 
 const Home = (props) => {
     const [roomID, setroomID] = useState('')
+    const [error, seterror] = useState('')
     const handleSubmit = e => {
       e.preventDefault()
-      console.log('hellothere')
-      history.push(`/room/${roomID}`);
+      //create rooom on server
+      fetch('http://localhost:8000/room/', {
+        method: 'post',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `JWT ${localStorage.getItem('token')}`,
+        },
+        body: JSON.stringify({
+          action: 'create',
+          roomID: roomID,
+        })
+      })
+      .then(res => res.json())
+      .then(json => {
+        console.log(json)
+        if (json.error === undefined){
+          history.push(`/room/${roomID}`)
+        }
+        else seterror(json.error)
+      })
+      //implement error handling here!!!
     }
 
     const handleChange = e => {
@@ -30,6 +50,7 @@ const Home = (props) => {
             <input name='roomID' placeholder='roomID' type='text' onChange={handleChange}/>
             <input type='submit' value='Join' disabled={(roomID === '')}/>
           </form>
+        <h4>{error}</h4>
         </>
     )
 }

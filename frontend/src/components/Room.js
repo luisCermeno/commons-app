@@ -22,8 +22,6 @@ const Room = props => {
 
   //logpeer on django server 
   const logpeer = (action, peerID) => {
-    console.log('logpeer() running:')
-    console.log('action' + action + 'peerID:' +peerID + 'username' +props.username)
     fetch('http://localhost:8000/logpeer/', {
       method: 'POST',
       headers: {

@@ -9,4 +9,6 @@ urlpatterns = [
     path('signup/', views.signup.as_view()),
     # APIs
     path('logpeer/', views.logpeer.as_view()),
+    path('room/', views.room.as_view()),
+
 ]

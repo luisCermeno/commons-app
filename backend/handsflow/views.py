@@ -86,3 +86,28 @@ class logpeer(APIView):
           return Response({'error': 'Peer not found'},status=status.HTTP_200_OK)
     else:
       return Response({'error': 'Acess Denied'},status=status.HTTP_401_UNAUTHORIZED)
+
+class room(APIView):
+  permission_classes = (permissions.IsAuthenticated,)
+  def post (self, request, format=None):
+    # Log incoming data to console
+    print('---------------------------------')
+    print('running room(APIView):')
+    print(f'->request body: {request.data}')
+    print(request.user)
+    # Destructure the user data from the requestm
+    action = request.data.get("action")
+    roomID = request.data.get("roomID")
+    if (action == 'create'):
+      try:
+        newroom = Room.objects.create(roomID= roomID)
+        return Response({'message': f"Room created with id: {roomID}"}, status=status.HTTP_201_CREATED)
+      except IntegrityError:
+        return Response({'error': 'Room already exists.'},status=status.HTTP_200_OK)
+    elif (action == 'delete'):
+      try:
+        room = Room.objects.get(roomID= roomID)
+        room.delete()
+        return Response({'message': f"Room deleted with id: {roomID}"}, status=status.HTTP_201_CREATED)
+      except IntegrityError:
+        return Response({'error': 'Room not found'},status=status.HTTP_200_OK)

@@ -1,5 +1,10 @@
-{
-  "action": "login",
-  "username": "admin",
-  "peerID": "ABCD12345"
-}
+  {
+    "action": "login",
+    "username": "admin",
+    "peerID": "ABCD12345"
+  }
+
+  {
+    "action": "create",
+    "roomID": "dummyroom"
+  }
