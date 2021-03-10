@@ -7,5 +7,6 @@ urlpatterns = [
     path('login/', obtain_jwt_token), # REST built-in
     path('getuser/', views.getuser.as_view()), 
     path('signup/', views.signup.as_view()),
-    # ... APIs
+    # APIs
+    path('logpeer/', views.logpeer.as_view()),
 ]

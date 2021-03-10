@@ -2,6 +2,7 @@
 from django.db import IntegrityError
 # models
 from django.contrib.auth.models import User
+from .models import *
 # frameworks
 from rest_framework import permissions, status
 from rest_framework.response import Response
@@ -9,6 +10,7 @@ from rest_framework.views import APIView
 from rest_framework_jwt.settings import api_settings
 # serializers
 from .serializers import UserSerializer
+
 
 class getuser(APIView):
     permission_classes = (permissions.IsAuthenticated,)
@@ -55,3 +57,32 @@ class signup(APIView):
             # In case username is already taken
         except IntegrityError:
             return Response({'error': 'Username already taken'},status=status.HTTP_200_OK)
+
+class logpeer(APIView):
+  permission_classes = (permissions.IsAuthenticated,)
+  def post (self, request, format=None):
+    # Log incoming data to console
+    print('---------------------------------')
+    print('running logpeer(APIView):')
+    print(f'->request body: {request.data}')
+    print(request.user)
+    # Destructure the user data from the request
+    action = request.data.get("action")
+    username = request.data.get("username")
+    peerID = request.data.get("peerID")
+    if (request.user.username == username):
+      if (action == 'login'):
+        try:
+          newpeer = Peer.objects.create(user= User.objects.get(username = username), peerID = peerID)
+          return Response({'message': 'Peer logged in on server'}, status=status.HTTP_201_CREATED)
+        except IntegrityError:
+          return Response({'error': 'Peer already logged in'},status=status.HTTP_200_OK)
+      elif (action == 'logout'):
+        try:
+          peer = Peer.objects.get(user= User.objects.get(username = username), peerID = peerID)
+          peer.delete()
+          return Response({'message': 'Peer logged out on server'}, status=status.HTTP_201_CREATED)
+        except IntegrityError:
+          return Response({'error': 'Peer not found'},status=status.HTTP_200_OK)
+    else:
+      return Response({'error': 'Acess Denied'},status=status.HTTP_401_UNAUTHORIZED)

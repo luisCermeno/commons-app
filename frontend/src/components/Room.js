@@ -7,6 +7,7 @@ import Peer from 'peerjs'
 let peer
 let dataConnection
 
+
 const Room = props => {
   //get the room id matching the history path
   const roomID = matchPath(history.location.pathname, {
@@ -19,18 +20,37 @@ const Room = props => {
   const [peers, setpeers] = useState([props.username])
   const [messages, setmessages] = useState([])
 
+  //logpeer on django server 
+  const logpeer = (action, peerID) => {
+    console.log('logpeer() running:')
+    console.log('action' + action + 'peerID:' +peerID + 'username' +props.username)
+    fetch('http://localhost:8000/logpeer/', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `JWT ${localStorage.getItem('token')}`,
+      },
+      body: JSON.stringify({
+        action: action,
+        username: props.username,
+        peerID: peerID,
+      })
+    })
+    .then(res => res.json())
+    .then(json => console.log(json))
+  }
 
   //effect hooks
   useEffect(() => {
     console.log(`Room ${roomID}  mounted`)
     console.log(`active peers: ${peers}`)
-    peer = new Peer(props.username, {
+    peer = new Peer(undefined, {
       host: '/',
       port: '3001'
     })
     peer.on('open', id => {
       console.log(`Peer connection open. ID: "${id}" . Listening for calls..`)
-      
+      logpeer('login', id)
     })
     peer.on('connection', dataConnection => {
       console.log(`New connection from : ${dataConnection.peer}`)
@@ -42,6 +62,7 @@ const Room = props => {
     })
     peer.on('disconnected', id => {
       console.log(`Peer connection closed. ID:  "${id}"`)
+      logpeer('logout', id)
     })
     peer.on('error', err=>{console.log(err)})
     return () => {
