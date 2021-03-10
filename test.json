@@ -8,3 +8,9 @@
     "action": "create",
     "roomID": "dummyroom"
   }
+
+  {
+    "action": "join",
+    "roomID": "exampleroom",
+    "peerID": "34860bf5-5096-430a-9933-218d11275f46"
+  }
