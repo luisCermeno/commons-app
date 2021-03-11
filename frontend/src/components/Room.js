@@ -7,7 +7,6 @@ import Peer from 'peerjs'
 let peer
 let dataConnection
 
-
 const Room = props => {
   //get the room id matching the history path
   const roomID = matchPath(history.location.pathname, {
@@ -17,11 +16,33 @@ const Room = props => {
   }).params.roomID;
 
   //state hooks
-  const [peers, setpeers] = useState([props.username])
+  const [participants, setparticipants] = useState([])
   const [messages, setmessages] = useState([])
 
-  //logpeer on django server 
+  //log in room in django server
+  const logroom = (action, peerID) => {
+    fetch('http://localhost:8000/room/', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `JWT ${localStorage.getItem('token')}`,
+      },
+      body: JSON.stringify({
+        action: action,
+        roomID: roomID,
+        peerID: peerID,
+      })
+    })
+    .then(res => res.json())
+    .then(json => {
+      console.log(json)
+      setparticipants(json.participants)
+    })
+  }
+
+  //logpeer in django server 
   const logpeer = (action, peerID) => {
+    if (action === 'logout') {logroom('leave', peerID)}
     fetch('http://localhost:8000/logpeer/', {
       method: 'POST',
       headers: {
@@ -35,13 +56,16 @@ const Room = props => {
       })
     })
     .then(res => res.json())
-    .then(json => console.log(json))
+    .then(json => {
+      if (action === 'login') {logroom('join', peerID)}
+      console.log(json)
+    })
   }
 
   //effect hooks
   useEffect(() => {
     console.log(`Room ${roomID}  mounted`)
-    console.log(`active peers: ${peers}`)
+    console.log(`active participants: ${participants}`)
     peer = new Peer(undefined, {
       host: '/',
       port: '3001'
@@ -52,7 +76,7 @@ const Room = props => {
     })
     peer.on('connection', dataConnection => {
       console.log(`New connection from : ${dataConnection.peer}`)
-      setpeers(peers => [...peers,dataConnection.peer])
+      setparticipants(oldparticipants => [...oldparticipants,{username: dataConnection.peer, peerID: dataConnection.peer}])
       dataConnection.on('data', data=>{
         console.log(data)
         setmessages(messages => [...messages,`${dataConnection.peer}: ${data}`])
@@ -75,7 +99,7 @@ const Room = props => {
       <div>
         <h3>Active users:</h3>
         <ul>
-          {peers.map( (peer,index) => (<li key={index}>{peer}</li>) )}
+          {participants.map( (peer,index) => (<li key={index}>{peer.peerID}</li>) )}
         </ul>
       </div>
       <div>

@@ -44,11 +44,11 @@ const Home = (props) => {
     return (
       <>
         <h1>{props.logged_in? `Welcome, ${props.username}`: 'Please Log In'}</h1>
-        <h3>Create/Join a room:</h3>
+        <h3>Create a room:</h3>
           <form onSubmit={handleSubmit}>
             <label htmlFor='roomID'>Room ID:</label>
             <input name='roomID' placeholder='roomID' type='text' onChange={handleChange}/>
-            <input type='submit' value='Join' disabled={(roomID === '')}/>
+            <input type='submit' value='Create' disabled={(roomID === '')}/>
           </form>
         <h4>{error}</h4>
         </>

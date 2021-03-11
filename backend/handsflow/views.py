@@ -74,14 +74,14 @@ class logpeer(APIView):
       if (action == 'login'):
         try:
           newpeer = Peer.objects.create(user= User.objects.get(username = username), peerID = peerID)
-          return Response({'message': 'Peer logged in on server'}, status=status.HTTP_201_CREATED)
+          return Response({'success': f'Peer logged in with id: {peerID}'}, status=status.HTTP_201_CREATED)
         except IntegrityError:
           return Response({'error': 'Peer already logged in'},status=status.HTTP_200_OK)
       elif (action == 'logout'):
         try:
           peer = Peer.objects.get(user= User.objects.get(username = username), peerID = peerID)
           peer.delete()
-          return Response({'message': 'Peer logged out on server'}, status=status.HTTP_201_CREATED)
+          return Response({'success': f'Peer logged out with id: {peerID}'}, status=status.HTTP_201_CREATED)
         except IntegrityError:
           return Response({'error': 'Peer not found'},status=status.HTTP_200_OK)
     else:
@@ -101,13 +101,33 @@ class room(APIView):
     if (action == 'create'):
       try:
         newroom = Room.objects.create(roomID= roomID)
-        return Response({'message': f"Room created with id: {roomID}"}, status=status.HTTP_201_CREATED)
+        return Response({'success': f"Room created with id: {roomID}"}, status=status.HTTP_201_CREATED)
       except IntegrityError:
         return Response({'error': 'Room already exists.'},status=status.HTTP_200_OK)
     elif (action == 'delete'):
       try:
         room = Room.objects.get(roomID= roomID)
         room.delete()
-        return Response({'message': f"Room deleted with id: {roomID}"}, status=status.HTTP_201_CREATED)
+        return Response({'success': f"Room deleted with id: {roomID}"}, status=status.HTTP_201_CREATED)
+      except IntegrityError:
+        return Response({'error': 'Room not found'},status=status.HTTP_200_OK)
+    elif (action == 'join'):
+      try:
+        peer = Peer.objects.get(peerID = request.data.get("peerID"))
+        room = Room.objects.get(roomID= roomID)
+        room.participants.add(peer)
+        room.save()
+        response = {'success': f"Peer with id: {peer.peerID} joined room with id:{roomID}", **room.serialize()}
+        return Response(response, status=status.HTTP_201_CREATED)
+      except IntegrityError:
+        return Response({'error': 'Room not found'},status=status.HTTP_200_OK)
+    elif (action == 'leave'):
+      try:
+        peer = Peer.objects.get(peerID = request.data.get("peerID"))
+        room = Room.objects.get(roomID= roomID)
+        room.participants.remove(peer)
+        room.save()
+        response = {'success': f"Peer with id: {peer.peerID} left room with id:{roomID}"}
+        return Response(response, status=status.HTTP_201_CREATED)
       except IntegrityError:
         return Response({'error': 'Room not found'},status=status.HTTP_200_OK)

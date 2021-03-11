@@ -10,5 +10,4 @@ urlpatterns = [
     # APIs
     path('logpeer/', views.logpeer.as_view()),
     path('room/', views.room.as_view()),
-
 ]
