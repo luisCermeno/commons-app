@@ -176,13 +176,28 @@ const Room = props => {
   //form functions
   const handleSend = e => {
     e.preventDefault()
-    if(participants.length <= 1) seterror('Oops! As for now, you need to have at least one other person connected to send a message 😭')
-    else {
-      setmessages(messages => [...messages, createMsgObj(props.username, msg)])
-      dataConnections.forEach(obj => {
-        obj.dataConnection.send(msg)
+    //post message to django server
+    fetch('http://localhost:8000/message/', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `JWT ${localStorage.getItem('token')}`,
+      },
+      body: JSON.stringify({
+        username: props.username,
+        body: msg,
       })
-    }
+    })
+    .then(res => res.json())
+    .then(json => console.log(json))
+    //update messages in the DOM
+    setmessages(messages => [...messages, createMsgObj(props.username, msg)])
+
+    //send message to connected peers
+    dataConnections.forEach(obj => {
+      obj.dataConnection.send(msg)
+    })
+    
   }
 
   //render

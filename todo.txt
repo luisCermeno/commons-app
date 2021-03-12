@@ -1,4 +1,3 @@
 fix cloned peers on django server with sudden frontend quit!!
 
-a third person that did not founded the room does not get their
-"data connection with xxx has closed" event, only the founder does, check that out!
+add message model with server timstamp, link it to room model
