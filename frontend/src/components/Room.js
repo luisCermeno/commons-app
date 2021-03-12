@@ -18,6 +18,7 @@ const Room = props => {
   //state hooks
   const [participants, setparticipants] = useState([])
   const [messages, setmessages] = useState([])
+  const [msg, setmsg] = useState('')
 
   //******DJANGO SERVER LOG*******
   //log in room in django server
@@ -123,12 +124,24 @@ const Room = props => {
       if (peer !== undefined){peer.destroy()}
     }
   }, [])
-
+  //effect hooks for debugging
   useEffect(() => {
-    console.log('participants has changed')
+    console.log('Participants updated:')
     console.log(participants)
   }, [participants])
+  useEffect(() => {
+    console.log('Messages updated:')
+    console.log(messages)
+  }, [messages])
 
+  //form functions
+  const handleSend = e => {
+    e.preventDefault()
+    console.log(`Sending message: ${msg}`)
+  }
+
+  
+  //render
   return (
     <div>
       <h2>Welcome to room {roomID}</h2>
@@ -143,6 +156,13 @@ const Room = props => {
         <ul>
           {messages.map( (msg,index) => (<li key={index}>{msg}</li>) )}
         </ul>
+      </div>
+      <div>
+        <h3>Send Message:</h3>
+        <form onSubmit= {handleSend}>
+          <input onChange = {e => setmsg(e.target.value)} type='text' placeholder='Type your message'></input>
+          <input  type='submit' value='Send' disabled={(msg === '')}/>
+        </form>
       </div>
     </div>
   )
