@@ -33,7 +33,17 @@ const Home = (props) => {
           })
           break;
         case 'join':
-          seterror('join room functionality coming soon!')
+          fetch(`http://localhost:8000/getroom/${roomID}`, {
+            headers: {
+              Authorization: `JWT ${localStorage.getItem('token')}`
+            }
+          })
+          .then(res => res.json())
+          .then(json => {
+            console.log(json)
+            if (json.success) history.push(`/room/${roomID}`)
+            else seterror(json.error)
+          })
       }
     }
 

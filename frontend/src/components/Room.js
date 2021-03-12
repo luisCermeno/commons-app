@@ -5,7 +5,7 @@ import Peer from 'peerjs'
 
 
 let peer
-let dataConnection
+let dataConnections = []
 
 const Room = props => {
   //get the room id matching the history path
@@ -19,6 +19,7 @@ const Room = props => {
   const [participants, setparticipants] = useState([])
   const [messages, setmessages] = useState([])
 
+  //******DJANGO SERVER LOG*******
   //log in room in django server
   const logroom = (action, peerID) => {
     fetch('http://localhost:8000/room/', {
@@ -36,10 +37,29 @@ const Room = props => {
     .then(res => res.json())
     .then(json => {
       console.log(json)
-      setparticipants(json.participants)
+      if (action != 'leave') {
+        setparticipants(json.participants)
+        json.participants.forEach(par => {
+          if (par.peerID != peerID){
+            const newDataConnection = peer.connect(par.peerID,{metadata: {username: props.username}})
+            newDataConnection.on('open',()=>{
+              console.log(`New data connection open with ${par.username}!`)
+              newDataConnection.on('data',data=>{
+                console.log(data)
+              })
+            })
+            newDataConnection.on('error', error=>{console.log(error)})
+
+            dataConnections.push({peerID: par.peerID, dataConnection: newDataConnection})
+            console.log('dataConnections:')
+            console.log(dataConnections)
+          }
+        })
+        // dataConnection = peer.connect()
+        //call other participants
+      }
     })
   }
-
   //logpeer in django server 
   const logpeer = (action, peerID) => {
     if (action === 'logout') {logroom('leave', peerID)}
@@ -61,11 +81,10 @@ const Room = props => {
       console.log(json)
     })
   }
-
+  //**************************************
   //effect hooks
   useEffect(() => {
     console.log(`Room ${roomID}  mounted`)
-    console.log(`active participants: ${participants}`)
     peer = new Peer(undefined, {
       host: '/',
       port: '3001'
@@ -75,16 +94,28 @@ const Room = props => {
       logpeer('login', id)
     })
     peer.on('connection', dataConnection => {
-      console.log(`New connection from : ${dataConnection.peer}`)
-      setparticipants(oldparticipants => [...oldparticipants,{username: dataConnection.peer, peerID: dataConnection.peer}])
+      console.log(`New data connection from ${dataConnection.metadata.username}`)
+      setparticipants(oldparticipants => [...oldparticipants,{username: dataConnection.metadata.username, peerID: dataConnection.peer}])
       dataConnection.on('data', data=>{
         console.log(data)
-        setmessages(messages => [...messages,`${dataConnection.peer}: ${data}`])
+        setmessages(messages => [...messages,`${dataConnection.metadata.username}: ${data}`])
+      })
+      dataConnection.on('close', () => {
+        console.log(`Data connection with ${dataConnection.metadata.username} has closed`)
+        setparticipants(oldparticipants => oldparticipants.filter( (obj, index, arr) => { 
+          return obj.peerID != dataConnection.peer;
+        }))
+    // var array = [1, 2, 3, 4, 5, 6, 7, 8, 9, 0];
+    // var filtered = array.filter(function(value, index, arr){ 
+    //     return value > 5;
+    // });
+    // //filtered => [6, 7, 8, 9]
+    // //array => [1, 2, 3, 4, 5, 6, 7, 8, 9, 0]
       })
     })
-    peer.on('disconnected', id => {
-      console.log(`Peer connection closed. ID:  "${id}"`)
-      logpeer('logout', id)
+    peer.on('disconnected', peerID => {
+      console.log('Peer connection closed')
+      logpeer('logout', peerID)
     })
     peer.on('error', err=>{console.log(err)})
     return () => {
@@ -93,13 +124,18 @@ const Room = props => {
     }
   }, [])
 
+  useEffect(() => {
+    console.log('participants has changed')
+    console.log(participants)
+  }, [participants])
+
   return (
     <div>
       <h2>Welcome to room {roomID}</h2>
       <div>
         <h3>Active users:</h3>
         <ul>
-          {participants.map( (peer,index) => (<li key={index}>{peer.peerID}</li>) )}
+          {participants.map( (peer,index) => (<li key={index}>{peer.peerID} is {peer.username}</li>) )}
         </ul>
       </div>
       <div>

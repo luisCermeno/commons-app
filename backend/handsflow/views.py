@@ -87,12 +87,26 @@ class logpeer(APIView):
     else:
       return Response({'error': 'Acess Denied'},status=status.HTTP_401_UNAUTHORIZED)
 
+class getroom(APIView):
+  permission_classes = (permissions.IsAuthenticated,)
+  def get(self, request, roomID, format=None):
+    print('---------------------------------')
+    print('running getroom(APIView):')
+    print(f'->request for room: {roomID}')
+    try: 
+      room = Room.objects.get(roomID= roomID)
+      response = {'success': f"Room get request complete", **room.serialize()}
+      return Response(response, status=status.HTTP_202_ACCEPTED)
+    except:
+        return Response({'error': 'Room not found'},status=status.HTTP_200_OK)
+
+
 class room(APIView):
   permission_classes = (permissions.IsAuthenticated,)
   def post (self, request, format=None):
     # Log incoming data to console
     print('---------------------------------')
-    print('running room(APIView):')
+    print('running room(APIView) POST:')
     print(f'->request body: {request.data}')
     print(request.user)
     # Destructure the user data from the requestm
