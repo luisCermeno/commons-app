@@ -1,2 +1,2 @@
-setup peer connection to listen for calls
+fix cloned peers on django server with sudden frontend quit!!
 increase token expiration time

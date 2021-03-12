@@ -19,6 +19,7 @@ const Room = props => {
   const [participants, setparticipants] = useState([])
   const [messages, setmessages] = useState([])
   const [msg, setmsg] = useState('')
+  const [error, seterror] = useState('')
 
   //******DJANGO SERVER LOG*******
   //log in room in django server
@@ -45,15 +46,25 @@ const Room = props => {
             const newDataConnection = peer.connect(par.peerID,{metadata: {username: props.username}})
             newDataConnection.on('open',()=>{
               console.log(`New data connection open with ${par.username}!`)
+
+              dataConnections.push({peerID: par.peerID, dataConnection: newDataConnection})
+              console.log('dataConnections updated:')
+              console.log(dataConnections)
+
               newDataConnection.on('data',data=>{
                 console.log(data)
+                setmessages(messages => [...messages,`${par.username}: ${data}`])
               })
             })
-            newDataConnection.on('error', error=>{console.log(error)})
 
-            dataConnections.push({peerID: par.peerID, dataConnection: newDataConnection})
-            console.log('dataConnections:')
-            console.log(dataConnections)
+              newDataConnection.on('close', () => {
+              console.log(`Data connection with ${par.username} has closed`)
+              setparticipants(oldparticipants => oldparticipants.filter( (obj, index, arr) => { 
+                return obj.peerID != par.peerID;
+              }))
+            })
+
+            newDataConnection.on('error', error=>{console.log(error)})
           }
         })
         // dataConnection = peer.connect()
@@ -91,12 +102,17 @@ const Room = props => {
       port: '3001'
     })
     peer.on('open', id => {
-      console.log(`Peer connection open. ID: "${id}" . Listening for calls..`)
+      console.log(`Peer connection open. ID: "${id}" .c Listening for calls..`)
       logpeer('login', id)
     })
     peer.on('connection', dataConnection => {
       console.log(`New data connection from ${dataConnection.metadata.username}`)
       setparticipants(oldparticipants => [...oldparticipants,{username: dataConnection.metadata.username, peerID: dataConnection.peer}])
+      
+      dataConnections.push({peerID: dataConnection.peer, dataConnection: dataConnection})
+      console.log('dataConnections updated:')
+      console.log(dataConnections)
+      
       dataConnection.on('data', data=>{
         console.log(data)
         setmessages(messages => [...messages,`${dataConnection.metadata.username}: ${data}`])
@@ -106,12 +122,6 @@ const Room = props => {
         setparticipants(oldparticipants => oldparticipants.filter( (obj, index, arr) => { 
           return obj.peerID != dataConnection.peer;
         }))
-    // var array = [1, 2, 3, 4, 5, 6, 7, 8, 9, 0];
-    // var filtered = array.filter(function(value, index, arr){ 
-    //     return value > 5;
-    // });
-    // //filtered => [6, 7, 8, 9]
-    // //array => [1, 2, 3, 4, 5, 6, 7, 8, 9, 0]
       })
     })
     peer.on('disconnected', peerID => {
@@ -133,18 +143,27 @@ const Room = props => {
     console.log('Messages updated:')
     console.log(messages)
   }, [messages])
+  useEffect(() => {
+    console.log('Messages updated:')
+    console.log(messages)
+  }, [messages])
 
   //form functions
   const handleSend = e => {
     e.preventDefault()
-    console.log(`Sending message: ${msg}`)
+    if(participants.length <= 1) seterror('Oops! As for now, you need to have at least one other person connected to send a message 😭')
+    else {
+      setmessages(messages => [...messages,`${props.username}: ${msg}`])
+      dataConnections.forEach(obj => {
+        obj.dataConnection.send(msg)
+      })
+    }
   }
 
-  
   //render
   return (
     <div>
-      <h2>Welcome to room {roomID}</h2>
+      <h2>Welcome to room {roomID}, {props.username}</h2>
       <div>
         <h3>Active users:</h3>
         <ul>
@@ -163,6 +182,7 @@ const Room = props => {
           <input onChange = {e => setmsg(e.target.value)} type='text' placeholder='Type your message'></input>
           <input  type='submit' value='Send' disabled={(msg === '')}/>
         </form>
+        <h5>{error}</h5>
       </div>
     </div>
   )
