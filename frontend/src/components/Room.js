@@ -15,7 +15,7 @@ const Room = props => {
     strict: false
   }).params.roomID;
 
-  //getTime function
+  //getTimestamp function
   const getTimestamp = () => {
     var today = new Date();
     var date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
@@ -24,6 +24,14 @@ const Room = props => {
     return dateTime
   }
 
+  //getMessageobject function
+  const createMsgObj = (username, body) => {
+    return {
+      username: username,
+      body: body,
+      timestamp: getTimestamp()
+    }
+  }
 
 
   //state hooks
@@ -64,12 +72,7 @@ const Room = props => {
 
               newDataConnection.on('data',data=>{
                 console.log(data)
-                let newmessage = {
-                  username: par.username,
-                  body: data,
-                  timestamp: getTimestamp()
-                }
-                setmessages(messages => [...messages, newmessage])
+                setmessages(messages => [...messages, createMsgObj(par.username,data)])
               })
             })
 
@@ -131,13 +134,7 @@ const Room = props => {
       
       dataConnection.on('data', data=>{
         console.log(data)
-
-        let newmessage = {
-          username: dataConnection.metadata.username,
-          body: data,
-          timestamp: getTimestamp()
-        }
-        setmessages(messages => [...messages, newmessage])
+        setmessages(messages => [...messages, createMsgObj(dataConnection.metadata.username,data)])
       })
       dataConnection.on('close', () => {
         console.log(`Data connection with ${dataConnection.metadata.username} has closed`)
@@ -181,12 +178,7 @@ const Room = props => {
     e.preventDefault()
     if(participants.length <= 1) seterror('Oops! As for now, you need to have at least one other person connected to send a message 😭')
     else {
-      let newmessage = {
-        username: props.username,
-        body: msg,
-        timestamp: getTimestamp()
-      }
-      setmessages(messages => [...messages, newmessage])
+      setmessages(messages => [...messages, createMsgObj(props.username, msg)])
       dataConnections.forEach(obj => {
         obj.dataConnection.send(msg)
       })
