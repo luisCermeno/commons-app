@@ -129,6 +129,12 @@ const Room = props => {
       logpeer('logout', peerID)
     })
     peer.on('error', err=>{console.log(err)})
+
+    //destoy peer on window close
+    window.onunload = (e) => {
+      if (peer !== undefined) peer.destroy()
+    }
+
     return () => {
       console.log(`Room ${roomID}  unmounted`)
       if (peer !== undefined){peer.destroy()}

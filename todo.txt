@@ -1,2 +1,4 @@
 fix cloned peers on django server with sudden frontend quit!!
-increase token expiration time
+
+a third person that did not founded the room does not get their
+"data connection with xxx has closed" event, only the founder does, check that out!
