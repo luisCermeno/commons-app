@@ -15,6 +15,17 @@ const Room = props => {
     strict: false
   }).params.roomID;
 
+  //getTime function
+  const getTimestamp = () => {
+    var today = new Date();
+    var date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
+    var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+    var dateTime = date+' '+time;
+    return dateTime
+  }
+
+
+
   //state hooks
   const [participants, setparticipants] = useState([])
   const [messages, setmessages] = useState([])
@@ -53,7 +64,12 @@ const Room = props => {
 
               newDataConnection.on('data',data=>{
                 console.log(data)
-                setmessages(messages => [...messages,`${par.username}: ${data}`])
+                let newmessage = {
+                  username: par.username,
+                  body: data,
+                  timestamp: getTimestamp()
+                }
+                setmessages(messages => [...messages, newmessage])
               })
             })
 
@@ -115,7 +131,13 @@ const Room = props => {
       
       dataConnection.on('data', data=>{
         console.log(data)
-        setmessages(messages => [...messages,`${dataConnection.metadata.username}: ${data}`])
+
+        let newmessage = {
+          username: dataConnection.metadata.username,
+          body: data,
+          timestamp: getTimestamp()
+        }
+        setmessages(messages => [...messages, newmessage])
       })
       dataConnection.on('close', () => {
         console.log(`Data connection with ${dataConnection.metadata.username} has closed`)
@@ -159,7 +181,12 @@ const Room = props => {
     e.preventDefault()
     if(participants.length <= 1) seterror('Oops! As for now, you need to have at least one other person connected to send a message 😭')
     else {
-      setmessages(messages => [...messages,`${props.username}: ${msg}`])
+      let newmessage = {
+        username: props.username,
+        body: msg,
+        timestamp: getTimestamp()
+      }
+      setmessages(messages => [...messages, newmessage])
       dataConnections.forEach(obj => {
         obj.dataConnection.send(msg)
       })
@@ -179,7 +206,7 @@ const Room = props => {
       <div>
         <h3>Messages:</h3>
         <ul>
-          {messages.map( (msg,index) => (<li key={index}>{msg}</li>) )}
+          {messages.map( (obj,index) => (<li key={index}>{obj.username}: {obj.body}</li>) )}
         </ul>
       </div>
       <div>
