@@ -131,7 +131,14 @@ class room(APIView):
         room = Room.objects.get(roomID= roomID)
         room.participants.add(peer)
         room.save()
-        response = {'success': f"Peer with id: {peer.peerID} joined room with id:{roomID}", **room.serialize()}
+        # create an array of objects for messages
+        querySet = room.messages.all()
+        if (querySet):
+          messages = [message.serialize() for message in querySet]
+        else:
+          messages = []
+        # create response
+        response = {'success': f"Peer with id: {peer.peerID} joined room with id:{roomID}", **room.serialize(), 'messages': messages}
         return Response(response, status=status.HTTP_201_CREATED)
       except IntegrityError:
         return Response({'error': 'Room not found'},status=status.HTTP_200_OK)
@@ -145,3 +152,21 @@ class room(APIView):
         return Response(response, status=status.HTTP_201_CREATED)
       except IntegrityError:
         return Response({'error': 'Room not found'},status=status.HTTP_200_OK)
+
+class message(APIView):
+  permission_classes = (permissions.IsAuthenticated,)
+  def post(self, request, format=None):
+    # Log incoming data to console
+    print('---------------------------------')
+    print('running room(APIView) POST:')
+    print(f'->request body: {request.data}')
+    try:
+      roomID = request.data.get("roomID")
+      username = request.data.get("username")
+      body = request.data.get("body")
+      newMessage = Message(room = Room.objects.get(roomID = roomID), user = User.objects.get(username = username), body = body)
+      newMessage.save()
+      response = {'success': 'Message created'}
+      return Response(response, status=status.HTTP_201_CREATED)
+    except :
+      return Response({'error': 'There was an error'}, status=status.HTTP_200_OK)

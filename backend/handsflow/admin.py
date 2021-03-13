@@ -7,3 +7,4 @@ class RoomAdmin(admin.ModelAdmin):
   
 admin.site.register(Peer,)
 admin.site.register(Room, RoomAdmin,)
+admin.site.register(Message)

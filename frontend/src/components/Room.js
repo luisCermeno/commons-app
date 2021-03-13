@@ -60,6 +60,7 @@ const Room = props => {
       console.log(json)
       if (action != 'leave') {
         setparticipants(json.participants)
+        setmessages(json.messages)
         json.participants.forEach(par => {
           if (par.peerID != peerID){
             const newDataConnection = peer.connect(par.peerID,{metadata: {username: props.username}})
@@ -184,6 +185,7 @@ const Room = props => {
         Authorization: `JWT ${localStorage.getItem('token')}`,
       },
       body: JSON.stringify({
+        roomID: roomID,
         username: props.username,
         body: msg,
       })

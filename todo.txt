@@ -1,3 +1,1 @@
-fix cloned peers on django server with sudden frontend quit!!
-
-add message model with server timstamp, link it to room model
+Modify timestamp to match local timezone on client's end
