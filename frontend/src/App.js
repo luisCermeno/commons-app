@@ -7,7 +7,6 @@ import SignupForm from './components/SignupForm'
 import Home from './components/Home'
 import UI from './components/UI'
 import Profile from './components/Profile';
-import Testchat from './components/Testchat'
 import Room from './components/Room'
 
 const App = () => {
@@ -108,9 +107,6 @@ const App = () => {
                   logged_in={logged_in} 
                   username={username}
                   /> 
-                </Route>
-                <Route exact path='/testchat'>
-                  <Testchat username={username}/> 
                 </Route>
                 <Route exact path='/profile'>
                   <Profile username={username}/> 
