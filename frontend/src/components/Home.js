@@ -1,5 +1,6 @@
 import {useState} from 'react'
 import history from '../history'
+import RoomList from './RoomList'
 
 const Home = (props) => {
     const [roomID, setroomID] = useState('')
@@ -33,7 +34,7 @@ const Home = (props) => {
           })
           break;
         case 'join':
-          fetch(`http://localhost:8000/getroom/${roomID}`, {
+          fetch(`http://localhost:8000/getroom?roomID=${roomID}`, {
             headers: {
               Authorization: `JWT ${localStorage.getItem('token')}`
             }
@@ -102,7 +103,7 @@ const Home = (props) => {
         </>
         :<></>
         }
-
+      <RoomList/>
       </>
 
     )

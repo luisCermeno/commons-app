@@ -89,16 +89,34 @@ class logpeer(APIView):
 
 class getroom(APIView):
   permission_classes = (permissions.IsAuthenticated,)
-  def get(self, request, roomID, format=None):
-    print('---------------------------------')
-    print('running getroom(APIView):')
-    print(f'->request for room: {roomID}')
-    try: 
-      room = Room.objects.get(roomID= roomID)
-      response = {'success': f"Room get request complete", **room.serialize()}
-      return Response(response, status=status.HTTP_202_ACCEPTED)
-    except:
-        return Response({'error': 'Room not found'},status=status.HTTP_200_OK)
+  def get(self, request, format=None):
+    # get query parameters in the GET request
+    getall = request.GET.get('getall','false')
+    roomID = request.GET.get('roomID', '')
+    # create response
+    if (getall == 'false'):
+      print('---------------------------------')
+      print('running getroom(APIView):')
+      print(f'->request for room: {roomID}')
+      try: 
+        room = Room.objects.get(roomID= roomID)
+        response = {'success': f"Room get request complete", **room.serialize()}
+        return Response(response, status=status.HTTP_202_ACCEPTED)
+      except:
+          return Response({'error': 'Room not found'},status=status.HTTP_200_OK)
+    else:
+      print('---------------------------------')
+      print('running getroom(APIView):')
+      print(f'->request for all rooms')
+      try: 
+        querySet = Room.objects.all()
+        print(querySet)
+        rooms = [room.serialize() for room in querySet]
+        response = {'success': f"All room get request complete", 'rooms': rooms}
+        return Response(response, status=status.HTTP_202_ACCEPTED)
+      except:
+          return Response({'error': 'No rooms found'},status=status.HTTP_200_OK)
+
 
 
 class room(APIView):
