@@ -1,4 +1,5 @@
 import {useState, useEffect} from 'react'
+import {Link} from 'react-router-dom'
 
 const RoomList = (props) => {
 const [rooms, setrooms] = useState([])
@@ -10,7 +11,10 @@ const getRooms = () => {
     }
   })
   .then(res => res.json())
-  .then(json => console.log(json))
+  .then(json => {
+    console.log(json)
+    setrooms(json.rooms)
+  })
 }
 
 useEffect(() => {
@@ -21,7 +25,15 @@ useEffect(() => {
   return (
     <div>
       <ul>
-        {rooms.map(room =>(<li>{room.roomID}</li>) )}
+        {rooms.map(room =>
+        (
+          <div>
+            <Link to={`/room/${room.roomID}`}>
+              <li>{room.roomID}</li>
+            </Link>
+          </div>
+        ) 
+        )}
       </ul>
     </div>
   )

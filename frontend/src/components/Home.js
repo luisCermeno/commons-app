@@ -68,42 +68,47 @@ const Home = (props) => {
     return (
       <>
         <h1>{props.logged_in? `Welcome, ${props.username}`: 'Please Log In'}</h1>
-        {(mode=='')?
-        <>
-          <h3>Select an option</h3>
-          <div><button name='create' onClick= {handleMode}>Create Room</button> or <button name='join' onClick= {handleMode}>Join Room</button></div>
-        </>
-        :<></>
-        }
+        <div>
+          <h3>Active Rooms:</h3>
+          <RoomList/>
+        </div>
+        <div>
+          {(mode=='')?
+          <>
+            <h3>Join or Create a Room:</h3>
+            <div><button name='create' onClick= {handleMode}>Create Room</button> or <button name='join' onClick= {handleMode}>Join Room</button></div>
+          </>
+          :<></>
+          }
 
-        {(mode=='create')?
-        <>
-          <h3>Create a room:</h3>
-            <form onSubmit={handleSubmit}>
-              <label htmlFor='roomID'>Room ID:</label>
-              <input name='roomID' placeholder='roomID' type='text' onChange={handleChange}/>
-              <input type='submit' value='Create' disabled={(roomID === '')}/>
-            </form>
-            <div>Do you already have a roomID? <button name='join' onClick= {handleMode}>Join room</button></div>
-          <h4>{error}</h4>
-        </>
-        :<></>
-        }
+          {(mode=='create')?
+          <>
+            <h3>Create a room:</h3>
+              <form onSubmit={handleSubmit}>
+                <label htmlFor='roomID'>Room ID:</label>
+                <input name='roomID' placeholder='roomID' type='text' onChange={handleChange}/>
+                <input type='submit' value='Create' disabled={(roomID === '')}/>
+              </form>
+              <div>Do you already have a roomID? <button name='join' onClick= {handleMode}>Join room</button></div>
+            <h4>{error}</h4>
+          </>
+          :<></>
+          }
 
-        {(mode=='join')?
-        <>
-          <h3>Join a room:</h3>
-            <form onSubmit={handleSubmit}>
-              <label htmlFor='roomID'>Room ID:</label>
-              <input name='roomID' placeholder='roomID' type='text' onChange={handleChange}/>
-              <input type='submit' value='Join' disabled={(roomID === '')}/>
-            </form>
-            <div>Want to initiate a discussion? <button name='create' onClick= {handleMode}>Create room</button></div>
-          <h4>{error}</h4>
-        </>
-        :<></>
-        }
-      <RoomList/>
+          {(mode=='join')?
+          <>
+            <h3>Join a room:</h3>
+              <form onSubmit={handleSubmit}>
+                <label htmlFor='roomID'>Room ID:</label>
+                <input name='roomID' placeholder='roomID' type='text' onChange={handleChange}/>
+                <input type='submit' value='Join' disabled={(roomID === '')}/>
+              </form>
+              <div>Want to initiate a discussion? <button name='create' onClick= {handleMode}>Create room</button></div>
+            <h4>{error}</h4>
+          </>
+          :<></>
+          }
+        </div>
       </>
 
     )

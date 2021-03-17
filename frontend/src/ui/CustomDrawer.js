@@ -44,14 +44,7 @@ const CustomDrawer = (props) => {
               <ListItemText primary='Home' />
             </ListItem>
           </Link>
-        
 
-          <Link to='/chat'>
-            <ListItem button key='Chat'>
-              <ListItemIcon><ChatIcon/></ListItemIcon>
-              <ListItemText primary='Chat' />
-            </ListItem>
-          </Link>
           <Link to='/profile'>
             <ListItem button key='Profile'>
               <ListItemIcon><AccountCircleIcon/></ListItemIcon>
@@ -60,6 +53,7 @@ const CustomDrawer = (props) => {
           </Link>
           </List>
         <Divider />
+        
         <List>
           <ListItem button key='Logout' onClick = {props.handle_logout}>
             <ListItemIcon><ExitToAppIcon/></ListItemIcon>
