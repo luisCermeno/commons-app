@@ -24,6 +24,7 @@ useEffect(() => {
 
   return (
     <div>
+      <h3>Active Rooms:</h3>
       <ul>
         {rooms.map(room =>
         (
