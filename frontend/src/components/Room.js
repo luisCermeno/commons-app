@@ -1,11 +1,12 @@
 import {useState, useEffect} from 'react'
-import { matchPath } from "react-router";
+import {matchPath} from "react-router";
 import history from '../history'
 import Peer from 'peerjs'
 
 // ******** GLOBAL CONSTANTS *********
-let peer
-let dataConnections = []
+let peer // stores the local peer object
+let dataConnections = [] //stores all the data channel
+                         //with all the peers
 
 const Room = props => {
   // ******** CONSTANTS *********
@@ -22,55 +23,74 @@ const Room = props => {
   const [error, seterror] = useState('')
 
   // ******** EFFECT HOOKS ********
+  // onMount:
   useEffect(() => {
-    console.log(`Room ${roomID}  mounted`)
+    // create a new peer object for local participant
     peer = new Peer(undefined, {
       host: '/',
       port: '3001'
     })
-    peer.on('open', id => {
-      console.log(`Peer connection open. ID: "${id}" .c Listening for calls..`)
-      logpeer('login', id)
-    })
+    // when the window is suddenly closed , destoy peer object
+    window.onunload = (e) => { if (peer !== undefined) peer.destroy() }
+    // when the connection is established, signal django server(peer login)
+    peer.on('open', id => djangoLogPeer('login', id))
+    // when the connection is closed, signal django server(peer logout)
+    peer.on('disconnected', peerID => djangoLogPeer('logout', peerID))
+    // when there is a error, log it to the console
+    peer.on('error', error => console.log(error))
+    // when local peer receives a new connection from remote peer...
     peer.on('connection', dataConnection => {
-      console.log(`New data connection from ${dataConnection.metadata.username}`)
+      // update participants state
       setparticipants(oldparticipants => [...oldparticipants,{username: dataConnection.metadata.username, peerID: dataConnection.peer}])
-      
+      // push the data channel obtained to the global constant
       dataConnections.push({peerID: dataConnection.peer, dataConnection: dataConnection})
-      console.log('dataConnections updated:')
-      console.log(dataConnections)
-      
-      dataConnection.on('data', data=>{
-        console.log(data)
-        setmessages(messages => [...messages, createMsgObj(dataConnection.metadata.username,data)])
-      })
+      // when a message is received from that data channel, update the state
+      dataConnection.on('data', data => setmessages(messages => [...messages, createMsgObj(dataConnection.metadata.username,data)]))
+      // when the data channel is closed update participants state 
       dataConnection.on('close', () => {
-        console.log(`Data connection with ${dataConnection.metadata.username} has closed`)
-        setparticipants(oldparticipants => oldparticipants.filter( (obj, index, arr) => { 
-          return obj.peerID != dataConnection.peer;
-        }))
+        setparticipants(oldparticipants => oldparticipants.filter( obj => { return obj.peerID != dataConnection.peer } ))
       })
     })
-    peer.on('disconnected', peerID => {
-      console.log('Peer connection closed')
-      logpeer('logout', peerID)
-    })
-    peer.on('error', err=>{console.log(err)})
-
-    //destoy peer on window close
-    window.onunload = (e) => {
-      if (peer !== undefined) peer.destroy()
-    }
-
-    return () => {
-      console.log(`Room ${roomID}  unmounted`)
-      if (peer !== undefined){peer.destroy()}
-    }
+    // when component is unmounted, destroy peer
+    return () => { if (peer !== undefined) peer.destroy() }
   }, [])
 
-    //****** DJANGO SERVER SIGNALING *******
-  //log in room in django server
-  const logroom = (action, peerID) => {
+  //****** DJANGO SERVER SIGNALING *******
+  // djangoLogPeer function
+  // Objective: logs in/out a peer in the
+  // django server and to its respective room
+  const djangoLogPeer = (action, peerID) => {
+    // If action is logout, first make the peer leave
+    // the room in the django server
+    if (action === 'logout') djangoLogRoom('leave', peerID)
+
+    // Log in/out the peer in the django server
+    // (destroy or create the peer in the database)
+    fetch('http://localhost:8000/logpeer/', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `JWT ${localStorage.getItem('token')}`,
+      },
+      body: JSON.stringify({
+        action: action,
+        username: props.username,
+        peerID: peerID,
+      })
+    })
+    .then(res => res.json()).then(json => console.log(json))
+    // if action is login
+    // After creating the peer object, join the room in the server
+    .then( () => {if (action === 'login') djangoLogRoom('join', peerID)})
+  }
+
+  // djangoLogRoom function
+  // Objective: logs in/out a peer into a 
+  // room in the server. In case of joining
+  // a room, django server respons with the
+  // the peers currently logged and the message
+  // history.
+  const djangoLogRoom = (action, peerID) => {
     fetch('http://localhost:8000/room/', {
       method: 'POST',
       headers: {
@@ -86,58 +106,35 @@ const Room = props => {
     .then(res => res.json())
     .then(json => {
       console.log(json)
-      if (action != 'leave') {
+      // In case peer is joining the room...
+      if (action == 'join') {
+        //With the response, update the participants
+        //and messages state
         setparticipants(json.participants)
         setmessages(json.messages)
+        //Call each participant in the response.
+        //(establish a new connection)
         json.participants.forEach(par => {
+          //Exclude self peer
           if (par.peerID != peerID){
+            // call the peer and get the data channel
             const newDataConnection = peer.connect(par.peerID,{metadata: {username: props.username}})
-            newDataConnection.on('open',()=>{
-              console.log(`New data connection open with ${par.username}!`)
-
-              dataConnections.push({peerID: par.peerID, dataConnection: newDataConnection})
-              console.log('dataConnections updated:')
-              console.log(dataConnections)
-
-              newDataConnection.on('data',data=>{
-                console.log(data)
-                setmessages(messages => [...messages, createMsgObj(par.username,data)])
-              })
+            // push the data channel obtained to the global constant
+            dataConnections.push({peerID: par.peerID, dataConnection: newDataConnection})
+            // when the connection is established...
+            newDataConnection.on('open',() => {
+              // when a message is received from the data channel, update the state
+              newDataConnection.on('data',data => setmessages(messages => [...messages, createMsgObj(par.username,data)]))
             })
-
-              newDataConnection.on('close', () => {
-              console.log(`Data connection with ${par.username} has closed`)
-              setparticipants(oldparticipants => oldparticipants.filter( (obj, index, arr) => { 
-                return obj.peerID != par.peerID;
-              }))
+            // when the data channel is closed update participants state 
+            newDataConnection.on('close', () => {
+              setparticipants(oldparticipants => oldparticipants.filter( obj => { return obj.peerID != par.peerID } ))
             })
-
-            newDataConnection.on('error', error=>{console.log(error)})
+            // when there is a error, log it to the console
+            newDataConnection.on('error', error => console.log(error))
           }
         })
       }
-    })
-  }
-
-  //logpeer in django server 
-  const logpeer = (action, peerID) => {
-    if (action === 'logout') {logroom('leave', peerID)}
-    fetch('http://localhost:8000/logpeer/', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `JWT ${localStorage.getItem('token')}`,
-      },
-      body: JSON.stringify({
-        action: action,
-        username: props.username,
-        peerID: peerID,
-      })
-    })
-    .then(res => res.json())
-    .then(json => {
-      if (action === 'login') {logroom('join', peerID)}
-      console.log(json)
     })
   }
 
@@ -183,15 +180,12 @@ const Room = props => {
         body: msg,
       })
     })
-    .then(res => res.json())
-    .then(json => console.log(json))
+    //log the response to console
+    .then(res => res.json()).then(json => console.log(json))
     //update messages in the DOM
     setmessages(messages => [...messages, createMsgObj(props.username, msg)])
-    //send message to connected peers
-    dataConnections.forEach(obj => {
-      obj.dataConnection.send(msg)
-    })
-    
+    //send message to each data channel in the global constant
+    dataConnections.forEach(obj => obj.dataConnection.send(msg))
   }
 
   // ******** RENDER ********
