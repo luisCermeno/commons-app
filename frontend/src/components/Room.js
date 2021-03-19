@@ -3,44 +3,72 @@ import { matchPath } from "react-router";
 import history from '../history'
 import Peer from 'peerjs'
 
-
+// ******** GLOBAL CONSTANTS *********
 let peer
 let dataConnections = []
 
 const Room = props => {
-  //get the room id matching the history path
+  // ******** CONSTANTS *********
   const roomID = matchPath(history.location.pathname, {
     path: "/room/:roomID",
     exact: true,
     strict: false
   }).params.roomID;
 
-  //getTimestamp function
-  const getTimestamp = () => {
-    var today = new Date();
-    var date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
-    var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
-    var dateTime = date+' '+time;
-    return dateTime
-  }
-
-  //getMessageobject function
-  const createMsgObj = (username, body) => {
-    return {
-      username: username,
-      body: body,
-      timestamp: getTimestamp()
-    }
-  }
-
-
-  //state hooks
+  // ******** STATE HOOKS ********
   const [participants, setparticipants] = useState([])
   const [messages, setmessages] = useState([])
   const [msg, setmsg] = useState('')
   const [error, seterror] = useState('')
 
-  //******DJANGO SERVER LOG*******
+  // ******** EFFECT HOOKS ********
+  useEffect(() => {
+    console.log(`Room ${roomID}  mounted`)
+    peer = new Peer(undefined, {
+      host: '/',
+      port: '3001'
+    })
+    peer.on('open', id => {
+      console.log(`Peer connection open. ID: "${id}" .c Listening for calls..`)
+      logpeer('login', id)
+    })
+    peer.on('connection', dataConnection => {
+      console.log(`New data connection from ${dataConnection.metadata.username}`)
+      setparticipants(oldparticipants => [...oldparticipants,{username: dataConnection.metadata.username, peerID: dataConnection.peer}])
+      
+      dataConnections.push({peerID: dataConnection.peer, dataConnection: dataConnection})
+      console.log('dataConnections updated:')
+      console.log(dataConnections)
+      
+      dataConnection.on('data', data=>{
+        console.log(data)
+        setmessages(messages => [...messages, createMsgObj(dataConnection.metadata.username,data)])
+      })
+      dataConnection.on('close', () => {
+        console.log(`Data connection with ${dataConnection.metadata.username} has closed`)
+        setparticipants(oldparticipants => oldparticipants.filter( (obj, index, arr) => { 
+          return obj.peerID != dataConnection.peer;
+        }))
+      })
+    })
+    peer.on('disconnected', peerID => {
+      console.log('Peer connection closed')
+      logpeer('logout', peerID)
+    })
+    peer.on('error', err=>{console.log(err)})
+
+    //destoy peer on window close
+    window.onunload = (e) => {
+      if (peer !== undefined) peer.destroy()
+    }
+
+    return () => {
+      console.log(`Room ${roomID}  unmounted`)
+      if (peer !== undefined){peer.destroy()}
+    }
+  }, [])
+
+    //****** DJANGO SERVER SIGNALING *******
   //log in room in django server
   const logroom = (action, peerID) => {
     fetch('http://localhost:8000/room/', {
@@ -87,11 +115,10 @@ const Room = props => {
             newDataConnection.on('error', error=>{console.log(error)})
           }
         })
-        // dataConnection = peer.connect()
-        //call other participants
       }
     })
   }
+
   //logpeer in django server 
   const logpeer = (action, peerID) => {
     if (action === 'logout') {logroom('leave', peerID)}
@@ -113,68 +140,34 @@ const Room = props => {
       console.log(json)
     })
   }
-  //**************************************
-  //effect hooks
-  useEffect(() => {
-    console.log(`Room ${roomID}  mounted`)
-    peer = new Peer(undefined, {
-      host: '/',
-      port: '3001'
-    })
-    peer.on('open', id => {
-      console.log(`Peer connection open. ID: "${id}" .c Listening for calls..`)
-      logpeer('login', id)
-    })
-    peer.on('connection', dataConnection => {
-      console.log(`New data connection from ${dataConnection.metadata.username}`)
-      setparticipants(oldparticipants => [...oldparticipants,{username: dataConnection.metadata.username, peerID: dataConnection.peer}])
-      
-      dataConnections.push({peerID: dataConnection.peer, dataConnection: dataConnection})
-      console.log('dataConnections updated:')
-      console.log(dataConnections)
-      
-      dataConnection.on('data', data=>{
-        console.log(data)
-        setmessages(messages => [...messages, createMsgObj(dataConnection.metadata.username,data)])
-      })
-      dataConnection.on('close', () => {
-        console.log(`Data connection with ${dataConnection.metadata.username} has closed`)
-        setparticipants(oldparticipants => oldparticipants.filter( (obj, index, arr) => { 
-          return obj.peerID != dataConnection.peer;
-        }))
-      })
-    })
-    peer.on('disconnected', peerID => {
-      console.log('Peer connection closed')
-      logpeer('logout', peerID)
-    })
-    peer.on('error', err=>{console.log(err)})
 
-    //destoy peer on window close
-    window.onunload = (e) => {
-      if (peer !== undefined) peer.destroy()
+  // ******** UTIL FUNCTIONS ********
+  // getTimestamp function
+  // Objective: returns a string of the current date
+  const getTimestamp = () => {
+    var today = new Date();
+    var date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
+    var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+    var dateTime = date+' '+time;
+    return dateTime
+  }
+
+  // createMsgObj function
+  // Objective: takes an username and body and returns
+  // an object that stores all the info about
+  // that message
+  const createMsgObj = (username, body) => {
+    return {
+      username: username,
+      body: body,
+      timestamp: getTimestamp()
     }
+  }
 
-    return () => {
-      console.log(`Room ${roomID}  unmounted`)
-      if (peer !== undefined){peer.destroy()}
-    }
-  }, [])
-  //effect hooks for debugging
-  useEffect(() => {
-    console.log('Participants updated:')
-    console.log(participants)
-  }, [participants])
-  useEffect(() => {
-    console.log('Messages updated:')
-    console.log(messages)
-  }, [messages])
-  useEffect(() => {
-    console.log('Messages updated:')
-    console.log(messages)
-  }, [messages])
-
-  //form functions
+  // handleSend function
+  // Objective: Sends a message to a remote peer
+  // updates the message state, and post
+  // the message to django server
   const handleSend = e => {
     e.preventDefault()
     //post message to django server
@@ -194,7 +187,6 @@ const Room = props => {
     .then(json => console.log(json))
     //update messages in the DOM
     setmessages(messages => [...messages, createMsgObj(props.username, msg)])
-
     //send message to connected peers
     dataConnections.forEach(obj => {
       obj.dataConnection.send(msg)
@@ -202,14 +194,14 @@ const Room = props => {
     
   }
 
-  //render
+  // ******** RENDER ********
   return (
     <div>
       <h2>Welcome to room {roomID}, {props.username}</h2>
       <div>
         <h3>Active users:</h3>
         <ul>
-          {participants.map( (peer,index) => (<li key={index}>{peer.peerID} is {peer.username}</li>) )}
+          {participants.map( (peer,index) => (<li key={index}>{peer.username}</li>) )}
         </ul>
       </div>
       <div>
