@@ -4,13 +4,13 @@ import {Paper, TextField, Button} from '@material-ui/core';
 import Grid from '@material-ui/core/Grid';
 import useStyles from '../styles'
 
-
 const LoginForm = (props) => {
-
     //state hooks
     const [username, setusername] = useState('')
     const [password, setpassword] = useState('')
-
+    const [mode, setmode] = useState('login')
+    
+    const windowHeight = `${window.innerHeight.toString()}px`
     //effect hooks
     useEffect(() => {
         return () => {
@@ -40,9 +40,10 @@ const LoginForm = (props) => {
         <Grid
         container
         fluid
-        direction="row"
-        justify="center"
-        alignItems="center"
+        direction="column"
+        justify="center" //aligns horizontally
+        alignItems="center" //aligns vertically
+        style={{height: windowHeight}}
         >
           <Grid item sm={4} xs={12}>
             <Paper elevation={3} style={{padding: "20px 20px", textAlign: "center"}}>
