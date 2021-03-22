@@ -1,9 +1,8 @@
 import { useEffect, useState } from 'react'
-import {Router, Switch, Route, Redirect, matchPath} from 'react-router-dom'
+import {Router, Switch, Route, Redirect} from 'react-router-dom'
 import history from './history'
 
 import LoginForm from './components/LoginForm'
-import SignupForm from './components/SignupForm'
 import Home from './components/Home'
 import UI from './components/UI'
 import Profile from './components/Profile';
@@ -121,7 +120,7 @@ const App = () => {
             </UI>
             :
             <Switch>
-              <Route exact path='/login' > 
+              <Route exact path='/' > 
                 <LoginForm 
                 handle_login={handle_login}
                 handle_signup={handle_signup}
@@ -129,15 +128,8 @@ const App = () => {
                 seterrormsg={seterrormsg}
                 /> 
               </Route>
-              <Route exact path='/signup'> 
-                <SignupForm 
-                handle_signup={handle_signup} 
-                errormsg = {errormsg} 
-                seterrormsg={seterrormsg}
-                />
-              </Route>
               <Route path='/' > 
-                <Redirect to="/login" />
+                <Redirect to='/' />
               </Route>
             </Switch>
           }

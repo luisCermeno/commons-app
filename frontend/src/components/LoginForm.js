@@ -1,8 +1,6 @@
 import { useState, useEffect } from 'react';
-import {Link} from 'react-router-dom'
 import {Paper, TextField, Button} from '@material-ui/core';
 import Grid from '@material-ui/core/Grid';
-import useStyles from '../styles'
 
 const LoginForm = (props) => {
     //state hooks
@@ -33,8 +31,6 @@ const LoginForm = (props) => {
                 console.log('error on switch')
         }
     }
-
-
     return (
         <>
         <Grid
@@ -63,7 +59,7 @@ const LoginForm = (props) => {
                     <Button style= {{width: "100%"}}type="submit" variant="contained" color="primary">Log in</Button>
                 </form>
                 <div>
-                  Not in of your school commons yet? <Button style={{display: "inline-block"}}color="primary" onClick={() => {setmode("signup")}}>Sign up</Button>
+                  Not part of your school commons yet? <Button style={{display: "inline-block"}}color="primary" onClick={() => {setmode("signup")}}>Sign up</Button>
                 </div>
               </div>
               :
