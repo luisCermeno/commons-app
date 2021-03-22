@@ -28,7 +28,7 @@ const CustomAppBar = (props) => {
         <MenuIcon />
       </IconButton>
       <Typography variant="h6" noWrap>
-        Charged!
+        The Commons
       </Typography>
     </Toolbar>
   </AppBar>
