@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import {Router, Switch, Route, Redirect} from 'react-router-dom'
 import history from './history'
 
-import LoginForm from './components/LoginForm'
+import LoginPage from './components/LoginPage'
 import Home from './components/Home'
 import UI from './components/UI'
 import Profile from './components/Profile';
@@ -121,7 +121,7 @@ const App = () => {
             :
             <Switch>
               <Route exact path='/' > 
-                <LoginForm 
+                <LoginPage 
                 handle_login={handle_login}
                 handle_signup={handle_signup}
                 errormsg = {errormsg} 

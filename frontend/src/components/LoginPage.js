@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import {Paper, TextField, Button} from '@material-ui/core';
 import Grid from '@material-ui/core/Grid';
 
-const LoginForm = (props) => {
+const LoginPage = (props) => {
     //state hooks
     const [username, setusername] = useState('')
     const [password, setpassword] = useState('')
@@ -90,4 +90,4 @@ const LoginForm = (props) => {
     
 }
 
-export default LoginForm;
+export default LoginPage;
