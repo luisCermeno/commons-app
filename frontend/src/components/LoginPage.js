@@ -2,8 +2,8 @@ import { useState, useEffect } from 'react';
 import {Paper, TextField, Button} from '@material-ui/core';
 import Grid from '@material-ui/core/Grid';
 import jigsaw from '../img/jigsaw.png'
-import TableFooter from '@material-ui/core/TableFooter';
 import logo from '../img/logocrop.png'
+import background from '../img/background.png'
 
 const LoginPage = (props) => {
     //state hooks
@@ -40,7 +40,7 @@ const LoginPage = (props) => {
         direction="row"
         justify="space-around" //aligns horizontally
         alignItems="center" //aligns vertically
-        style={{height: "100vh", backgroundImage: "url(/puzzle.png)"}}
+        style={{height: "100vh", backgroundImage: `url(${background})`}}
         >
           <Grid item md={7} sm={12}>
             <Paper elevation={3} style={{padding: "3vh 4vw", textAlign: "center", width: "50%", borderRadius: "15px", margin: "0 auto"}}>

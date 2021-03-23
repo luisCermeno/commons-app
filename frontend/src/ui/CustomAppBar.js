@@ -5,6 +5,9 @@ import MenuIcon from '@material-ui/icons/Menu';
 
 import useStyles from '../styles'
 
+import jigsaw from '../img/jigsaw.png'
+import logo from '../img/logocrop.png'
+
 const CustomAppBar = (props) => {
   const classes = useStyles();
 
@@ -15,7 +18,7 @@ const CustomAppBar = (props) => {
       [classes.appBarShift]: props.open,
     })}
   >
-    <Toolbar>
+    <Toolbar className={classes.toolbar}>
       <IconButton
         color="inherit"
         aria-label="open drawer"
@@ -25,11 +28,9 @@ const CustomAppBar = (props) => {
           [classes.hide]: props.open,
         })}
       >
-        <MenuIcon />
+        <img src={jigsaw} style={{width: "40px",display: "inline"}}/>
       </IconButton>
-      <Typography variant="h6" noWrap>
-        The Commons
-      </Typography>
+      <img src={logo} style={{height: "65px", display: "inline"}}></img>
     </Toolbar>
   </AppBar>
   )
