@@ -7,6 +7,7 @@ import Home from './components/Home'
 import UI from './components/UI'
 import Profile from './components/Profile';
 import Room from './components/Room'
+import Create from './components/Create'
 
 const App = () => {
   //STATE HOOKS
@@ -106,6 +107,9 @@ const App = () => {
                   logged_in={logged_in} 
                   username={username}
                   /> 
+                </Route>
+                <Route exact path='/create'>
+                  <Create/> 
                 </Route>
                 <Route exact path='/profile'>
                   <Profile username={username}/> 

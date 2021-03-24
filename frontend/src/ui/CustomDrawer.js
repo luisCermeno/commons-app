@@ -5,10 +5,10 @@ import {useTheme } from '@material-ui/core/styles';
 import {Drawer, IconButton, Divider, List, ListItem, ListItemIcon, ListItemText} from '@material-ui/core';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
-import AccountCircleIcon from '@material-ui/icons/AccountCircle';
-import ExitToAppIcon from '@material-ui/icons/ExitToApp';
-import HomeIcon from '@material-ui/icons/Home';
-
+import BorderColorTwoToneIcon from '@material-ui/icons/BorderColorTwoTone';
+import DeckTwoToneIcon from '@material-ui/icons/DeckTwoTone';
+import MeetingRoomTwoToneIcon from '@material-ui/icons/MeetingRoomTwoTone';
+import ContactMailTwoToneIcon from '@material-ui/icons/ContactMailTwoTone';
 import useStyles from '../styles'
 
 
@@ -39,15 +39,21 @@ const CustomDrawer = (props) => {
         <List>
           <Link to= '/'>
             <ListItem button key='Home'>
-              <ListItemIcon><HomeIcon/></ListItemIcon>
+              <ListItemIcon><DeckTwoToneIcon/></ListItemIcon>
               <ListItemText primary='Home' />
+            </ListItem>
+          </Link>
+          <Link to= '/create'>
+            <ListItem button key='Create'>
+              <ListItemIcon><BorderColorTwoToneIcon/></ListItemIcon>
+              <ListItemText primary='Create' />
             </ListItem>
           </Link>
 
           <Link to='/profile'>
-            <ListItem button key='Profile'>
-              <ListItemIcon><AccountCircleIcon/></ListItemIcon>
-              <ListItemText primary={props.username} />
+            <ListItem button key='Student ID'>
+              <ListItemIcon><ContactMailTwoToneIcon/></ListItemIcon>
+              <ListItemText primary='My Student ID' />
             </ListItem>
           </Link>
           </List>
@@ -55,7 +61,7 @@ const CustomDrawer = (props) => {
 
         <List>
           <ListItem button key='Logout' onClick = {props.handle_logout}>
-            <ListItemIcon><ExitToAppIcon/></ListItemIcon>
+            <ListItemIcon><MeetingRoomTwoToneIcon/></ListItemIcon>
             <ListItemText primary='Logout' />
           </ListItem>
         </List>

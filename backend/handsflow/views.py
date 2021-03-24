@@ -11,7 +11,7 @@ from rest_framework_jwt.settings import api_settings
 # serializers
 from .serializers import UserSerializer
 
-
+# AUTHETICATION VIEWS
 class getuser(APIView):
     permission_classes = (permissions.IsAuthenticated,)
     # get function from rest framework automatically decodes 
@@ -58,6 +58,7 @@ class signup(APIView):
         except IntegrityError:
             return Response({'error': 'Username already taken'},status=status.HTTP_200_OK)
 
+# WEBRTC SIGNALING VIEWS
 class logpeer(APIView):
   permission_classes = (permissions.IsAuthenticated,)
   def post (self, request, format=None):
@@ -70,18 +71,20 @@ class logpeer(APIView):
     action = request.data.get("action")
     username = request.data.get("username")
     peerID = request.data.get("peerID")
+    roomID = request.data.get("roomID")
     if (request.user.username == username):
       if (action == 'login'):
         try:
-          newpeer = Peer.objects.create(user= User.objects.get(username = username), peerID = peerID)
-          return Response({'success': f'Peer logged in with id: {peerID}'}, status=status.HTTP_201_CREATED)
+          room = Room.objects.get(roomID = roomID)
+          newpeer = Peer.objects.create(user= User.objects.get(username = username), peerID = peerID, room= room)
+          return Response({'success': f'Peer : {peerID} logged into room : {roomID}'}, status=status.HTTP_201_CREATED)
         except IntegrityError:
           return Response({'error': 'Peer already logged in'},status=status.HTTP_200_OK)
       elif (action == 'logout'):
         try:
           peer = Peer.objects.get(user= User.objects.get(username = username), peerID = peerID)
           peer.delete()
-          return Response({'success': f'Peer logged out with id: {peerID}'}, status=status.HTTP_201_CREATED)
+          return Response({'success': f'Peer {peerID} logged out'}, status=status.HTTP_201_CREATED)
         except IntegrityError:
           return Response({'error': 'Peer not found'},status=status.HTTP_200_OK)
     else:
@@ -100,7 +103,14 @@ class getroom(APIView):
       print(f'->request for room: {roomID}')
       try: 
         room = Room.objects.get(roomID= roomID)
-        response = {'success': f"Room get request complete", **room.serialize()}
+        # create an array of objects for messages
+        querySet = room.messages.all()
+        if (querySet):
+          messages = [message.serialize() for message in querySet]
+        else:
+          messages = []
+        # create response
+        response = {'success': f"Peer with id joined room with id:{roomID}", **room.serialize(), 'messages': messages}
         return Response(response, status=status.HTTP_202_ACCEPTED)
       except:
           return Response({'error': 'Room not found'},status=status.HTTP_200_OK)
@@ -117,8 +127,7 @@ class getroom(APIView):
       except:
           return Response({'error': 'No rooms found'},status=status.HTTP_200_OK)
 
-
-
+# POST VIEWS
 class room(APIView):
   permission_classes = (permissions.IsAuthenticated,)
   def post (self, request, format=None):
@@ -141,33 +150,6 @@ class room(APIView):
         room = Room.objects.get(roomID= roomID)
         room.delete()
         return Response({'success': f"Room deleted with id: {roomID}"}, status=status.HTTP_201_CREATED)
-      except IntegrityError:
-        return Response({'error': 'Room not found'},status=status.HTTP_200_OK)
-    elif (action == 'join'):
-      try:
-        peer = Peer.objects.get(peerID = request.data.get("peerID"))
-        room = Room.objects.get(roomID= roomID)
-        room.participants.add(peer)
-        room.save()
-        # create an array of objects for messages
-        querySet = room.messages.all()
-        if (querySet):
-          messages = [message.serialize() for message in querySet]
-        else:
-          messages = []
-        # create response
-        response = {'success': f"Peer with id: {peer.peerID} joined room with id:{roomID}", **room.serialize(), 'messages': messages}
-        return Response(response, status=status.HTTP_201_CREATED)
-      except IntegrityError:
-        return Response({'error': 'Room not found'},status=status.HTTP_200_OK)
-    elif (action == 'leave'):
-      try:
-        peer = Peer.objects.get(peerID = request.data.get("peerID"))
-        room = Room.objects.get(roomID= roomID)
-        room.participants.remove(peer)
-        room.save()
-        response = {'success': f"Peer with id: {peer.peerID} left room with id:{roomID}"}
-        return Response(response, status=status.HTTP_201_CREATED)
       except IntegrityError:
         return Response({'error': 'Room not found'},status=status.HTTP_200_OK)
 

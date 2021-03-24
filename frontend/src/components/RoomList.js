@@ -31,11 +31,9 @@ useEffect(() => {
       alignItems="flex-start" //aligns vertically
       style={{border: "solid 1px black"}}
       >
-
         {rooms.map(room =>
         (
           <Grid item md={3} sm={12} style={{border: "solid 1px black"}}>
-
             <Paper elevation={3} style={{padding: "1vh 1vw", textAlign: "center", width: "80%",height: "30vh", borderRadius: "15px", margin: "0 auto"}}>
               <Link to={`/room/${room.roomID}`}>{room.roomID}</Link>
             </Paper>

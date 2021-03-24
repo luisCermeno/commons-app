@@ -58,12 +58,8 @@ const Room = props => {
   //****** DJANGO SERVER SIGNALING *******
   // djangoLogPeer function
   // Objective: logs in/out a peer in the
-  // django server and to its respective room
+  // django server to its respective room
   const djangoLogPeer = (action, peerID) => {
-    // If action is logout, first make the peer leave
-    // the room in the django server
-    if (action === 'logout') djangoLogRoom('leave', peerID)
-
     // Log in/out the peer in the django server
     // (destroy or create the peer in the database)
     fetch('http://localhost:8000/logpeer/', {
@@ -76,38 +72,26 @@ const Room = props => {
         action: action,
         username: props.username,
         peerID: peerID,
+        roomID: roomID,
       })
     })
     .then(res => res.json()).then(json => console.log(json))
-    // if action is login
-    // After creating the peer object, join the room in the server
-    .then( () => {if (action === 'login') djangoLogRoom('join', peerID)})
+    // After creating the peer object, fetch the room data from server
+    .then( () => {if (action === 'login') djangoGetRoom(peerID)})
   }
 
-  // djangoLogRoom function
-  // Objective: logs in/out a peer into a 
-  // room in the server. In case of joining
-  // a room, django server respons with the
-  // the peers currently logged and the message
-  // history.
-  const djangoLogRoom = (action, peerID) => {
-    fetch('http://localhost:8000/room/', {
-      method: 'POST',
+  // djangoGetRoom function
+  // Objective: Pull room data from the server (active participants,
+  // message history, etc and updates the state of the component)
+  const djangoGetRoom = (peerID) => {
+    fetch(`http://localhost:8000/getroom?roomID=${roomID}`, {
       headers: {
-        'Content-Type': 'application/json',
-        Authorization: `JWT ${localStorage.getItem('token')}`,
-      },
-      body: JSON.stringify({
-        action: action,
-        roomID: roomID,
-        peerID: peerID,
-      })
+        Authorization: `JWT ${localStorage.getItem('token')}`
+      }
     })
     .then(res => res.json())
     .then(json => {
       console.log(json)
-      // In case peer is joining the room...
-      if (action == 'join') {
         //With the response, update the participants
         //and messages state
         setparticipants(json.participants)
@@ -134,7 +118,6 @@ const Room = props => {
             newDataConnection.on('error', error => console.log(error))
           }
         })
-      }
     })
   }
 

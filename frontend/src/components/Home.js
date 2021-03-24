@@ -1,4 +1,4 @@
-import JoinCreate from './JoinCreate'
+import Create from './Create'
 import RoomList from './RoomList'
 import {Grid, Paper, TextField, Button} from '@material-ui/core';
 
@@ -20,13 +20,7 @@ const Home = (props) => {
         <Grid item md={12} sm={12} style={{border: "solid 1px black", margin: "4vh 4vh"}}>
           <RoomList/>
         </Grid>
-        <Grid item md={12} sm={12} style={{border: "solid 1px black", margin: "4vh 4vh"}}>
-          <Paper elevation={3} style={{padding: "3vh 4vw", textAlign: "center", width: "50%", borderRadius: "15px", margin: "0 auto"}}>
-          <JoinCreate/>
-          </Paper>
-        </Grid>
       </Grid>
-
     )
 }
 
