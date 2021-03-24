@@ -1,5 +1,7 @@
 import {useState, useEffect} from 'react'
 import {Link} from 'react-router-dom'
+import {Grid, Paper, TextField, Button} from '@material-ui/core';
+
 
 const RoomList = (props) => {
 const [rooms, setrooms] = useState([])
@@ -23,20 +25,24 @@ useEffect(() => {
 
 
   return (
-    <div>
-      <h3>Active Rooms:</h3>
-      <ul>
+      <Grid
+      container
+      justify="flex-start" //aligns horizontally
+      alignItems="flex-start" //aligns vertically
+      style={{border: "solid 1px black"}}
+      >
+
         {rooms.map(room =>
         (
-          <div>
-            <Link to={`/room/${room.roomID}`}>
-              <li>{room.roomID}</li>
-            </Link>
-          </div>
+          <Grid item md={3} sm={12} style={{border: "solid 1px black"}}>
+
+            <Paper elevation={3} style={{padding: "1vh 1vw", textAlign: "center", width: "80%",height: "30vh", borderRadius: "15px", margin: "0 auto"}}>
+              <Link to={`/room/${room.roomID}`}>{room.roomID}</Link>
+            </Paper>
+          </Grid>
         ) 
         )}
-      </ul>
-    </div>
+      </Grid>
   )
 }
 
