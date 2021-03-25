@@ -2,6 +2,7 @@ import {useState, useEffect} from 'react'
 import {matchPath} from "react-router";
 import history from '../history'
 import Peer from 'peerjs'
+import {Grid, Paper} from '@material-ui/core';
 
 // ******** GLOBAL CONSTANTS *********
 let peer // stores the local peer object
@@ -173,7 +174,7 @@ const Room = props => {
 
   // ******** RENDER ********
   return (
-    <div>
+    <Paper elevation={3} style={{padding: "3vh 4vw", textAlign: "center", width: "50%", borderRadius: "15px", margin: "0 auto"}}>
       <h2>Welcome to room {roomID}, {props.username}</h2>
       <div>
         <h3>Active users:</h3>
@@ -195,7 +196,7 @@ const Room = props => {
         </form>
         <h5>{error}</h5>
       </div>
-    </div>
+    </Paper>
   )
 }
 

@@ -9,6 +9,9 @@ import useStyles from '../styles'
 
 import background from '../img/background.png'
 
+import {Grid} from '@material-ui/core';
+
+
 const UI = (props) => {
   const classes = useStyles();
   const [open, setOpen] = useState(false);
@@ -28,7 +31,14 @@ const UI = (props) => {
       <CustomDrawer {...props}  open = {open} handleDrawerClose = {handleDrawerClose}/>
       <main className={classes.content} style={{height: "100vh", backgroundImage: `url(${background})`}}>
         <div className={classes.toolbar} />
-        {props.children}
+        <Grid
+        container
+        justify="center" //aligns horizontally
+        alignItems="center" //aligns vertically
+        style={{border: "dashed 1px red", height: "90%"}}
+        >
+          {props.children}
+        </Grid>
       </main>
     </div>
   );

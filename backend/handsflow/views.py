@@ -110,7 +110,7 @@ class getroom(APIView):
         else:
           messages = []
         # create response
-        response = {'success': f"Peer with id joined room with id:{roomID}", **room.serialize(), 'messages': messages}
+        response = {'success': f"Room {roomID} get request complete", **room.serialize(), 'messages': messages}
         return Response(response, status=status.HTTP_202_ACCEPTED)
       except:
           return Response({'error': 'Room not found'},status=status.HTTP_200_OK)
@@ -122,7 +122,7 @@ class getroom(APIView):
         querySet = Room.objects.all()
         print(querySet)
         rooms = [room.serialize() for room in querySet]
-        response = {'success': f"All room get request complete", 'rooms': rooms}
+        response = {'success': f"All rooms get request complete", 'rooms': rooms}
         return Response(response, status=status.HTTP_202_ACCEPTED)
       except:
           return Response({'error': 'No rooms found'},status=status.HTTP_200_OK)
@@ -139,9 +139,10 @@ class room(APIView):
     # Destructure the user data from the requestm
     action = request.data.get("action")
     roomID = request.data.get("roomID")
+    description = request.data.get("description")
     if (action == 'create'):
       try:
-        newroom = Room.objects.create(roomID= roomID)
+        newroom = Room.objects.create(roomID= roomID, description=description)
         return Response({'success': f"Room created with id: {roomID}"}, status=status.HTTP_201_CREATED)
       except IntegrityError:
         return Response({'error': 'Room already exists.'},status=status.HTTP_200_OK)

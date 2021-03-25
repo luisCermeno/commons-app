@@ -34,8 +34,17 @@ useEffect(() => {
         {rooms.map(room =>
         (
           <Grid item md={3} sm={12} style={{border: "solid 1px black"}}>
-            <Paper elevation={3} style={{padding: "1vh 1vw", textAlign: "center", width: "80%",height: "30vh", borderRadius: "15px", margin: "0 auto"}}>
-              <Link to={`/room/${room.roomID}`}>{room.roomID}</Link>
+            <Paper elevation={3} style={{padding: "1vh 1vw", textAlign: "center", width: "80%",height: "50vh", borderRadius: "15px", margin: "0 auto"}}>
+              <Link 
+              to={`/room/${room.roomID}`}
+              style={{textDecoration: "none", color: "black"}}
+              >
+                <h3>{room.roomID}</h3>
+              </Link>
+              <p>{room.description}</p>
+              <ul>
+                {room.participants.map(participant => (<li>{participant.username}</li>))}
+              </ul>
             </Paper>
           </Grid>
         ) 

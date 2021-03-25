@@ -3,13 +3,15 @@ from django.contrib.auth.models import User
 import datetime
 
 class Room(models.Model):
-  roomID = models.CharField(blank=True, max_length=100, unique=True)
+  roomID = models.CharField(blank=False, max_length=100, unique=True)
+  description = models.TextField(blank=False,)
   def __str__(self):
     return f"{self.roomID}"
 
   def serialize(self):
     return {
         "roomID" : self.roomID,
+        "description": self.description,
         "participants": [{"username": peer.user.username, "peerID": peer.peerID} for peer in self.participants.all()],
     }
 
