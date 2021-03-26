@@ -16,7 +16,7 @@ const Home = (props) => {
             <p>🥇This week's most active groups in your school:</p>
           </Paper>
         </Grid>
-        <Grid item md={12} sm={12} style={{border: "solid 1px black", margin: "4vh 4vh"}}>
+        <Grid item md={12} sm={12} style={{border: "solid 1px green", margin: "4vh 4vh"}}>
           <RoomList/>
         </Grid>
       </Grid>

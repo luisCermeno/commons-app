@@ -1,1 +1,7 @@
-Modify timestamp to match local timezone on client's end
+FEATURES:
+
+->Modify timestamp to match local timezone on client's end
+->Style message sending form
+
+FIX:
+-> peer object not deleted from django server when unloading window/ signing out

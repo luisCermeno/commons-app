@@ -51,7 +51,7 @@ const Create = (props) => {
   }
 
   return (
-    <Paper elevation={3} style={{padding: "3vh 4vw", textAlign: "center", width: "50%", borderRadius: "15px", margin: "0 auto"}}>
+    <Paper elevation={3} style={{padding: "2vh 2vw", textAlign: "center", width: "50%", borderRadius: "15px", margin: "0 auto"}}>
       <h3>Contribute to your school commons, start a group!:</h3>
       <h4>{error}</h4>
         <form onSubmit={handleSubmit}>

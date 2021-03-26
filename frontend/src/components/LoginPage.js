@@ -5,11 +5,19 @@ import jigsaw from '../img/jigsaw.png'
 import logo from '../img/logocrop.png'
 import background from '../img/background.png'
 
+
+import InputAdornment from "@material-ui/core/InputAdornment";
+import IconButton from "@material-ui/core/IconButton";
+import VisibilityTwoToneIcon from '@material-ui/icons/VisibilityTwoTone';
+import VisibilityOffTwoToneIcon from '@material-ui/icons/VisibilityOffTwoTone';
+import AccountCircleTwoToneIcon from '@material-ui/icons/AccountCircleTwoTone';
+
 const LoginPage = (props) => {
     //state hooks
     const [username, setusername] = useState('')
     const [password, setpassword] = useState('')
     const [mode, setmode] = useState('login')
+    const [showPassword, setshowPassword] = useState(false)
     
     //effect hooks
     useEffect(() => {
@@ -33,6 +41,19 @@ const LoginPage = (props) => {
                 console.log('error on switch')
         }
     }
+    const handleClickShowPassword = () => {
+      setshowPassword(!showPassword)
+    }
+
+    const handleSubmit = (e) => {
+      if (mode == 'login') {
+        props.handle_login(e, {username: username, password: password})
+      }
+      else{
+        props.handle_signup(e, {username: username, password: password})
+      }
+    }
+
     return (
         <>
         <Grid
@@ -67,42 +88,56 @@ const LoginPage = (props) => {
           <Grid item md={5} sm={12}>
             <Paper elevation={3} style={{padding: "4vh 4vw", textAlign: "center", width: "50%", borderRadius: "15px", margin: "0 auto"}}>
               <h4>Discover what is going on in your school:</h4>
+              <form style={ {marginBottom: "20px",} } autoComplete="off" onSubmit={handleSubmit}>
+                <div style={{marginBottom: "20px",}}>
+                  <TextField 
+                    id="standard-required" 
+                    label="Username" 
+                    name="username" 
+                    value={username} 
+                    onChange={handle_change}
+                    InputProps={{
+                      endAdornment:
+                      <InputAdornment position="end">
+                        <AccountCircleTwoToneIcon/>
+                      </InputAdornment>
+                    }}
+                  />
+                  <TextField 
+                    id="standard-password-input" 
+                    type={showPassword ? "text" : "password"} 
+                    label="Password" 
+                    name="password" 
+                    value={password} 
+                    onChange={handle_change}
+                    InputProps={{
+                      endAdornment:
+                        <InputAdornment position="end">
+                          <IconButton
+                            aria-label="toggle password visibility"
+                            onClick={handleClickShowPassword}
+                          >
+                            {showPassword ? <VisibilityTwoToneIcon /> : <VisibilityOffTwoToneIcon />}
+                          </IconButton>
+                        </InputAdornment>
+                    }}
+                  />
+                </div>
+                <h3>{props.errormsg}</h3>
+                {(mode == "login")?
+                  <Button style= {{width: "100%"}}type="submit" variant="contained" color="primary">Log In</Button>
+                  :
+                  <Button style= {{width: "100%"}}type="submit" variant="contained" color="primary">Sign Up</Button>
+                }
+              </form>
               {mode === 'login'?
-              <div>
-                <form style={ {marginBottom: "20px",} } autoComplete="off" onSubmit={e => props.handle_login(e, {username: username, password: password})}>
-                    <div style={{marginBottom: "20px",}}>
-                      <div>
-                      <TextField id="standard-required" label="Username" name="username" value={username} onChange={handle_change}/>
-                      </div>
-                      <div>
-                      <TextField id="standard-password-input" label="Password" type="password" name="password" value={password} onChange={handle_change}/>
-                      </div>
-                    </div>
-                    <h3>{props.errormsg}</h3>
-                    <Button style= {{width: "100%"}}type="submit" variant="contained" color="primary">Log in</Button>
-                </form>
                 <div>
                   Not part of your school commons yet? <Button style={{display: "inline-block"}}color="primary" onClick={() => {setmode("signup")}}>Sign up</Button>
                 </div>
-              </div>
               :
-              <div>
-                <form style={ {marginBottom: "20px",} } autoComplete="off" onSubmit={e => props.handle_signup(e, {username: username, password: password})}>
-                  <div style={{marginBottom: "20px",}}>
-                    <div>
-                    <TextField id="standard-required" label="Username" name="username" value={username} onChange={handle_change}/>
-                    </div>
-                    <div>
-                    <TextField id="standard-password-input" label="Password" type="password" name="password" value={password} onChange={handle_change}/>
-                    </div>
-                  </div>
-                  <h3>{props.errormsg}</h3>
-                  <Button style= {{width: "100%"}}type="submit" variant="contained" color="primary">Sign up</Button>
-                </form>
                 <div>
-                  Already have an account? <Button style={{display: "inline-block"}}color="primary" onClick={() => {setmode("login")}}>Log in</Button>
+                Already have an account? <Button style={{display: "inline-block"}}color="primary" onClick={() => {setmode("login")}}>Log in</Button>
                 </div>
-              </div>
               }
             </Paper>
           </Grid>

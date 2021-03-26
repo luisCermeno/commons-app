@@ -4,6 +4,15 @@ import history from '../history'
 import Peer from 'peerjs'
 import {Grid, Paper} from '@material-ui/core';
 
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemText from '@material-ui/core/ListItemText';
+import ListItemAvatar from '@material-ui/core/ListItemAvatar';
+import Avatar from '@material-ui/core/Avatar';
+import jigsaw from '../img/jigsaw.png'
+
+
+
 // ******** GLOBAL CONSTANTS *********
 let peer // stores the local peer object
 let dataConnections = [] //stores all the data channel
@@ -22,6 +31,7 @@ const Room = props => {
   const [messages, setmessages] = useState([])
   const [msg, setmsg] = useState('')
   const [error, seterror] = useState('')
+  const [description, setdescription] = useState('')
 
   // ******** EFFECT HOOKS ********
   // onMount:
@@ -95,6 +105,7 @@ const Room = props => {
       console.log(json)
         //With the response, update the participants
         //and messages state
+        setdescription(json.description)
         setparticipants(json.participants)
         setmessages(json.messages)
         //Call each participant in the response.
@@ -174,29 +185,55 @@ const Room = props => {
 
   // ******** RENDER ********
   return (
-    <Paper elevation={3} style={{padding: "3vh 4vw", textAlign: "center", width: "50%", borderRadius: "15px", margin: "0 auto"}}>
-      <h2>Welcome to room {roomID}, {props.username}</h2>
-      <div>
-        <h3>Active users:</h3>
-        <ul>
-          {participants.map( (peer,index) => (<li key={index}>{peer.username}</li>) )}
-        </ul>
-      </div>
-      <div>
-        <h3>Messages:</h3>
-        <ul>
-          {messages.map( (obj,index) => (<li key={index}>{obj.username}: {obj.body}</li>) )}
-        </ul>
-      </div>
-      <div>
-        <h3>Send Message:</h3>
-        <form onSubmit= {handleSend}>
-          <input onChange = {e => setmsg(e.target.value)} type='text' placeholder='Type your message'></input>
-          <input  type='submit' value='Send' disabled={(msg === '')}/>
-        </form>
-        <h5>{error}</h5>
-      </div>
-    </Paper>
+    <>
+    <Grid
+    container
+    justify="flex-start"
+    alignItems ="flex-start"
+    style={{border: "1px solid blue", height: "100%"}}
+    >
+      <Grid item xs={12} style={{border: "1px solid black", margin: "4vh 4vh"}}>
+        <Paper elevation={3} style={{padding: "1vh 1vw", textAlign: "center", width: "100%", borderRadius: "15px", margin: "0 auto"}}>
+          <h2>{roomID}</h2>
+          <p>
+            {description}
+          </p>
+        </Paper>
+      </Grid>
+      <Grid item lg={3} xs={12} style={{border: "1px solid black", padding: "0 4vh"}}>
+        <Paper elevation={3} style={{padding: "2vh 2vw", textAlign: "center", height: "55vh",borderRadius: "15px"}}>
+            <h3>Active users:</h3>
+            <List>
+              {participants.map( (peer,index) => (
+                <ListItem key={index} button>
+                  <ListItemAvatar>
+                    <Avatar
+                      alt={`Avatar n°${index + 1}`}
+                      src={jigsaw}
+                    />
+                  </ListItemAvatar>
+                  <ListItemText id={peer.username} primary={peer.username} />
+                </ListItem>
+              ))}
+            </List>
+        </Paper>
+      </Grid>
+      <Grid item lg={9} xs ={12} style={{border: "1px solid black", padding: "0 4vh"}}>
+        <Paper elevation={3} style={{padding: "2vh 2vw", textAlign: "center", height: "55vh", borderRadius: "15px", margin: "0 auto"}}>
+            <h3>Messages:</h3>
+            <ul>
+              {messages.map( (obj,index) => (<li key={index}>{obj.username}: {obj.body}</li>) )}
+            </ul>
+            <h3>Send Message:</h3>
+          <form onSubmit= {handleSend}>
+            <input onChange = {e => setmsg(e.target.value)} type='text' placeholder='Type your message'></input>
+            <input  type='submit' value='Send' disabled={(msg === '')}/>
+          </form>
+          <h5>{error}</h5>
+        </Paper>
+      </Grid>
+    </Grid>
+    </>
   )
 }
 
