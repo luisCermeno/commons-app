@@ -1,15 +1,18 @@
 import {useState, useEffect} from 'react'
 import {matchPath} from "react-router";
 import history from '../history'
-import Peer from 'peerjs'
-import {Grid, Paper} from '@material-ui/core';
 
+import Peer from 'peerjs'
+
+import {Grid, Paper} from '@material-ui/core';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import Avatar from '@material-ui/core/Avatar';
 import jigsaw from '../img/jigsaw.png'
+
+import Messages from '../components/Messages'
 
 
 
@@ -160,7 +163,7 @@ const Room = props => {
   // Objective: Sends a message to a remote peer
   // updates the message state, and post
   // the message to django server
-  const handleSend = e => {
+  const handleSend = (e,input) => {
     e.preventDefault()
     //post message to django server
     fetch('http://localhost:8000/message/', {
@@ -172,15 +175,15 @@ const Room = props => {
       body: JSON.stringify({
         roomID: roomID,
         username: props.username,
-        body: msg,
+        body: input,
       })
     })
     //log the response to console
     .then(res => res.json()).then(json => console.log(json))
     //update messages in the DOM
-    setmessages(messages => [...messages, createMsgObj(props.username, msg)])
+    setmessages(messages => [...messages, createMsgObj(props.username, input)])
     //send message to each data channel in the global constant
-    dataConnections.forEach(obj => obj.dataConnection.send(msg))
+    dataConnections.forEach(obj => obj.dataConnection.send(input))
   }
 
   // ******** RENDER ********
@@ -219,18 +222,7 @@ const Room = props => {
         </Paper>
       </Grid>
       <Grid item lg={9} xs ={12} style={{border: "1px solid black", padding: "0 4vh"}}>
-        <Paper elevation={3} style={{padding: "2vh 2vw", textAlign: "center", height: "55vh", borderRadius: "15px", margin: "0 auto"}}>
-            <h3>Messages:</h3>
-            <ul>
-              {messages.map( (obj,index) => (<li key={index}>{obj.username}: {obj.body}</li>) )}
-            </ul>
-            <h3>Send Message:</h3>
-          <form onSubmit= {handleSend}>
-            <input onChange = {e => setmsg(e.target.value)} type='text' placeholder='Type your message'></input>
-            <input  type='submit' value='Send' disabled={(msg === '')}/>
-          </form>
-          <h5>{error}</h5>
-        </Paper>
+        <Messages messages={messages} handleSend={handleSend} error={error} username={props.username}/>
       </Grid>
     </Grid>
     </>
