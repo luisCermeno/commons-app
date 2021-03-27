@@ -33,30 +33,49 @@ const Messages = props => {
       alignItems = "strecth"
       style = {{height: "100%", border: "solid black 1px"}}
       >
-        <Grid item xs={12} style = {{border: "solid green 1px"}}>
-          <List>
-            {props.messages.map( (msg, index) => (
-              <ListItem key= {index}>
-              <ListItemAvatar>
-                <Avatar>
-                  <FaceTwoToneIcon />
-                </Avatar>
-              </ListItemAvatar>
-              <ListItemText
-                primary={`${msg.username} : ${msg.body}`}
-                secondary="Timestamp"
-              />
-              <ListItemSecondaryAction>
-                <IconButton edge="end" aria-label="reply">
-                  <ReplyTwoToneIcon />
-                </IconButton>
-              </ListItemSecondaryAction>
-              </ListItem>
-            ))}
+        <Grid item xs={12} style = {{height:"85%", border: "solid green 1px"}}>
+          <List style={{height: "100%", overflow: "auto"}}>
+            {props.messages.map( (msg, index) => {
+              let self
+              let style
+              if (msg.username == props.username){
+                self = true
+                style = {border: "1px brown solid", width: "60%", margin: "0 0 0 40%", textAlign: "end"}
+
+              } 
+              else {
+                self = false
+                style = {border: "1px brown solid", width: "60%", margin: "0 40% 0 0"}
+              }
+              
+              return (
+                <div style={style}>
+                  <ListItem key= {index} justify="flex-end">
+                    <ListItemAvatar>
+                      <Avatar>
+                        <FaceTwoToneIcon />
+                      </Avatar>
+                    </ListItemAvatar>
+                    <ListItemText
+                      primary={`${msg.username} : ${msg.body}`}
+                      secondary="Timestamp"
+                    />
+                    {!self?
+                    <ListItemSecondaryAction style={{border: "1px solid purple"}}>
+                      <IconButton aria-label="reply">
+                        <ReplyTwoToneIcon />
+                      </IconButton>
+                    </ListItemSecondaryAction>
+                    : <></>
+                    }
+                  </ListItem>
+                </div>
+              )}
+            )}
           </List>
         </Grid>
 
-        <Grid item xs={12} style = {{border: "solid green  1px"}}>
+        <Grid item xs={12} style = {{height:"15%", border: "solid green  1px"}}>
           <form onSubmit= {e => props.handleSend(e, input)}>
             <TextField
               variant="outlined"
