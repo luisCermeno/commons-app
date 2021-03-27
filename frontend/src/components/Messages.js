@@ -37,29 +37,49 @@ const Messages = props => {
           <List style={{height: "100%", overflow: "auto"}}>
             {props.messages.map( (msg, index) => {
               let self
-              let style
+              let style = {}
+              let stylelist = {}
+
               if (msg.username == props.username){
                 self = true
-                style = {border: "1px brown solid", width: "60%", margin: "0 0 0 40%", textAlign: "end"}
+                style = {border: "1px brown solid", maxWidth: "60%", margin: "0 0 0 40%", textAlign: "right"}
+                stylelist = {textAlign: "right"}
 
               } 
               else {
                 self = false
-                style = {border: "1px brown solid", width: "60%", margin: "0 40% 0 0"}
+                style = {border: "1px brown solid", maxWidth: "60%", margin: "0 40% 0 0"}
               }
               
               return (
                 <div style={style}>
-                  <ListItem key= {index} justify="flex-end">
-                    <ListItemAvatar>
-                      <Avatar>
-                        <FaceTwoToneIcon />
-                      </Avatar>
-                    </ListItemAvatar>
+                  <ListItem key= {index} style={stylelist}>
+                    {!self?
+                      <ListItemAvatar>
+                        <Avatar>
+                          <FaceTwoToneIcon />
+                        </Avatar>
+                      </ListItemAvatar>
+                    :
+                      <></>
+                    }
+
                     <ListItemText
-                      primary={`${msg.username} : ${msg.body}`}
+                      primary={!self? `${msg.username} : ${msg.body}`: msg.username}
                       secondary="Timestamp"
+                      style= {{marginRight: "15px"}}
                     />
+
+                    {self?
+                      <ListItemAvatar>
+                        <Avatar>
+                          <FaceTwoToneIcon />
+                        </Avatar>
+                      </ListItemAvatar>
+                    :
+                      <></>
+                    }
+                  {/* display inline block here! */}
                     {!self?
                     <ListItemSecondaryAction style={{border: "1px solid purple"}}>
                       <IconButton aria-label="reply">
@@ -76,7 +96,7 @@ const Messages = props => {
         </Grid>
 
         <Grid item xs={12} style = {{height:"15%", border: "solid green  1px"}}>
-          <form onSubmit= {e => props.handleSend(e, input)}>
+          <form onSubmit= {e => props.handleSend(e, input)} autocomplete="off">
             <TextField
               variant="outlined"
               fullWidth
