@@ -1,4 +1,4 @@
-import {useState, useEffect} from 'react'
+import {useState, useEffect, useRef} from 'react'
 import {matchPath} from "react-router";
 import history from '../history'
 
@@ -10,7 +10,7 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import Avatar from '@material-ui/core/Avatar';
-import jigsaw from '../img/jigsaw.png'
+import FaceTwoToneIcon from '@material-ui/icons/FaceTwoTone';
 
 import Messages from '../components/Messages'
 
@@ -32,10 +32,12 @@ const Room = props => {
   // ******** STATE HOOKS ********
   const [participants, setparticipants] = useState([])
   const [messages, setmessages] = useState([])
-  const [msg, setmsg] = useState('')
   const [error, seterror] = useState('')
   const [description, setdescription] = useState('')
-
+  
+  // ******** REF HOOKS ********
+  const MessagesRef = useRef(null)
+  
   // ******** EFFECT HOOKS ********
   // onMount:
   useEffect(() => {
@@ -163,8 +165,7 @@ const Room = props => {
   // Objective: Sends a message to a remote peer
   // updates the message state, and post
   // the message to django server
-  const handleSend = (e,input) => {
-    e.preventDefault()
+  const handleSend = input => {
     //post message to django server
     fetch('http://localhost:8000/message/', {
       method: 'POST',
@@ -191,29 +192,29 @@ const Room = props => {
     <>
     <Grid
     container
+    direction = "column"
     justify="flex-start"
-    alignItems ="flex-start"
+    alignItems="stretch"
     style={{border: "1px solid blue", height: "100%"}}
     >
-      <Grid item xs={12} style={{border: "1px solid black", margin: "4vh 4vh"}}>
-        <Paper elevation={3} style={{padding: "1vh 1vw", textAlign: "center", width: "100%", borderRadius: "15px", margin: "0 auto"}}>
+      <Grid item xs={5} style={{border: "1px solid black", width: "25vw", padding: "1vh 1vw"}}>
+        <Paper elevation={3} style={{padding: "1vh 1vw", textAlign: "center", height: "100%",  borderRadius: "15px", margin: "0 auto"}}>
           <h2>{roomID}</h2>
-          <p>
-            {description}
-          </p>
+          <div style={{height: "70%",overflow: "auto"}}>
+            <p>{description}</p>
+          </div>
         </Paper>
       </Grid>
-      <Grid item lg={3} xs={12} style={{border: "1px solid black", padding: "0 4vh"}}>
-        <Paper elevation={3} style={{padding: "2vh 2vw", textAlign: "center", height: "55vh",borderRadius: "15px"}}>
-            <h3>Active users:</h3>
-            <List>
+      <Grid item xs={7} style={{border: "1px solid black", width: "25vw",  padding: "1vh 1vw"}}>
+        <Paper elevation={3} style={{padding: "2vh 2vw", height: "100%", textAlign: "center",borderRadius: "15px"}}>
+            <h3 ref={MessagesRef}>Active users:</h3>
+            <List style= {{border: "black solid 1px", height: "80%",overflow: "auto"}}>
               {participants.map( (peer,index) => (
                 <ListItem key={index} button>
                   <ListItemAvatar>
-                    <Avatar
-                      alt={`Avatar n°${index + 1}`}
-                      src={jigsaw}
-                    />
+                    <Avatar>
+                      <FaceTwoToneIcon />
+                    </Avatar>
                   </ListItemAvatar>
                   <ListItemText id={peer.username} primary={peer.username} />
                 </ListItem>
@@ -221,7 +222,7 @@ const Room = props => {
             </List>
         </Paper>
       </Grid>
-      <Grid item lg={9} xs ={12} style={{border: "1px solid black", padding: "0 4vh"}}>
+      <Grid item xs ={12} style={{border: "1px solid black", width: "65vw", height: "100%", padding: "1vh 1vw"}}>
         <Messages messages={messages} handleSend={handleSend} error={error} username={props.username}/>
       </Grid>
     </Grid>

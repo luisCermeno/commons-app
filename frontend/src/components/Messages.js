@@ -1,5 +1,5 @@
 import React from 'react'
-import {useState, useEffect} from 'react'
+import {useState, useEffect, useRef} from 'react'
 
 import {Grid, Paper, TextField} from '@material-ui/core';
 
@@ -23,18 +23,32 @@ import ReplyTwoToneIcon from '@material-ui/icons/ReplyTwoTone';
 
 
 const Messages = props => {
+  // ******** STATE HOOKS ********
   const [input, setinput] = useState('')
+  // ******** REF HOOKS ********
+  const listRef = useRef(null)
+  // ******** EFFECT HOOKS ********
+  //when receiving new messages as prop, scroll!
+  useEffect(() => {
+    listRef.current.scrollTop = listRef.current.scrollHeight;
+  }, [props.messages])
 
+  const handleSubmit = e => {
+    e.preventDefault()
+    setinput('')
+    props.handleSend(input)
+  }
+  // ******** RENDER ********
   return (
-    <Paper elevation={3} style={{padding: "2vh 2vw", textAlign: "center", height: "55vh", borderRadius: "15px", margin: "0 auto"}}>
+    <Paper elevation={3} style={{padding: "2vh 2vw", height: "100%", borderRadius: "15px"}}>
       <Grid container
       direction = "row"
       justify = "flex-start"
       alignItems = "strecth"
       style = {{height: "100%", border: "solid black 1px"}}
       >
-        <Grid item xs={12} style = {{height:"85%", border: "solid green 1px"}}>
-          <List style={{height: "100%", overflow: "auto"}}>
+        <Grid item xs={12} style = {{height:"90%", border: "solid green 1px"}}>
+          <List ref={listRef} style={{height: "100%", overflow: "auto"}}>
             {props.messages.map( (msg, index) => {
               let self
               let style = {}
@@ -42,17 +56,17 @@ const Messages = props => {
 
               if (msg.username == props.username){
                 self = true
-                style = {border: "1px brown solid", maxWidth: "60%", margin: "0 0 0 40%", textAlign: "right"}
+                style = {marginLeft: "40%", textAlign: "right"}
                 stylelist = {textAlign: "right"}
 
               } 
               else {
                 self = false
-                style = {border: "1px brown solid", maxWidth: "60%", margin: "0 40% 0 0"}
+                style = {marginRight: "40%"}
               }
               
               return (
-                <div style={style}>
+                <div style={{...style, border: "1px brown solid", maxWidth: "60%"}}>
                   <ListItem key= {index} style={stylelist}>
                     {!self?
                       <ListItemAvatar>
@@ -65,7 +79,7 @@ const Messages = props => {
                     }
 
                     <ListItemText
-                      primary={!self? `${msg.username} : ${msg.body}`: msg.username}
+                      primary={!self? `${msg.username} : ${msg.body}`: msg.body}
                       secondary="Timestamp"
                       style= {{marginRight: "15px"}}
                     />
@@ -79,7 +93,7 @@ const Messages = props => {
                     :
                       <></>
                     }
-                  {/* display inline block here! */}
+                  
                     {!self?
                     <ListItemSecondaryAction style={{border: "1px solid purple"}}>
                       <IconButton aria-label="reply">
@@ -95,14 +109,15 @@ const Messages = props => {
           </List>
         </Grid>
 
-        <Grid item xs={12} style = {{height:"15%", border: "solid green  1px"}}>
-          <form onSubmit= {e => props.handleSend(e, input)} autocomplete="off">
+        <Grid item xs={12} style = {{height:"10%", border: "solid green  1px"}}>
+          <form onSubmit= {handleSubmit} autocomplete="off">
             <TextField
               variant="outlined"
               fullWidth
               placeholder="Type your message" 
               name="message"
               onChange={e => setinput(e.target.value)}
+              value={input}
               InputProps={{
                 endAdornment:
                 <InputAdornment position="end">
