@@ -59,51 +59,57 @@ const Messages = props => {
                 style = {marginLeft: "40%", textAlign: "right"}
                 stylelist = {textAlign: "right"}
 
-              } 
+              }
               else {
                 self = false
                 style = {marginRight: "40%"}
               }
               
               return (
-                <div style={{...style, border: "1px brown solid", maxWidth: "60%"}}>
-                  <ListItem key= {index} style={stylelist}>
-                    {!self?
-                      <ListItemAvatar>
-                        <Avatar>
-                          <FaceTwoToneIcon />
-                        </Avatar>
-                      </ListItemAvatar>
-                    :
-                      <></>
-                    }
+                <>
+                {msg.username == 'Bot'?
+                  <div style={{textAlign: "center", color: "gray"}}> {msg.body}</div>
+                :
+                  <div style={{...style, border: "1px brown solid", maxWidth: "60%"}}>
+                    <ListItem key= {index} style={stylelist}>
+                      {!self?
+                        <ListItemAvatar>
+                          <Avatar>
+                            <FaceTwoToneIcon />
+                          </Avatar>
+                        </ListItemAvatar>
+                      :
+                        <></>
+                      }
 
-                    <ListItemText
-                      primary={!self? `${msg.username} : ${msg.body}`: msg.body}
-                      secondary="Timestamp"
-                      style= {{marginRight: "15px"}}
-                    />
+                      <ListItemText
+                        primary={!self? `${msg.username} : ${msg.body}`: msg.body}
+                        secondary="Timestamp"
+                        style= {{marginRight: "15px"}}
+                      />
 
-                    {self?
-                      <ListItemAvatar>
-                        <Avatar>
-                          <FaceTwoToneIcon />
-                        </Avatar>
-                      </ListItemAvatar>
-                    :
-                      <></>
-                    }
-                  
-                    {!self?
-                    <ListItemSecondaryAction style={{border: "1px solid purple"}}>
-                      <IconButton aria-label="reply">
-                        <ReplyTwoToneIcon />
-                      </IconButton>
-                    </ListItemSecondaryAction>
-                    : <></>
-                    }
-                  </ListItem>
-                </div>
+                      {self?
+                        <ListItemAvatar>
+                          <Avatar>
+                            <FaceTwoToneIcon />
+                          </Avatar>
+                        </ListItemAvatar>
+                      :
+                        <></>
+                      }
+                    
+                      {!self?
+                      <ListItemSecondaryAction style={{border: "1px solid purple"}}>
+                        <IconButton aria-label="reply">
+                          <ReplyTwoToneIcon />
+                        </IconButton>
+                      </ListItemSecondaryAction>
+                      : <></>
+                      }
+                    </ListItem>
+                  </div>
+                }
+                </>
               )}
             )}
           </List>

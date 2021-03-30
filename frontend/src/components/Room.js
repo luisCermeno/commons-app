@@ -58,6 +58,7 @@ const Room = props => {
     peer.on('connection', dataConnection => {
       // update participants state
       setparticipants(oldparticipants => [...oldparticipants,{username: dataConnection.metadata.username, peerID: dataConnection.peer}])
+      setmessages(messages => [...messages, createMsgObj('Bot',`${dataConnection.metadata.username} joined the group!`)])
       // push the data channel obtained to the global constant
       dataConnections.push({peerID: dataConnection.peer, dataConnection: dataConnection})
       // when a message is received from that data channel, update the state
@@ -65,6 +66,7 @@ const Room = props => {
       // when the data channel is closed update participants state 
       dataConnection.on('close', () => {
         setparticipants(oldparticipants => oldparticipants.filter( obj => { return obj.peerID != dataConnection.peer } ))
+        setmessages(messages => [...messages, createMsgObj('Bot',`${dataConnection.metadata.username} left the group`)])
       })
     })
     // when component is unmounted, destroy peer
