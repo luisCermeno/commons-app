@@ -27,14 +27,15 @@ useEffect(() => {
   return (
       <Grid
       container
+      direction="column"
       justify="flex-start" //aligns horizontally
       alignItems="flex-start" //aligns vertically
-      style={{border: "solid 1px black"}}
+      style={{border: "solid 1px black", height:"100%", width: "100%", overflow: "auto"}}
       >
         {rooms.map(room =>
         (
-          <Grid item md={3} sm={12} style={{border: "solid 1px black"}}>
-            <Paper elevation={3} style={{padding: "1vh 1vw", textAlign: "center", width: "80%",height: "50vh", borderRadius: "15px", margin: "0 auto"}}>
+          <Grid item xs={12} style={{border: "solid 1px black", width: "25%"}}>
+            <Paper elevation={3} style={{padding: "1vh 1vw", textAlign: "center", width: "80%",height: "100%", borderRadius: "15px", margin: "0 auto"}}>
               <Link 
               to={`/room/${room.roomID}`}
               style={{textDecoration: "none", color: "black"}}
