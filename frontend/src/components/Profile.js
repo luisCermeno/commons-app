@@ -1,10 +1,24 @@
+import {useState, useEffect, useRef} from 'react'
+import {matchPath} from "react-router";
+import history from '../history'
+
+
 import {Grid, Paper} from '@material-ui/core';
 import Avatar from '@material-ui/core/Avatar';
 import FaceTwoToneIcon from '@material-ui/icons/FaceTwoTone';
 
 let gridstyle  = { border: "1px solid green"}
 const Profile = (props) => {
+  // ******** CONSTANTS *********
+  const username = matchPath(history.location.pathname, {
+    path: "/profile/:username",
+    exact: true,
+    strict: false
+  }).params.username;
 
+  // fetch profile from getprofile api 
+  // if username === props.username self is true
+  // then add functionality
   return(
       <Grid
         container
@@ -23,11 +37,12 @@ const Profile = (props) => {
                 <Avatar style={{width: "100px", height: "100px", margin: "0 auto"}}>
                   <FaceTwoToneIcon/>
                 </Avatar>
+                <div style={{textAlign: "center"}}>{username}</div>
               </Grid>
 
               <Grid item xs={12} md={9} style={gridstyle}> 
-                <div>{props.username}</div>
-                <div>username</div>
+                <div>first name</div>
+                <div>last name</div>
                 <div>school</div>
                 <div>major</div>
                 <div>year</div>

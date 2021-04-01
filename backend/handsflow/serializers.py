@@ -1,6 +1,5 @@
 # models
 from django.contrib.auth.models import User
-from .models import Peer
 
 # frameworks
 from rest_framework import serializers

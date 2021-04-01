@@ -50,7 +50,7 @@ const CustomDrawer = (props) => {
             </ListItem>
           </Link>
 
-          <Link to='/profile'>
+          <Link to={`/profile/${props.username}`}>
             <ListItem button key='Student ID'>
               <ListItemIcon><ContactMailTwoToneIcon/></ListItemIcon>
               <ListItemText primary='My Student ID' />

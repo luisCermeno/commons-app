@@ -58,7 +58,7 @@ class signup(APIView):
         except IntegrityError:
             return Response({'error': 'Username already taken'},status=status.HTTP_200_OK)
 
-# WEBRTC SIGNALING VIEWS
+# WEBRTC SIGNALING
 class logpeer(APIView):
   permission_classes = (permissions.IsAuthenticated,)
   def post (self, request, format=None):
@@ -90,6 +90,7 @@ class logpeer(APIView):
     else:
       return Response({'error': 'Acess Denied'},status=status.HTTP_401_UNAUTHORIZED)
 
+# GET VIEWS
 class getroom(APIView):
   permission_classes = (permissions.IsAuthenticated,)
   def get(self, request, format=None):
@@ -126,6 +127,24 @@ class getroom(APIView):
         return Response(response, status=status.HTTP_202_ACCEPTED)
       except:
           return Response({'error': 'No rooms found'},status=status.HTTP_200_OK)
+
+class getprofile(APIView):
+  permission_classes = (permissions.IsAuthenticated,)
+  def get(self, request, format=None):
+    # get query parameters in the GET request
+    username = request.GET.get('username', request.user.username)
+    # create response
+    print('---------------------------------')
+    print('running getprofile(APIView):')
+    print(f'->request for profile: {username}')
+    try:
+        profile = Profile.objects.get(user = User.objects.get(username=username))
+        # create response
+        response = {'success': f"Profile for {username} get request complete", **profile.serialize()}
+        return Response(response, status=status.HTTP_202_ACCEPTED)
+    except:
+        return Response({'error': 'Profile not found'},status=status.HTTP_200_OK)
+
 
 # POST VIEWS
 class room(APIView):

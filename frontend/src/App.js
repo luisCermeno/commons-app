@@ -111,7 +111,7 @@ const App = () => {
                 <Route exact path='/create'>
                   <Create/> 
                 </Route>
-                <Route exact path='/profile'>
+                <Route exact path='/profile/:username'>
                   <Profile username={username}/> 
                 </Route>
                 <Route exact path='/room/:roomID'>
