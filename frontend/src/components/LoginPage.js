@@ -21,6 +21,14 @@ const LoginPage = (props) => {
     const [mode, setmode] = useState('login')
     const [showPassword, setshowPassword] = useState(false)
     const [loading, setloading] = useState(false)
+    const [profile, setprofile] = useState({
+      first_name: 'example',
+      last_name: 'example',
+      school: 'UB',
+      major: 'CS',
+      year: 'FR',
+      description: 'example description',
+    })
     
     //effect hooks
     useEffect(() => {
@@ -31,7 +39,7 @@ const LoginPage = (props) => {
     }, [])
     useEffect(() => {
       setloading(false)
-    }, [mode])
+    }, [mode, props.errormsg])
 
     const handle_change = e => {
         const name = e.target.name;
@@ -51,13 +59,14 @@ const LoginPage = (props) => {
       setshowPassword(!showPassword)
     }
 
-    const handleSubmit = (e) => {
+    const handleSubmit = e => {
+      e.preventDefault()
       setloading(true)
       if (mode == 'login') {
-        props.handle_login(e, {username: username, password: password})
+        props.handle_login({username: username, password: password}, profile)
       }
       else{
-        props.handle_signup(e, {username: username, password: password})
+        props.handle_signup({username: username, password: password}, profile)
       }
     }
 

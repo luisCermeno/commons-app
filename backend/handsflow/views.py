@@ -36,10 +36,26 @@ class signup(APIView):
         # Destructure the user data from the request
         username = request.data.get("username")
         password = request.data.get("password")
+
         try: 
             # Try to create new user with the data
             newuser = User.objects.create_user(username = username, password = password)
             newuser.save()
+            # Create profile for that user
+            try:
+              # FIX!!!! cannot create profile object!!
+              newprofile = Profile(
+                user = User.objects.get(username= username), 
+                first_name = request.data.get("first_name"),
+                last_name = request.data.get("last_name"),
+                school = School.objects.get(id = request.data.get("school")),
+                major = request.data.get("major"),
+                year = request.data.get("year"),
+                description = request.data.get("description"),
+                )
+              newprofile.save()
+            except:
+              print('cannot create profile with data')
             # Get payload handler and encoder methods from DRF JWT package
             jwt_payload_handler = api_settings.JWT_PAYLOAD_HANDLER
             jwt_encode_handler = api_settings.JWT_ENCODE_HANDLER

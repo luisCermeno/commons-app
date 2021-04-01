@@ -3,6 +3,7 @@ from django.contrib.auth.models import User
 import datetime
 
 class School(models.Model):
+  id = models.CharField(primary_key=True, max_length=2)
   name = models.CharField(blank=False, max_length=100)
 
   def __str__(self):

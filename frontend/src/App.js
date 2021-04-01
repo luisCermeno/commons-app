@@ -42,8 +42,7 @@ const App = () => {
   }, [])
 
   //AUTHENTICATION HANDLERS
-  const handle_login = (e, credentials) => {
-    e.preventDefault()
+  const handle_login = (credentials) => {
     fetch('http://localhost:8000/login/', {
       method: 'POST',
       headers: {
@@ -63,14 +62,13 @@ const App = () => {
       }
     })
   }
-  const handle_signup = (e, credentials) => {
-    e.preventDefault()
+  const handle_signup = (credentials, profile) => {
     fetch('http://localhost:8000/signup/', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify(credentials)
+      body: JSON.stringify({...credentials, ...profile})
     })
     .then(res => res.json())
     .then(json => {
