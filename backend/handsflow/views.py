@@ -140,7 +140,7 @@ class getprofile(APIView):
     try:
         profile = Profile.objects.get(user = User.objects.get(username=username))
         # create response
-        response = {'success': f"Profile for {username} get request complete", **profile.serialize()}
+        response = {'profile': profile.serialize(), 'choices': profile.serialize_choices()}
         return Response(response, status=status.HTTP_202_ACCEPTED)
     except:
         return Response({'error': 'Profile not found'},status=status.HTTP_200_OK)

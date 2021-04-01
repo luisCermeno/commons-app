@@ -47,8 +47,13 @@ class Profile(models.Model):
       "last_name" : self.last_name,
       "major" : self.major,
       "year" : self.year,
-      "timestamp" : self.timestamp.strftime("%b %-d %Y, %-I:%M %p"),
+      "timestamp" : self.timestamp.strftime("%b %-d %Y"),
       "description": self.description,
+    }
+  def serialize_choices(self):
+    return {
+      "YEAR_CHOICES" : self.YEAR_CHOICES,
+      "MAJOR_CHOICES" : self.MAJOR_CHOICES,
     }
 
   def __str__(self):

@@ -19,6 +19,7 @@ const getRooms = () => {
   })
 }
 
+//get Rooms on mount
 useEffect(() => {
   getRooms()
 }, [])
