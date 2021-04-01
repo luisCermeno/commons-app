@@ -6,8 +6,12 @@ import history from '../history'
 import {Grid, Paper} from '@material-ui/core';
 import Avatar from '@material-ui/core/Avatar';
 import FaceTwoToneIcon from '@material-ui/icons/FaceTwoTone';
+import CircularProgress from '@material-ui/core/CircularProgress';
 
-let gridstyle  = { border: "1px solid green"}
+
+let gridstyle  = { border: "1px solid green", padding: "1vh 1vw"}
+let fieldstyle = { margin: "0.5vh 0"}
+
 const Profile = (props) => {
   // ******** CONSTANTS *********
   const username = matchPath(history.location.pathname, {
@@ -19,6 +23,7 @@ const Profile = (props) => {
   // ******** STATE HOOKS ********
   const [profile, setprofile] = useState({})
   const [choices, setchoices] = useState({})
+  const [loading, setloading] = useState(true)
 
   // ******** EFFECT HOOKS ********
   useEffect(() => {
@@ -35,6 +40,7 @@ const Profile = (props) => {
     .then (json => {
       setchoices(json.choices)
       setprofile(json.profile)
+      setloading(false)
       console.log(json)
     })
   }
@@ -59,28 +65,41 @@ const Profile = (props) => {
             <Grid
               container
               justify="flex-start"
-              alignItems="flex-start"
+              alignItems="center"
+              style={{height: "35vh", border: "1px solid purple"}}
             >
-              <Grid item xs={12} md={3} style={gridstyle}> 
-                <Avatar style={{width: "100px", height: "100px", margin: "0 auto"}}>
-                  <FaceTwoToneIcon/>
-                </Avatar>
-                <div style={{textAlign: "center"}}>{username}</div>
-              </Grid>
+              {loading?
+                <CircularProgress style={{margin: "0 auto"}}/>
+              :
+              <>
+                <Grid item xs={12} md={3} style={{...gridstyle, height: "60%"}}>
+                  <Grid container style={{height: "100%"}} justify="center" alignItems="center">
+                    <Grid item xs={12} style = {{height: "70%"}}>
+                      <Avatar style={{height: "100%", width: "100%", margin: "0 auto"}}>
+                        <FaceTwoToneIcon/>
+                      </Avatar>
+                    </Grid>
+                    <Grid item xs={12}>
+                      <div style={{textAlign: "center"}}> <b>{username}</b></div>
+                    </Grid>
+                  </Grid>
+                </Grid>
 
-              <Grid item xs={12} md={9} style={gridstyle}> 
-                <div>First Name: {profile.first_name}</div>
-                <div>Last Name: {profile.last_name}</div>
-                <div>School: {profile.school}</div>
-                <div>Major: {printChoice(profile.major, choices.MAJOR_CHOICES)}</div>
-                <div>Year: {printChoice(profile.year, choices.YEAR_CHOICES)}</div>
-                <div>Member since: {profile.timestamp}</div>
-              </Grid>
-              
-              <Grid item xs={12} style={gridstyle}>
-                <div>About:</div>
-                <p>{profile.description}</p>
-              </Grid>
+                <Grid item xs={12} md={9} style={{...gridstyle, height: "60%"}}>
+                  <div style={fieldstyle}> <b>First Name:</b> {profile.first_name}</div>
+                  <div style={fieldstyle}> <b>Last Name:</b> {profile.last_name}</div>
+                  <div style={fieldstyle}> <b>School:</b> {profile.school}</div>
+                  <div style={fieldstyle}> <b>Major:</b> {printChoice(profile.major, choices.MAJOR_CHOICES)}</div>
+                  <div style={fieldstyle}> <b>Year:</b> {printChoice(profile.year, choices.YEAR_CHOICES)}</div>
+                  <div style={fieldstyle}> <b>Member since:</b> {profile.timestamp}</div>
+                </Grid>
+                
+                <Grid item xs={12} style={gridstyle}>
+                  <div style={fieldstyle}> <b>About:</b> </div>
+                  <div>{profile.description}</div>
+                </Grid>
+              </>
+              }
             </Grid>
           </Paper>
         </Grid>

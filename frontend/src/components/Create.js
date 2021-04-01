@@ -1,6 +1,8 @@
 import {useState} from 'react'
 import history from '../history'
 import {Paper, TextField, Button,FormHelperText} from '@material-ui/core';
+import CircularProgress from '@material-ui/core/CircularProgress';
+
 
 
 const marginFields = "2vh 0"
@@ -9,8 +11,10 @@ const Create = (props) => {
   const [roomID, setroomID] = useState('')
   const [error, seterror] = useState('')
   const [description, setdescription] = useState('')
+  const [loading, setloading] = useState(false)
   
   const handleSubmit = e => {
+      setloading(true)
       e.preventDefault()
       //create rooom on server
       fetch('http://localhost:8000/room/', {
@@ -91,7 +95,11 @@ const Create = (props) => {
             style={{width:"99%", margin: marginFields}}
           />
           <div style={{ margin: marginFields}}>
-          <Button style={{width:"100%"}} disabled={(roomID === '' || description == '')} type="submit" variant="contained" color="primary">Start group!</Button>
+          {loading?
+            <CircularProgress style={{margin: "0 auto"}}/>
+            :
+            <Button style={{width:"100%"}} disabled={(roomID === '' || description == '')} type="submit" variant="contained" color="primary">Start group!</Button>
+          }
           <FormHelperText style={{textAlign: "center"}}>
             Warning! If your group gets too popular you may not be able to delete it!
           </FormHelperText>

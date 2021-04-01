@@ -11,6 +11,8 @@ import IconButton from "@material-ui/core/IconButton";
 import VisibilityTwoToneIcon from '@material-ui/icons/VisibilityTwoTone';
 import VisibilityOffTwoToneIcon from '@material-ui/icons/VisibilityOffTwoTone';
 import AccountCircleTwoToneIcon from '@material-ui/icons/AccountCircleTwoTone';
+import CircularProgress from '@material-ui/core/CircularProgress';
+
 
 const LoginPage = (props) => {
     //state hooks
@@ -18,6 +20,7 @@ const LoginPage = (props) => {
     const [password, setpassword] = useState('')
     const [mode, setmode] = useState('login')
     const [showPassword, setshowPassword] = useState(false)
+    const [loading, setloading] = useState(false)
     
     //effect hooks
     useEffect(() => {
@@ -26,6 +29,9 @@ const LoginPage = (props) => {
         }
         // eslint-disable-next-line
     }, [])
+    useEffect(() => {
+      setloading(false)
+    }, [mode])
 
     const handle_change = e => {
         const name = e.target.name;
@@ -46,6 +52,7 @@ const LoginPage = (props) => {
     }
 
     const handleSubmit = (e) => {
+      setloading(true)
       if (mode == 'login') {
         props.handle_login(e, {username: username, password: password})
       }
@@ -124,12 +131,20 @@ const LoginPage = (props) => {
                   />
                 </div>
                 <h3>{props.errormsg}</h3>
-                {(mode == "login")?
-                  <Button style= {{width: "100%"}}type="submit" variant="contained" color="primary">Log In</Button>
-                  :
-                  <Button style= {{width: "100%"}}type="submit" variant="contained" color="primary">Sign Up</Button>
+                {/* button section */}
+                {loading?
+                  <CircularProgress style={{margin: "0 auto"}}/>
+                :
+                  <>
+                  {(mode == "login")?
+                    <Button style= {{width: "100%"}}type="submit" variant="contained" color="primary">Log In</Button>
+                    :
+                    <Button style= {{width: "100%"}}type="submit" variant="contained" color="primary">Sign Up</Button>
+                  }
+                  </>
                 }
               </form>
+              {/* toogle login/signup section */}
               {mode === 'login'?
                 <div>
                   Not part of your school commons yet? <Button style={{display: "inline-block"}}color="primary" onClick={() => {setmode("signup")}}>Sign up</Button>
