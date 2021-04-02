@@ -2,36 +2,41 @@ from django.db import models
 from django.contrib.auth.models import User
 import datetime
 
+YEAR_CHOICES = [
+    ('FR', 'Freshman'),
+    ('SO', 'Sophomore'),
+    ('JR', 'Junior'),
+    ('SR', 'Senior'),
+    ('GR', 'Graduate'),
+]
+
+MAJOR_CHOICES = [
+    ('BU', 'Business'),
+    ('EC', 'Economics'),
+    ('EN', 'English'),
+    ('SO', 'Sociology'),
+    ('MA', 'Mathematics'),
+    ('PH', 'Physics'),
+    ('CS', 'Computer Science'),
+    ('EE', 'Electrical Engineering'),
+    ('ME', 'Mechanical Engineering'),
+    ('CE', 'Civil Engineering'),
+    ('MD', 'Medicine'),
+]
+  
 class School(models.Model):
   id = models.CharField(primary_key=True, max_length=2)
   name = models.CharField(blank=False, max_length=100)
 
   def __str__(self):
     return f"{self.name}"
+  def serialize(self):
+    return {
+      "id" : self.id,
+      "name" : self.name,
+    }
 
 class Profile(models.Model):
-  YEAR_CHOICES = [
-      ('FR', 'Freshman'),
-      ('SO', 'Sophomore'),
-      ('JR', 'Junior'),
-      ('SR', 'Senior'),
-      ('GR', 'Graduate'),
-  ]
-
-  MAJOR_CHOICES = [
-      ('BU', 'Business'),
-      ('EC', 'Economics'),
-      ('EN', 'English'),
-      ('SO', 'Sociology'),
-      ('MA', 'Mathematics'),
-      ('PH', 'Physics'),
-      ('CS', 'Computer Science'),
-      ('EE', 'Electrical Engineering'),
-      ('ME', 'Mechanical Engineering'),
-      ('CE', 'Civil Engineering'),
-      ('MD', 'Medicine'),
-  ]
-
   user = models.OneToOneField(User, on_delete= models.CASCADE, primary_key=True,)
   school = models.ForeignKey(School, on_delete = models.PROTECT)
   first_name = models.CharField(blank=True, max_length=100)
@@ -40,7 +45,6 @@ class Profile(models.Model):
   year = models.CharField(blank=True, max_length=2, choices = YEAR_CHOICES)
   timestamp = models.DateTimeField(default = datetime.datetime.now())
   description = models.TextField(blank=True,)
-
   def serialize(self):
     return {
       "school" : self.school.name,
@@ -51,10 +55,11 @@ class Profile(models.Model):
       "timestamp" : self.timestamp.strftime("%b %-d %Y"),
       "description": self.description,
     }
-  def serialize_choices(self):
+    
+  def serialize_choices():
     return {
-      "YEAR_CHOICES" : self.YEAR_CHOICES,
-      "MAJOR_CHOICES" : self.MAJOR_CHOICES,
+      "YEAR_CHOICES" : YEAR_CHOICES,
+      "MAJOR_CHOICES" : MAJOR_CHOICES,
     }
 
   def __str__(self):

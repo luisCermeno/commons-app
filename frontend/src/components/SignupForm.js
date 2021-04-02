@@ -51,6 +51,9 @@ const SignupForm = props => {
         case 'password':
             setcredentials({...credentials, password: value})
             break
+        case 'school':
+          setprofile({...profile, school: value})
+          break
         default:
             console.log('error on switch')
     }
@@ -94,6 +97,19 @@ const SignupForm = props => {
                   {showPassword ? <VisibilityTwoToneIcon /> : <VisibilityOffTwoToneIcon />}
                 </IconButton>
               </InputAdornment>
+          }}
+        />
+        <TextField 
+          id="standard-required" 
+          label="School" 
+          name="school" 
+          value={profile.school} 
+          onChange={handle_change}
+          InputProps={{
+            endAdornment:
+            <InputAdornment position="end">
+              <AccountCircleTwoToneIcon/>
+            </InputAdornment>
           }}
         />
       </div>

@@ -10,8 +10,23 @@ import SignupForm from './SignupForm'
 
 
 const LoginPage = (props) => {
-    //state hooks
+    // ******** STATE HOOKS ********
     const [mode, setmode] = useState('login')
+    const [choices, setchoices] = useState({})
+
+    // ******** EFFECT HOOKS ********
+    useEffect(() => {
+      getchoices()
+    }, [])
+
+    const getchoices = () => {
+      fetch(`http://localhost:8000/getprofile`)
+      .then (res => res.json())
+      .then (json => {
+        console.log(json)
+        setchoices(json)
+      })
+  }
 
     return (
         <>

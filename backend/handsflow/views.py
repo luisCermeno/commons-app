@@ -132,7 +132,6 @@ class getroom(APIView):
       print(f'->request for all rooms')
       try: 
         querySet = Room.objects.all()
-        print(querySet)
         rooms = [room.serialize() for room in querySet]
         response = {'success': f"All rooms get request complete", 'rooms': rooms}
         return Response(response, status=status.HTTP_202_ACCEPTED)
@@ -140,20 +139,27 @@ class getroom(APIView):
           return Response({'error': 'No rooms found'},status=status.HTTP_200_OK)
 
 class getprofile(APIView):
-  permission_classes = (permissions.IsAuthenticated,)
+  permission_classes = (permissions.AllowAny,)
   def get(self, request, format=None):
     # get query parameters in the GET request
-    username = request.GET.get('username', request.user.username)
+    username = request.GET.get('username', '')
     # create response
     print('---------------------------------')
     print('running getprofile(APIView):')
     print(f'->request for profile: {username}')
-    try:
+    # create an array of objects for schools
+    querySet = School.objects.all()
+    schools = [school.serialize() for school in querySet]
+    response = {'choices': Profile.serialize_choices(), 'schools': schools}
+    if (username == ''):
+      return Response(response, status=status.HTTP_200_OK)
+    else:
+      try:
         profile = Profile.objects.get(user = User.objects.get(username=username))
-        # create response
-        response = {'profile': profile.serialize(), 'choices': profile.serialize_choices()}
+        # update response
+        response = {**response, 'profile': profile.serialize()}
         return Response(response, status=status.HTTP_202_ACCEPTED)
-    except:
+      except:
         return Response({'error': 'Profile not found'},status=status.HTTP_200_OK)
 
 
