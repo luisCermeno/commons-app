@@ -23,6 +23,7 @@ const Profile = (props) => {
   // ******** STATE HOOKS ********
   const [profile, setprofile] = useState({})
   const [choices, setchoices] = useState({})
+  const [schools, setschools] = useState({})
   const [loading, setloading] = useState(true)
 
   // ******** EFFECT HOOKS ********
@@ -40,6 +41,7 @@ const Profile = (props) => {
     .then (json => {
       setchoices(json.choices)
       setprofile(json.profile)
+      setschools(json.schools)
       setloading(false)
       console.log(json)
     })

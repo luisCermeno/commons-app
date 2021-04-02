@@ -65,12 +65,8 @@ const CustomDrawer = (props) => {
             <ListItemText primary='Logout' />
           </ListItem>
         </List>
-
-
     </Drawer>
-
   )
-
 }
 
 export default CustomDrawer 
