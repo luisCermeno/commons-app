@@ -22,12 +22,12 @@ const LoginPage = (props) => {
     const [showPassword, setshowPassword] = useState(false)
     const [loading, setloading] = useState(false)
     const [profile, setprofile] = useState({
-      first_name: 'example',
-      last_name: 'example',
-      school: 'UB',
-      major: 'CS',
-      year: 'FR',
-      description: 'example description',
+      first_name: '',
+      last_name: '',
+      school: 'DV',
+      major: '',
+      year: '',
+      description: '',
     })
     
     //effect hooks
@@ -63,7 +63,7 @@ const LoginPage = (props) => {
       e.preventDefault()
       setloading(true)
       if (mode == 'login') {
-        props.handle_login({username: username, password: password}, profile)
+        props.handle_login({username: username, password: password})
       }
       else{
         props.handle_signup({username: username, password: password}, profile)

@@ -33,7 +33,7 @@ class Profile(models.Model):
   ]
 
   user = models.OneToOneField(User, on_delete= models.CASCADE, primary_key=True,)
-  school = models.OneToOneField(School, on_delete = models.PROTECT)
+  school = models.ForeignKey(School, on_delete = models.PROTECT)
   first_name = models.CharField(blank=True, max_length=100)
   last_name = models.CharField(blank=True, max_length=100)
   major = models.CharField(blank=True, max_length=2, choices = MAJOR_CHOICES)

@@ -27,52 +27,47 @@ class getuser(APIView):
         return Response(response, status=status.HTTP_202_ACCEPTED)
 
 class signup(APIView):
-    permission_classes = (permissions.AllowAny,)
-    def post (self, request, format=None):
-        # Log incoming data to console
-        print('---------------------------------')
-        print('running signup(APIView):')
-        print(f'->request body: {request.data}')
-        # Destructure the user data from the request
-        username = request.data.get("username")
-        password = request.data.get("password")
-
-        try: 
-            # Try to create new user with the data
-            newuser = User.objects.create_user(username = username, password = password)
-            newuser.save()
-            # Create profile for that user
-            try:
-              # FIX!!!! cannot create profile object!!
-              newprofile = Profile(
-                user = User.objects.get(username= username), 
-                first_name = request.data.get("first_name"),
-                last_name = request.data.get("last_name"),
-                school = School.objects.get(id = request.data.get("school")),
-                major = request.data.get("major"),
-                year = request.data.get("year"),
-                description = request.data.get("description"),
-                )
-              newprofile.save()
-            except:
-              print('cannot create profile with data')
-            # Get payload handler and encoder methods from DRF JWT package
-            jwt_payload_handler = api_settings.JWT_PAYLOAD_HANDLER
-            jwt_encode_handler = api_settings.JWT_ENCODE_HANDLER
-            # Handle payload (the new user model)
-            payload = jwt_payload_handler(newuser)
-            # Encode Payload and generate token 
-            token = jwt_encode_handler(payload)
-            # Create response
-            response = {
-                'token' : token, 
-                "username" : newuser.username
-            }
-            print (f'->response: {response}')
-            return Response(response, status=status.HTTP_201_CREATED)
-            # In case username is already taken
-        except IntegrityError:
-            return Response({'error': 'Username already taken'},status=status.HTTP_200_OK)
+  permission_classes = (permissions.AllowAny,)
+  def post (self, request, format=None):
+    # Log incoming data to console
+    print('---------------------------------')
+    print('running signup(APIView):')
+    print(f'->request body: {request.data}')
+    # Destructure the user data from the request
+    username = request.data.get("username")
+    password = request.data.get("password")
+    try: 
+      # Try to create new user with the data
+      newuser = User.objects.create_user(username = username, password = password)
+      newuser.save()
+      # Create profile for that user
+      newprofile = Profile(
+        user = User.objects.get(username= username), 
+        first_name = request.data.get("first_name"),
+        last_name = request.data.get("last_name"),
+        school = School.objects.get(id = request.data.get("school")),
+        major = request.data.get("major"),
+        year = request.data.get("year"),
+        description = request.data.get("description"),
+        )
+      newprofile.save()
+      # Get payload handler and encoder methods from DRF JWT package
+      jwt_payload_handler = api_settings.JWT_PAYLOAD_HANDLER
+      jwt_encode_handler = api_settings.JWT_ENCODE_HANDLER
+      # Handle payload (the new user model)
+      payload = jwt_payload_handler(newuser)
+      # Encode Payload and generate token 
+      token = jwt_encode_handler(payload)
+      # Create response
+      response = {
+          'token' : token, 
+          "username" : newuser.username
+      }
+      print (f'->response: {response}')
+      return Response(response, status=status.HTTP_201_CREATED)
+      # In case username is already taken
+    except IntegrityError:
+      return Response({'error': 'Username already taken'},status=status.HTTP_200_OK)
 
 # WEBRTC SIGNALING
 class logpeer(APIView):
