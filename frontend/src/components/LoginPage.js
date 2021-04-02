@@ -1,74 +1,17 @@
 import { useState, useEffect } from 'react';
-import {Paper, TextField, Button} from '@material-ui/core';
+import {Paper, Button} from '@material-ui/core';
 import Grid from '@material-ui/core/Grid';
 import jigsaw from '../img/jigsaw.png'
 import logo from '../img/logocrop.png'
 import background from '../img/background.png'
 
-
-import InputAdornment from "@material-ui/core/InputAdornment";
-import IconButton from "@material-ui/core/IconButton";
-import VisibilityTwoToneIcon from '@material-ui/icons/VisibilityTwoTone';
-import VisibilityOffTwoToneIcon from '@material-ui/icons/VisibilityOffTwoTone';
-import AccountCircleTwoToneIcon from '@material-ui/icons/AccountCircleTwoTone';
-import CircularProgress from '@material-ui/core/CircularProgress';
+import LoginForm from './LoginForm'
+import SignupForm from './SignupForm'
 
 
 const LoginPage = (props) => {
     //state hooks
-    const [username, setusername] = useState('')
-    const [password, setpassword] = useState('')
     const [mode, setmode] = useState('login')
-    const [showPassword, setshowPassword] = useState(false)
-    const [loading, setloading] = useState(false)
-    const [profile, setprofile] = useState({
-      first_name: '',
-      last_name: '',
-      school: 'DV',
-      major: '',
-      year: '',
-      description: '',
-    })
-    
-    //effect hooks
-    useEffect(() => {
-        return () => {
-            props.seterrormsg('')
-        }
-        // eslint-disable-next-line
-    }, [])
-    useEffect(() => {
-      setloading(false)
-    }, [mode, props.errormsg])
-
-    const handle_change = e => {
-        const name = e.target.name;
-        const value = e.target.value;
-        switch (name) {
-            case 'username':
-                setusername(value)
-                break
-            case 'password':
-                setpassword(value)
-                break
-            default:
-                console.log('error on switch')
-        }
-    }
-    const handleClickShowPassword = () => {
-      setshowPassword(!showPassword)
-    }
-
-    const handleSubmit = e => {
-      e.preventDefault()
-      setloading(true)
-      if (mode == 'login') {
-        props.handle_login({username: username, password: password})
-      }
-      else{
-        props.handle_signup({username: username, password: password}, profile)
-      }
-    }
 
     return (
         <>
@@ -104,64 +47,21 @@ const LoginPage = (props) => {
           <Grid item md={5} sm={12}>
             <Paper elevation={3} style={{padding: "4vh 4vw", textAlign: "center", width: "50%", borderRadius: "15px", margin: "0 auto"}}>
               <h4>Discover what is going on in your school:</h4>
-              <form style={ {marginBottom: "20px",} } autoComplete="off" onSubmit={handleSubmit}>
-                <div style={{marginBottom: "20px",}}>
-                  <TextField 
-                    id="standard-required" 
-                    label="Username" 
-                    name="username" 
-                    value={username} 
-                    onChange={handle_change}
-                    InputProps={{
-                      endAdornment:
-                      <InputAdornment position="end">
-                        <AccountCircleTwoToneIcon/>
-                      </InputAdornment>
-                    }}
-                  />
-                  <TextField 
-                    id="standard-password-input" 
-                    type={showPassword ? "text" : "password"} 
-                    label="Password" 
-                    name="password" 
-                    value={password} 
-                    onChange={handle_change}
-                    InputProps={{
-                      endAdornment:
-                        <InputAdornment position="end">
-                          <IconButton
-                            aria-label="toggle password visibility"
-                            onClick={handleClickShowPassword}
-                          >
-                            {showPassword ? <VisibilityTwoToneIcon /> : <VisibilityOffTwoToneIcon />}
-                          </IconButton>
-                        </InputAdornment>
-                    }}
-                  />
-                </div>
-                <h3>{props.errormsg}</h3>
-                {/* button section */}
-                {loading?
-                  <CircularProgress style={{margin: "0 auto"}}/>
-                :
-                  <>
-                  {(mode == "login")?
-                    <Button style= {{width: "100%"}}type="submit" variant="contained" color="primary">Log In</Button>
-                    :
-                    <Button style= {{width: "100%"}}type="submit" variant="contained" color="primary">Sign Up</Button>
-                  }
-                  </>
-                }
-              </form>
               {/* toogle login/signup section */}
               {mode === 'login'?
-                <div>
-                  Not part of your school commons yet? <Button style={{display: "inline-block"}}color="primary" onClick={() => {setmode("signup")}}>Sign up</Button>
-                </div>
+                <>
+                  <LoginForm {...props}/>
+                  <div>
+                    Not part of your school commons yet? <Button style={{display: "inline-block"}}color="primary" onClick={() => {setmode("signup")}}>Sign up</Button>
+                  </div>
+                </>
               :
-                <div>
-                Already have an account? <Button style={{display: "inline-block"}}color="primary" onClick={() => {setmode("login")}}>Log in</Button>
-                </div>
+                <>
+                  <SignupForm {...props}/>
+                  <div>
+                    Already have an account? <Button style={{display: "inline-block"}}color="primary" onClick={() => {setmode("login")}}>Log in</Button>
+                  </div>
+                </>
               }
             </Paper>
           </Grid>

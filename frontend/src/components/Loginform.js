@@ -1,10 +1,26 @@
-import {useState} from 'react'
+import { useState, useEffect } from 'react';
+import {TextField, Button} from '@material-ui/core';
 
-const Loginform = props => {
+import InputAdornment from "@material-ui/core/InputAdornment";
+import IconButton from "@material-ui/core/IconButton";
+import VisibilityTwoToneIcon from '@material-ui/icons/VisibilityTwoTone';
+import VisibilityOffTwoToneIcon from '@material-ui/icons/VisibilityOffTwoTone';
+import AccountCircleTwoToneIcon from '@material-ui/icons/AccountCircleTwoTone';
+import CircularProgress from '@material-ui/core/CircularProgress';
+
+const LoginForm = props => {
   const [credentials, setcredentials] = useState({username: '', password: ''})
   const [showPassword, setshowPassword] = useState(false)
   const [loading, setloading] = useState(false)
 
+  //effect hooks
+  useEffect(() => {
+    return () => {
+      props.seterrormsg('')
+    }
+    // eslint-disable-next-line
+  }, [])
+  
   useEffect(() => {
     setloading(false)
   }, [props.errormsg])
@@ -83,4 +99,4 @@ const Loginform = props => {
 }
 
 
-export default Loginform
+export default LoginForm
