@@ -49,22 +49,14 @@ const SignupForm = props => {
   }
 
 
-  //TODO ! improve this with json stringify
   const handle_change = e => {
     const name = e.target.name;
     const value = e.target.value;
-    switch (name) {
-        case 'username':
-            setcredentials({...credentials, username: value})
-            break
-        case 'password':
-            setcredentials({...credentials, password: value})
-            break
-        case 'school':
-          setprofile({...profile, school: value})
-          break
-        default:
-            console.log('error on switch')
+    if (name == 'username' || name == 'password'){
+      setcredentials({...credentials, ...JSON.parse(`{"${name}": "${value}"}`)})
+    }
+    else {
+      setprofile({...profile, ...JSON.parse(`{"${name}": "${value}"}`)})
     }
   }
 
@@ -72,7 +64,6 @@ const SignupForm = props => {
     setshowPassword(!showPassword)
   }
 
-  //TODO ! add fields for profile !!
   return (
     <form style={ {marginBottom: "20px",} } autoComplete="off" onSubmit={handleSubmit}>
       <div style={{marginBottom: "20px",}}>
@@ -122,8 +113,9 @@ const SignupForm = props => {
             ))}
           </Select>
         </FormControl>
-        
-        <TextField style={{width: "100%"}}
+
+        <TextField style={{width: "50%"}}
+          required
           id="standard-required" 
           label="First Name" 
           name="first_name" 
@@ -131,10 +123,41 @@ const SignupForm = props => {
           onChange={handle_change}
         />
 
+        <TextField style={{width: "50%"}}
+          required
+          id="standard-required" 
+          label="Last Name" 
+          name="last_name" 
+          value={profile.last_name} 
+          onChange={handle_change}
+        />
 
+        <FormControl required style={{width: "50%"}}>
+          <InputLabel>Major</InputLabel>
+          <Select
+            name = 'major'
+            value={profile.major}
+            onChange={handle_change}
+          >
+            {props.data.choices.MAJOR_CHOICES.map( arr => (
+              <MenuItem value={arr[0]}>{arr[1]}</MenuItem>
+            ))}
+          </Select>
+        </FormControl>
 
+        <FormControl required style={{width: "50%"}}>
+          <InputLabel>Year</InputLabel>
+          <Select
+            name = 'year'
+            value={profile.year}
+            onChange={handle_change}
+          >
+            {props.data.choices.YEAR_CHOICES.map( arr => (
+              <MenuItem value={arr[0]}>{arr[1]}</MenuItem>
+            ))}
+          </Select>
+        </FormControl>
       </div>
-
       <h3>{props.errormsg}</h3>
       {/* button section */}
       {loading?

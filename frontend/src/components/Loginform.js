@@ -34,16 +34,7 @@ const LoginForm = props => {
   const handle_change = e => {
     const name = e.target.name;
     const value = e.target.value;
-    switch (name) {
-        case 'username':
-            setcredentials({...credentials, username: value})
-            break
-        case 'password':
-            setcredentials({...credentials, password: value})
-            break
-        default:
-            console.log('error on switch')
-    }
+    setcredentials({...credentials, ...JSON.parse(`{"${name}": "${value}"}`)})
   }
 
   const handleClickShowPassword = () => {
@@ -62,7 +53,7 @@ const LoginForm = props => {
           onChange={handle_change}
           InputProps={{
             endAdornment:
-            <InputAdornment position="end">
+            <InputAdornment position="start">
               <AccountCircleTwoToneIcon/>
             </InputAdornment>
           }}
@@ -79,7 +70,7 @@ const LoginForm = props => {
             endAdornment:
               <InputAdornment position="end">
                 <IconButton
-                  aria-label="toggle password visibility"
+                  aria-label="toggle password visi=bility"
                   onClick={handleClickShowPassword}
                 >
                   {showPassword ? <VisibilityTwoToneIcon /> : <VisibilityOffTwoToneIcon />}
