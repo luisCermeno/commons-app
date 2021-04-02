@@ -1,5 +1,13 @@
 import { useState, useEffect } from 'react';
 import {TextField, Button} from '@material-ui/core';
+import Select from '@material-ui/core/Select';
+import MenuItem from '@material-ui/core/MenuItem';
+import FormControl from '@material-ui/core/FormControl';
+import InputLabel from '@material-ui/core/InputLabel';
+import {Divider} from '@material-ui/core';
+
+
+
 
 import InputAdornment from "@material-ui/core/InputAdornment";
 import IconButton from "@material-ui/core/IconButton";
@@ -13,7 +21,7 @@ const SignupForm = props => {
   const [profile, setprofile] = useState({
     first_name: '',
     last_name: '',
-    school: 'DV',
+    school: '',
     major: '',
     year: '',
     description: '',
@@ -31,6 +39,7 @@ const SignupForm = props => {
 
   useEffect(() => {
     setloading(false)
+    console.log(props.data.schools)
   }, [props.errormsg])
 
   const handleSubmit = e => {
@@ -67,7 +76,8 @@ const SignupForm = props => {
   return (
     <form style={ {marginBottom: "20px",} } autoComplete="off" onSubmit={handleSubmit}>
       <div style={{marginBottom: "20px",}}>
-        <TextField 
+        <TextField style={{width: "100%"}}
+          required
           id="standard-required" 
           label="Username" 
           name="username" 
@@ -75,12 +85,13 @@ const SignupForm = props => {
           onChange={handle_change}
           InputProps={{
             endAdornment:
-            <InputAdornment position="end">
+            <InputAdornment position="start">
               <AccountCircleTwoToneIcon/>
             </InputAdornment>
           }}
         />
-        <TextField 
+        <TextField style={{width: "100%"}}
+          required
           id="standard-password-input" 
           type={showPassword ? "text" : "password"} 
           label="Password" 
@@ -99,19 +110,29 @@ const SignupForm = props => {
               </InputAdornment>
           }}
         />
-        <TextField 
+        <FormControl required style={{width: "100%"}}>
+          <InputLabel>School</InputLabel>
+          <Select
+            name = 'school'
+            value={profile.school}
+            onChange={handle_change}
+          >
+            {props.data.schools.map( obj => (
+              <MenuItem value={obj.id}>{obj.name}</MenuItem>
+            ))}
+          </Select>
+        </FormControl>
+        
+        <TextField style={{width: "100%"}}
           id="standard-required" 
-          label="School" 
-          name="school" 
-          value={profile.school} 
+          label="First Name" 
+          name="first_name" 
+          value={profile.first_name} 
           onChange={handle_change}
-          InputProps={{
-            endAdornment:
-            <InputAdornment position="end">
-              <AccountCircleTwoToneIcon/>
-            </InputAdornment>
-          }}
         />
+
+
+
       </div>
 
       <h3>{props.errormsg}</h3>

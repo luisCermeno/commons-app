@@ -53,7 +53,8 @@ const LoginForm = props => {
   return (
     <form style={ {marginBottom: "20px",} } autoComplete="off" onSubmit={handleSubmit}>
       <div style={{marginBottom: "20px",}}>
-        <TextField 
+        <TextField style={{width: "100%"}}
+          required
           id="standard-required" 
           label="Username" 
           name="username" 
@@ -66,7 +67,8 @@ const LoginForm = props => {
             </InputAdornment>
           }}
         />
-        <TextField 
+        <TextField style={{width: "100%"}}
+          required
           id="standard-password-input" 
           type={showPassword ? "text" : "password"} 
           label="Password" 

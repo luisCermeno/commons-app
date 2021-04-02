@@ -12,19 +12,19 @@ import SignupForm from './SignupForm'
 const LoginPage = (props) => {
     // ******** STATE HOOKS ********
     const [mode, setmode] = useState('login')
-    const [choices, setchoices] = useState({})
+    const [data, setdata] = useState({})
 
     // ******** EFFECT HOOKS ********
     useEffect(() => {
-      getchoices()
+      getdata()
     }, [])
 
-    const getchoices = () => {
+    const getdata = () => {
       fetch(`http://localhost:8000/getprofile`)
       .then (res => res.json())
       .then (json => {
         console.log(json)
-        setchoices(json)
+        setdata(json)
       })
   }
 
@@ -72,7 +72,7 @@ const LoginPage = (props) => {
                 </>
               :
                 <>
-                  <SignupForm {...props}/>
+                  <SignupForm {...props} data={data}/>
                   <div>
                     Already have an account? <Button style={{display: "inline-block"}}color="primary" onClick={() => {setmode("login")}}>Log in</Button>
                   </div>
