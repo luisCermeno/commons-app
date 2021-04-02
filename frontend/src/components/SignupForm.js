@@ -1,7 +1,15 @@
 import {useState} from 'react'
 
-const Loginform = props => {
+const SignupForm = props => {
   const [credentials, setcredentials] = useState({username: '', password: ''})
+  const [profile, setprofile] = useState({
+    first_name: '',
+    last_name: '',
+    school: 'DV',
+    major: '',
+    year: '',
+    description: '',
+  })
   const [showPassword, setshowPassword] = useState(false)
   const [loading, setloading] = useState(false)
 
@@ -12,8 +20,9 @@ const Loginform = props => {
   const handleSubmit = e => {
     e.preventDefault()
     setloading(true) 
-    props.handle_login(credentials)
+    props.handle_signup({username: username, password: password}, profile)
   }
+
 
   const handle_change = e => {
     const name = e.target.name;
@@ -76,11 +85,11 @@ const Loginform = props => {
       {loading?
         <CircularProgress style={{margin: "0 auto"}}/>
       :
-        <Button style= {{width: "100%"}}type="submit" variant="contained" color="primary">Log In</Button>
+        <Button style= {{width: "100%"}}type="submit" variant="contained" color="primary">Sign Up</Button>
       }
     </form>
   )
 }
 
 
-export default Loginform
+export default SignupForm
