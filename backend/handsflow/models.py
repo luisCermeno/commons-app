@@ -47,7 +47,7 @@ class Profile(models.Model):
   description = models.TextField(blank=True,)
   def serialize(self):
     return {
-      "school" : self.school.name,
+      "school" : self.school.id,
       "first_name": self.first_name,
       "last_name" : self.last_name,
       "major" : self.major,

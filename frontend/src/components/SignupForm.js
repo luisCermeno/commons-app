@@ -49,7 +49,7 @@ const SignupForm = props => {
   }
 
 
-  const handle_change = e => {
+  const handleChange = e => {
     const name = e.target.name;
     const value = e.target.value;
     if (name == 'username' || name == 'password'){
@@ -73,7 +73,7 @@ const SignupForm = props => {
           label="Username" 
           name="username" 
           value={credentials.username} 
-          onChange={handle_change}
+          onChange={handleChange}
           InputProps={{
             endAdornment:
             <InputAdornment position="start">
@@ -88,7 +88,7 @@ const SignupForm = props => {
           label="Password" 
           name="password" 
           value={credentials.password} 
-          onChange={handle_change}
+          onChange={handleChange}
           InputProps={{
             endAdornment:
               <InputAdornment position="end">
@@ -106,7 +106,7 @@ const SignupForm = props => {
           <Select
             name = 'school'
             value={profile.school}
-            onChange={handle_change}
+            onChange={handleChange}
           >
             {props.data.schools.map( obj => (
               <MenuItem value={obj.id}>{obj.name}</MenuItem>
@@ -120,7 +120,7 @@ const SignupForm = props => {
           label="First Name" 
           name="first_name" 
           value={profile.first_name} 
-          onChange={handle_change}
+          onChange={handleChange}
         />
 
         <TextField style={{width: "50%"}}
@@ -129,7 +129,7 @@ const SignupForm = props => {
           label="Last Name" 
           name="last_name" 
           value={profile.last_name} 
-          onChange={handle_change}
+          onChange={handleChange}
         />
 
         <FormControl required style={{width: "50%"}}>
@@ -137,7 +137,7 @@ const SignupForm = props => {
           <Select
             name = 'major'
             value={profile.major}
-            onChange={handle_change}
+            onChange={handleChange}
           >
             {props.data.choices.MAJOR_CHOICES.map( arr => (
               <MenuItem value={arr[0]}>{arr[1]}</MenuItem>
@@ -150,7 +150,7 @@ const SignupForm = props => {
           <Select
             name = 'year'
             value={profile.year}
-            onChange={handle_change}
+            onChange={handleChange}
           >
             {props.data.choices.YEAR_CHOICES.map( arr => (
               <MenuItem value={arr[0]}>{arr[1]}</MenuItem>

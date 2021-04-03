@@ -31,7 +31,7 @@ const LoginForm = props => {
     props.handle_login(credentials)
   }
 
-  const handle_change = e => {
+  const handleChange = e => {
     const name = e.target.name;
     const value = e.target.value;
     setcredentials({...credentials, ...JSON.parse(`{"${name}": "${value}"}`)})
@@ -50,7 +50,7 @@ const LoginForm = props => {
           label="Username" 
           name="username" 
           value={credentials.username} 
-          onChange={handle_change}
+          onChange={handleChange}
           InputProps={{
             endAdornment:
             <InputAdornment position="start">
@@ -65,7 +65,7 @@ const LoginForm = props => {
           label="Password" 
           name="password" 
           value={credentials.password} 
-          onChange={handle_change}
+          onChange={handleChange}
           InputProps={{
             endAdornment:
               <InputAdornment position="end">

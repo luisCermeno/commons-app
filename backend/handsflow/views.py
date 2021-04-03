@@ -162,6 +162,22 @@ class getprofile(APIView):
       except:
         return Response({'error': 'Profile not found'},status=status.HTTP_200_OK)
 
+class editprofile(APIView):
+  permission_classes = (permissions.IsAuthenticated,)
+  def post(self, request, format=None):
+    try:
+      profile = Profile.objects.get(user = request.user)
+      profile.school = School.objects.get(id = request.data.get("school"))
+      profile.first_name = request.data.get("first_name")
+      profile.last_name = request.data.get("last_name")
+      profile.major = request.data.get("major")
+      profile.year = request.data.get("year")
+      profile.description = request.data.get("description")
+      profile.save()
+      return Response(status=status.HTTP_202_ACCEPTED)
+    except:
+      return Response({'error': 'Profile not found'},status=status.HTTP_200_OK)
+
 
 # POST VIEWS
 class room(APIView):

@@ -13,4 +13,5 @@ urlpatterns = [
     path('getroom/', views.getroom.as_view()),
     path('message/', views.message.as_view()),
     path('getprofile/', views.getprofile.as_view()),
+    path('editprofile/', views.editprofile.as_view()),
 ]

@@ -2,11 +2,13 @@ import {useState, useEffect, useRef} from 'react'
 import {matchPath} from "react-router";
 import history from '../history'
 
-
+import {TextField, Button} from '@material-ui/core';
 import {Grid, Paper} from '@material-ui/core';
 import Avatar from '@material-ui/core/Avatar';
 import FaceTwoToneIcon from '@material-ui/icons/FaceTwoTone';
 import CircularProgress from '@material-ui/core/CircularProgress';
+import IconButton from "@material-ui/core/IconButton";
+import EditTwoToneIcon from '@material-ui/icons/EditTwoTone';
 
 
 let gridstyle  = { border: "1px solid green", padding: "1vh 1vw"}
@@ -23,8 +25,9 @@ const Profile = (props) => {
   // ******** STATE HOOKS ********
   const [profile, setprofile] = useState({})
   const [choices, setchoices] = useState({})
-  const [schools, setschools] = useState({})
+  const [schools, setschools] = useState([])
   const [loading, setloading] = useState(true)
+  const [edit, setedit] = useState({'description': false})
 
   // ******** EFFECT HOOKS ********
   useEffect(() => {
@@ -47,13 +50,46 @@ const Profile = (props) => {
     })
   }
 
-
   const printChoice = (key, arr) => {
     var i
     for (i = 0; i < arr.length; i++) {
       if (arr[i][0] == key) return arr[i][1]
     }
   }
+
+  const printSchool = (key, arr) => {
+    var i
+    for (i = 0; i < arr.length; i++) {
+      if (arr[i].id == key) return arr[i].name
+    }
+  }
+
+  const handleSubmit = e => {
+    console.log(profile)
+    e.preventDefault()
+    setloading(true)
+    fetch('http://localhost:8000/editprofile/', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `JWT ${localStorage.getItem('token')}`,
+      },
+      body: JSON.stringify(profile)
+    })
+    .then(res => {
+      console.log(res)
+      setloading(false)
+      setedit({...edit, 'description': false})
+    })
+    
+  }
+
+  const handleChange = e => {
+    const name = e.target.name;
+    const value = e.target.value;
+    setprofile({...profile, ...JSON.parse(`{"${name}": "${value}"}`)})
+  }
+
 
   return(
       <Grid
@@ -68,37 +104,63 @@ const Profile = (props) => {
               container
               justify="flex-start"
               alignItems="center"
-              style={{height: "35vh", border: "1px solid purple"}}
+              style={{minHeight: "35vh", border: "1px solid purple"}}
             >
               {loading?
                 <CircularProgress style={{margin: "0 auto"}}/>
               :
               <>
-                <Grid item xs={12} md={3} style={{...gridstyle, height: "60%"}}>
+                <Grid item xs={12} lg={3} style={{...gridstyle, height: "60%"}}>
                   <Grid container style={{height: "100%"}} justify="center" alignItems="center">
                     <Grid item xs={12} style = {{height: "70%"}}>
-                      <Avatar style={{height: "100%", width: "100%", margin: "0 auto"}}>
+                      <Avatar style={{height: "100px", width: "100px", margin: "0 auto"}}>
                         <FaceTwoToneIcon/>
                       </Avatar>
-                    </Grid>
-                    <Grid item xs={12}>
                       <div style={{textAlign: "center"}}> <b>{username}</b></div>
                     </Grid>
                   </Grid>
                 </Grid>
 
-                <Grid item xs={12} md={9} style={{...gridstyle, height: "60%"}}>
+                <Grid item xs={12} lg={9} style={{...gridstyle, height: "60%"}}>
                   <div style={fieldstyle}> <b>First Name:</b> {profile.first_name}</div>
                   <div style={fieldstyle}> <b>Last Name:</b> {profile.last_name}</div>
-                  <div style={fieldstyle}> <b>School:</b> {profile.school}</div>
+                  <div style={fieldstyle}> <b>School:</b> {printSchool(profile.school, schools)}</div>
                   <div style={fieldstyle}> <b>Major:</b> {printChoice(profile.major, choices.MAJOR_CHOICES)}</div>
                   <div style={fieldstyle}> <b>Year:</b> {printChoice(profile.year, choices.YEAR_CHOICES)}</div>
                   <div style={fieldstyle}> <b>Member since:</b> {profile.timestamp}</div>
                 </Grid>
                 
                 <Grid item xs={12} style={gridstyle}>
-                  <div style={fieldstyle}> <b>About:</b> </div>
-                  <div>{profile.description}</div>
+                  <div style={fieldstyle}> 
+                    <b>About:</b> 
+                  </div>
+                  {edit.description?
+                    <form onSubmit={handleSubmit}>
+                      <TextField
+                        id="outlined-multiline-static"
+                        onChange={handleChange}
+                        value={profile.description}
+                        name = 'description'
+                        multiline
+                        variant="outlined"
+                        style = {{width: "100%", padding: "0 0"}}
+                      />
+                      <div style={{textAlign: "end"}}>
+                      <Button type="submit" color="primary">Save</Button>
+                      </div>
+                    </form>
+                  :
+                    <div>
+                      {profile.description}
+                      <IconButton
+                      aria-label="edit"
+                      style={{padding: "0 5px"}}
+                      onClick={()=>{setedit({...edit, 'description': true})}}
+                      >
+                        <EditTwoToneIcon/>
+                      </IconButton>
+                    </div>
+                  }
                 </Grid>
               </>
               }
