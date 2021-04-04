@@ -146,7 +146,7 @@ const Profile = (props) => {
                         style = {{width: "100%", padding: "0 0"}}
                       />
                       <div style={{textAlign: "end"}}>
-                      <Button type="submit" color="primary">Save</Button>
+                      <Button type="submit" color="secondary">Save</Button>
                       </div>
                     </form>
                   :

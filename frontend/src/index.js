@@ -6,12 +6,12 @@ import reportWebVitals from './reportWebVitals';
 
 import { createMuiTheme } from '@material-ui/core/styles';
 import { ThemeProvider } from '@material-ui/core/styles';
-import {lightGreen, blue, red, cyan, lightBlue, lime} from '@material-ui/core/colors/';
+import {deepOrange, lightGreen, red} from '@material-ui/core/colors/';
 
 const theme = createMuiTheme({
   palette: {
     primary: lightGreen,
-    secondary: red,
+    secondary: deepOrange,
   },
 });
 

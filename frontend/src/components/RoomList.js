@@ -1,8 +1,7 @@
 import {useState, useEffect} from 'react'
 import {Link} from 'react-router-dom'
-import {Grid, Paper, TextField, Button} from '@material-ui/core';
+import {Grid, Paper} from '@material-ui/core';
 import CircularProgress from '@material-ui/core/CircularProgress';
-
 
 
 const RoomList = (props) => {
@@ -47,7 +46,10 @@ useEffect(() => {
                 <Paper elevation={3} style={{padding: "1vh 1vw", textAlign: "center", width: "80%",height: "100%", borderRadius: "15px", margin: "0 auto"}}>
                   <Link 
                   to={`/room/${room.roomID}`}
-                  style={{textDecoration: "none", color: "black"}}
+                  style={{
+                    textDecoration: "none", 
+                    color: "black",
+                  }}
                   >
                     <h3>{room.roomID}</h3>
                   </Link>

@@ -66,14 +66,14 @@ const LoginPage = (props) => {
             <>
               <LoginForm {...props}/>
               <div>
-                Not part of your school commons yet? <Button style={{display: "inline-block"}}color="primary" onClick={() => {setmode("signup")}}>Sign up</Button>
+                Not part of your school commons yet? <Button style={{display: "inline-block"}}color="secondary" onClick={() => {setmode("signup")}}>Sign up</Button>
               </div>
             </>
           :
             <>
               <SignupForm {...props} data={data}/>
               <div>
-                Already have an account? <Button style={{display: "inline-block"}}color="primary" onClick={() => {setmode("login")}}>Log in</Button>
+                Already have an account? <Button style={{display: "inline-block"}}color="secondary" onClick={() => {setmode("login")}}>Log in</Button>
               </div>
             </>
           }
