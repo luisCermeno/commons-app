@@ -14,6 +14,7 @@ const App = () => {
   const [logged_in, setlogged_in] = useState(localStorage.getItem('token')? true : false)
   const [username, setusername] = useState('')
   const [errormsg, seterrormsg] = useState('')
+  const [active_peer, setactive_peer] = useState('')
 
   //EFFECT HOOKS
   //onMount (when user returns to the app after closing it)
@@ -84,9 +85,32 @@ const App = () => {
     })
   }
   const handle_logout = () => {
-    localStorage.removeItem('token')
-    setlogged_in(false)
-    setusername('')
+    //first delete any active peer if there is any
+    if (active_peer != '') {
+      fetch('http://localhost:8000/logpeer/', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `JWT ${localStorage.getItem('token')}`,
+        },
+        body: JSON.stringify({
+          action: 'logout',
+          username: username,
+          peerID: active_peer,
+          roomID: '',
+        })
+      })
+      .then( () => {
+        localStorage.removeItem('token')
+        setlogged_in(false)
+        setusername('')
+      })
+    }
+    else {
+      localStorage.removeItem('token')
+      setlogged_in(false)
+      setusername('')
+    }
   }
 
   //RENDER
@@ -113,7 +137,7 @@ const App = () => {
                   <Profile username={username}/> 
                 </Route>
                 <Route exact path='/room/:roomID'>
-                  <Room username={username}/> 
+                  <Room username={username} setactive_peer={setactive_peer}/> 
                 </Route>
                 <Route path='/' > 
                   <Redirect  to='/' />

@@ -70,7 +70,12 @@ const Room = props => {
       })
     })
     // when component is unmounted, destroy peer
-    return () => { if (peer !== undefined) peer.destroy() }
+    return () => { 
+      if (peer !== undefined) {
+        props.setactive_peer('')
+        peer.destroy()
+      }
+    }
   }, [])
 
   //****** DJANGO SERVER SIGNALING *******
@@ -93,7 +98,11 @@ const Room = props => {
         roomID: roomID,
       })
     })
-    .then(res => res.json()).then(json => console.log(json))
+    .then(res => res.json())
+    .then(json => {
+      console.log(json)
+      props.setactive_peer(peerID)
+    })
     // After creating the peer object, fetch the room data from server
     .then( () => {if (action === 'login') djangoGetRoom(peerID)})
   }
