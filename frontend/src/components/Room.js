@@ -46,8 +46,7 @@ const Room = props => {
       host: '/',
       port: '3001'
     })
-    // when the window is suddenly closed , destoy peer object
-    window.onunload = (e) => { if (peer !== undefined) peer.destroy() }
+  
     // when the connection is established, signal django server(peer login)
     peer.on('open', id => djangoLogPeer('login', id))
     // when the connection is closed, signal django server(peer logout)
@@ -69,6 +68,8 @@ const Room = props => {
         setmessages(messages => [...messages, createMsgObj('Bot',`${dataConnection.metadata.username} left the group`)])
       })
     })
+    // when the window is suddenly closed , destroy peer object
+    window.onunload = (e) => { if (peer !== undefined) peer.destroy() }
     // when component is unmounted, destroy peer
     return () => { 
       if (peer !== undefined) {

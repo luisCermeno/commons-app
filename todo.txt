@@ -1,5 +1,3 @@
-FEATURES:
-->Modify timestamp to match local timezone on client's end
-
 FIX:
--> peer object not deleted from django server when unloading window/ signing out
+-> peer object not deleted from django server when unloading window
+   with no other peer connected to the room chat
