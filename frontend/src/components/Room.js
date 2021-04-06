@@ -11,10 +11,10 @@ import ListItemText from '@material-ui/core/ListItemText';
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import Avatar from '@material-ui/core/Avatar';
 import FaceTwoToneIcon from '@material-ui/icons/FaceTwoTone';
+import useMediaQuery from '@material-ui/core/useMediaQuery';
+import { useTheme } from '@material-ui/core/styles';
 
 import Messages from '../components/Messages'
-
-
 
 // ******** GLOBAL CONSTANTS *********
 let peer // stores the local peer object
@@ -199,25 +199,55 @@ const Room = props => {
     dataConnections.forEach(obj => obj.dataConnection.send(input))
   }
 
+  // ******** STYLING ************
+  const theme = useTheme();
+  const md = useMediaQuery(theme.breakpoints.up('md'));
+  let styles = {
+    grid: {
+      border: "1px solid black", 
+      height: "100%", 
+      padding: "1vh 1vw"
+    },
+
+  }
+  styles = {
+    ...styles,
+    gridMsg: {
+      ...styles.grid,
+      width: "100%"
+    }
+  }
+  let direction = "row"
+  //md and up:
+  if (md) {
+    direction = "column"
+    styles.grid = {...styles.grid, margin: "4vh 0"}
+    styles.gridMsg = {...styles.gridMsg, width: "65vh"}
+  }
+
   // ******** RENDER ********
   return (
     <>
     <Grid
     container
-    direction = "column"
+    direction = {direction}
     justify="flex-start"
     alignItems="stretch"
     style={{border: "1px solid blue", height: "100%"}}
     >
-      <Grid item xs={5} style={{border: "1px solid black", width: "25vw", padding: "1vh 1vw"}}>
+      <Grid item md={5} xs={12} style={{border: "1px solid black", width: "25vw", padding: "1vh 1vw"}}>
         <Paper elevation={3} style={{padding: "1vh 1vw", textAlign: "center", height: "100%",  borderRadius: "15px", margin: "0 auto"}}>
           <h2>{roomID}</h2>
-          <div style={{height: "70%",overflow: "auto"}}>
-            <p>{description}</p>
-          </div>
+          {md?
+            <div style={{height: "70%",overflow: "auto"}}>
+              <p>{description}</p>
+            </div>
+          : <></>
+          }
         </Paper>
       </Grid>
-      <Grid item xs={7} style={{border: "1px solid black", width: "25vw",  padding: "1vh 1vw"}}>
+      {md?
+        <Grid item md={7} xs={12} style={{border: "1px solid black", width: "25vw",  padding: "1vh 1vw"}}>
         <Paper elevation={3} style={{padding: "2vh 2vw", height: "100%", textAlign: "center",borderRadius: "15px"}}>
             <h3 ref={MessagesRef}>Active users:</h3>
             <List style= {{border: "black solid 1px", height: "80%",overflow: "auto"}}>
@@ -233,8 +263,11 @@ const Room = props => {
               ))}
             </List>
         </Paper>
-      </Grid>
-      <Grid item xs ={12} style={{border: "1px solid black", width: "65vw", height: "100%", padding: "1vh 1vw"}}>
+        </Grid>
+      : <></>
+      }
+
+      <Grid item md={12} style={{border: "1px solid black", width: "65vw", height: "100%", padding: "1vh 1vw"}}>
         <Messages messages={messages} handleSend={handleSend} error={error} username={props.username}/>
       </Grid>
     </Grid>
