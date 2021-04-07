@@ -25,20 +25,24 @@ let styles = {
   grid: {
     border: "solid 1px black",
     width: "100%",
+    padding: "1vh 1vw",
   },
   paper: {
-    padding: "1vh 1vw", 
+    padding: "1vh 1vw",
     textAlign: "center", 
     width: "100%",
     height: "100%", 
     borderRadius: "15px", 
     margin: "0 auto"
-  }
+  },
+  direction : "row",
 }
+
 //sm and up:
 if (sm) {
   styles.grid = {...styles.grid, width: "50%"}
   styles.paper = {...styles.paper, width: "80%"}
+  styles.direction = "column"
 }
 //lg and up:
 if (md) {
@@ -64,7 +68,7 @@ const getRooms = () => {
   return (
       <Grid
       container
-      direction="column"
+      direction= {styles.direction}
       justify="flex-start" //aligns horizontally
       alignItems="flex-start" //aligns vertically
       style={{border: "solid 1px black", height:"100%", width: "100%", overflow: "auto"}}

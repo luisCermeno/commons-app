@@ -13,10 +13,15 @@ let styles = {
   grid: {
     border: "solid 1px green",
   },
+  gridRoomList: {
+    height: "75%", 
+    width: "100%"
+  }
 }
 //sm and up:
 if (sm) {
   styles.grid = {...styles.grid, margin: "4vh 0"}
+  styles.gridRoomList = {...styles.gridRoomList, height: "60%"}
 }
 
     return (
@@ -32,7 +37,7 @@ if (sm) {
             <p>🥇This week's most active groups in your school:</p>
           </Paper>
         </Grid>
-        <Grid item md={12} sm={12} style={{...styles.grid, height: "50vh", width: "100%"}}>
+        <Grid item md={12} sm={12} style={{...styles.grid, ...styles.gridRoomList}}>
           <RoomList/>
         </Grid>
       </Grid>
