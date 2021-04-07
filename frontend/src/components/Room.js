@@ -210,19 +210,11 @@ const Room = props => {
     },
 
   }
-  styles = {
-    ...styles,
-    gridMsg: {
-      ...styles.grid,
-      width: "100%"
-    }
-  }
   let direction = "row"
   //md and up:
   if (md) {
     direction = "column"
-    styles.grid = {...styles.grid, margin: "4vh 0"}
-    styles.gridMsg = {...styles.gridMsg, width: "65vh"}
+    styles.grid = {...styles.grid, width: "65vw"}
   }
 
   // ******** RENDER ********
@@ -235,17 +227,17 @@ const Room = props => {
     alignItems="stretch"
     style={{border: "1px solid blue", height: "100%"}}
     >
+      {md?
       <Grid item md={5} xs={12} style={{border: "1px solid black", width: "25vw", padding: "1vh 1vw"}}>
         <Paper elevation={3} style={{padding: "1vh 1vw", textAlign: "center", height: "100%",  borderRadius: "15px", margin: "0 auto"}}>
           <h2>{roomID}</h2>
-          {md?
             <div style={{height: "70%",overflow: "auto"}}>
               <p>{description}</p>
             </div>
-          : <></>
-          }
         </Paper>
       </Grid>
+      : <></>
+      }
       {md?
         <Grid item md={7} xs={12} style={{border: "1px solid black", width: "25vw",  padding: "1vh 1vw"}}>
         <Paper elevation={3} style={{padding: "2vh 2vw", height: "100%", textAlign: "center",borderRadius: "15px"}}>
@@ -267,8 +259,8 @@ const Room = props => {
       : <></>
       }
 
-      <Grid item md={12} style={{border: "1px solid black", width: "65vw", height: "100%", padding: "1vh 1vw"}}>
-        <Messages messages={messages} handleSend={handleSend} error={error} username={props.username}/>
+      <Grid item md={12} style={styles.grid}>
+        <Messages messages={messages} handleSend={handleSend} error={error} username={props.username} roomID={roomID}/>
       </Grid>
     </Grid>
     </>

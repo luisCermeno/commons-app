@@ -18,8 +18,8 @@ import Avatar from '@material-ui/core/Avatar';
 import FaceTwoToneIcon from '@material-ui/icons/FaceTwoTone';
 import ReplyTwoToneIcon from '@material-ui/icons/ReplyTwoTone';
 
-
-
+import useMediaQuery from '@material-ui/core/useMediaQuery';
+import { useTheme } from '@material-ui/core/styles';
 
 
 const Messages = props => {
@@ -38,6 +38,26 @@ const Messages = props => {
     setinput('')
     props.handleSend(input)
   }
+
+  // ******** STYLING ************
+const theme = useTheme();
+const md = useMediaQuery(theme.breakpoints.up('md'));
+let styles = {
+  gridTexts: {
+    height:"85%", 
+    border: "solid green 1px",
+  },
+  gridInput: {
+    height:"10%", 
+    border: "solid green 1px",
+  },
+
+}
+//md and up:
+if (md) {
+  styles.gridTexts = {...styles.gridTexts, height:"90%"}
+}
+
   // ******** RENDER ********
   return (
     <Paper elevation={3} style={{padding: "2vh 2vw", height: "100%", borderRadius: "15px"}}>
@@ -47,22 +67,28 @@ const Messages = props => {
       alignItems = "strecth"
       style = {{height: "100%", border: "solid black 1px"}}
       >
-        <Grid item xs={12} style = {{height:"90%", border: "solid green 1px"}}>
+        {!md?
+        <Grid item xs={12} style = {{height:"5%", border: "solid green 1px", textAlign: "center", fontSize: "1.5em"}}>
+          <b>{props.roomID}</b>
+        </Grid>
+        :<></>
+        }
+        <Grid item xs={12} style = {styles.gridTexts}>
           <List ref={listRef} style={{height: "100%", overflow: "auto"}}>
             {props.messages.map( (msg, index) => {
               let self
-              let style = {}
-              let stylelist = {}
+              let div_listitem = {}
+              let listitem = {}
 
               if (msg.username == props.username){
                 self = true
-                style = {marginLeft: "40%", textAlign: "right"}
-                stylelist = {textAlign: "right"}
+                div_listitem = {marginLeft: "40%", textAlign: "right"}
+                listitem = {textAlign: "right"}
 
               }
               else {
                 self = false
-                style = {marginRight: "40%"}
+                div_listitem = {marginRight: "40%"}
               }
               
               return (
@@ -70,8 +96,8 @@ const Messages = props => {
                 {msg.username == 'Bot'?
                   <div style={{textAlign: "center", color: "gray"}}> {msg.body}</div>
                 :
-                  <div style={{...style, border: "1px brown solid", maxWidth: "60%"}}>
-                    <ListItem key= {index} style={stylelist}>
+                  <div style={{...div_listitem, border: "1px brown solid", maxWidth: "60%"}}>
+                    <ListItem key= {index} style={listitem}>
                       {!self?
                         <ListItemAvatar>
                           <Avatar>
@@ -98,7 +124,7 @@ const Messages = props => {
                         <></>
                       }
                     
-                      {!self?
+                      {(!self && md)?
                       <ListItemSecondaryAction style={{border: "1px solid purple"}}>
                         <IconButton aria-label="reply">
                           <ReplyTwoToneIcon />
@@ -115,7 +141,7 @@ const Messages = props => {
           </List>
         </Grid>
 
-        <Grid item xs={12} style = {{height:"10%", border: "solid green  1px"}}>
+        <Grid item xs={12} style = {styles.gridInput}>
           <form onSubmit= {handleSubmit} autocomplete="off">
             <TextField
               variant="outlined"
