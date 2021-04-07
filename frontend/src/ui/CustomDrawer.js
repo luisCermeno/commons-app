@@ -16,6 +16,13 @@ const CustomDrawer = (props) => {
   const classes = useStyles();
   const theme = useTheme();
 
+ let styles = {
+  a: {
+    textDecoration: "none", 
+    color: "black",
+  }
+ }
+
   return (
     <Drawer
       variant="permanent"
@@ -37,20 +44,20 @@ const CustomDrawer = (props) => {
       </div>
       <Divider />
         <List>
-          <Link to= '/'>
+          <Link to= '/' style={styles.a}>
             <ListItem button key='Home'>
               <ListItemIcon><DeckTwoToneIcon/></ListItemIcon>
               <ListItemText primary='Home' />
             </ListItem>
           </Link>
-          <Link to= '/create'>
+          <Link to= '/create'style={styles.a}>
             <ListItem button key='Create'>
               <ListItemIcon><BorderColorTwoToneIcon/></ListItemIcon>
               <ListItemText primary='Create' />
             </ListItem>
           </Link>
 
-          <Link to={`/profile/${props.username}`}>
+          <Link to={`/profile/${props.username}`} style={styles.a}>
             <ListItem button key='Student ID'>
               <ListItemIcon><ContactMailTwoToneIcon/></ListItemIcon>
               <ListItemText primary='My Student ID' />
@@ -60,7 +67,7 @@ const CustomDrawer = (props) => {
         <Divider />
 
         <List>
-          <ListItem button key='Logout' onClick = {props.handle_logout}>
+          <ListItem button key='Logout' onClick = {props.handle_logout} style={styles.a}>
             <ListItemIcon><MeetingRoomTwoToneIcon/></ListItemIcon>
             <ListItemText primary='Logout' />
           </ListItem>
