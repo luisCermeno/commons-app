@@ -51,7 +51,27 @@ let styles = {
     height:"10%", 
     border: "solid green 1px",
   },
-
+  div_listitem : {
+    self: {
+      border: "1px brown solid", 
+      maxWidth: "60%",
+      marginLeft: "40%", 
+      textAlign: "right"
+    },
+    incoming: {
+      border: "1px brown solid", 
+      maxWidth: "60%",
+      marginRight: "40%"
+    }
+  },
+  listitem : {
+    self: {
+      textAlign: "right"
+    },
+    incoming: {
+      textAlign: "left"
+    }
+  },
 }
 //md and up:
 if (md) {
@@ -77,27 +97,15 @@ if (md) {
           <List ref={listRef} style={{height: "100%", overflow: "auto"}}>
             {props.messages.map( (msg, index) => {
               let self
-              let div_listitem = {}
-              let listitem = {}
-
-              if (msg.username == props.username){
-                self = true
-                div_listitem = {marginLeft: "40%", textAlign: "right"}
-                listitem = {textAlign: "right"}
-
-              }
-              else {
-                self = false
-                div_listitem = {marginRight: "40%"}
-              }
-              
+              if (msg.username == props.username) self = true
+              else self = false
               return (
                 <>
                 {msg.username == 'Bot'?
                   <div style={{textAlign: "center", color: "gray"}}> {msg.body}</div>
                 :
-                  <div style={{...div_listitem, border: "1px brown solid", maxWidth: "60%"}}>
-                    <ListItem key= {index} style={listitem}>
+                  <div style={self? styles.div_listitem.self: styles.div_listitem.incoming}>
+                    <ListItem key= {index} style={self? styles.listitem.self: styles.listitem.incoming}>
                       {!self?
                         <ListItemAvatar>
                           <Avatar>
