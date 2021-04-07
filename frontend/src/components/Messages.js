@@ -54,14 +54,10 @@ let styles = {
   div_listitem : {
     self: {
       border: "1px brown solid", 
-      maxWidth: "60%",
-      marginLeft: "40%", 
       textAlign: "right"
     },
     incoming: {
       border: "1px brown solid", 
-      maxWidth: "60%",
-      marginRight: "40%"
     }
   },
   listitem : {
@@ -75,7 +71,15 @@ let styles = {
 }
 //md and up:
 if (md) {
-  styles.gridTexts = {...styles.gridTexts, height:"90%"}
+  styles.div_listitem.self = {
+    ...styles.div_listitem.self,
+    maxWidth: "60%",
+    marginLeft: "40%", 
+  }
+  styles.div_listitem.incoming = {
+    ...styles.div_listitem.incoming,
+    marginRight: "40%"
+  }
 }
 
   // ******** RENDER ********
