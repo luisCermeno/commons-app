@@ -4,13 +4,14 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 
 import CustomAppBar from '../ui/CustomAppBar';
 import CustomDrawer from '../ui/CustomDrawer';
+import CustomBottomNavigation from '../ui/BottomNavigation'
 
 import useStyles from '../styles'
 
-import background from '../img/background.png'
+import {BottomNavigation, Grid} from '@material-ui/core';
 
-import {Grid} from '@material-ui/core';
-
+import useMediaQuery from '@material-ui/core/useMediaQuery';
+import { useTheme } from '@material-ui/core/styles';
 
 const UI = (props) => {
   const classes = useStyles();
@@ -24,12 +25,20 @@ const UI = (props) => {
     setOpen(false);
   };
 
+  // ******** STYLING ************
+  const theme = useTheme();
+  const md = useMediaQuery(theme.breakpoints.up('md'));
+
   return (
     <div className={classes.root}>
       <CssBaseline />
       <CustomAppBar  open = {open} handleDrawerOpen = {handleDrawerOpen}/>
+      {md? 
       <CustomDrawer {...props}  open = {open} handleDrawerClose = {handleDrawerClose}/>
-      <main className={classes.content} style={{height: "100vh", backgroundImage: `url(${background})`}}>
+      : 
+      <></>
+      }
+      <main className={classes.content}>
         <div className={classes.toolbar} />
         <Grid
         container
@@ -40,6 +49,10 @@ const UI = (props) => {
           {props.children}
         </Grid>
       </main>
+      {/* {!md?
+       <CustomBottomNavigation></CustomBottomNavigation>
+      : <></>
+      } */}
     </div>
   );
 }

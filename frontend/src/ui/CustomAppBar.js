@@ -1,14 +1,21 @@
 import clsx from 'clsx';
 
-import {AppBar, Toolbar, IconButton, Typography} from '@material-ui/core';
+import {AppBar, Toolbar, IconButton} from '@material-ui/core';
 
 import useStyles from '../styles'
 
 import jigsaw from '../img/jigsaw.png'
 import logo from '../img/logocrop.png'
 
+import useMediaQuery from '@material-ui/core/useMediaQuery';
+import { useTheme } from '@material-ui/core/styles';
+
 const CustomAppBar = (props) => {
   const classes = useStyles();
+
+  // ******** STYLING ************
+  const theme = useTheme();
+  const md = useMediaQuery(theme.breakpoints.up('md'));
 
   return(
   <AppBar
@@ -18,17 +25,21 @@ const CustomAppBar = (props) => {
     })}
   >
     <Toolbar className={classes.toolbar}>
-      <IconButton
-        color="inherit"
-        aria-label="open drawer"
-        onClick={props.handleDrawerOpen}
-        edge="start"
-        className={clsx(classes.menuButton, {
-          [classes.hide]: props.open,
-        })}
-      >
+      {md?
+        <IconButton
+          color="inherit"
+          aria-label="open drawer"
+          onClick={props.handleDrawerOpen}
+          edge="start"
+          className={clsx(classes.menuButton, {
+            [classes.hide]: props.open,
+          })}
+        >
+          <img src={jigsaw} style={{width: "40px",display: "inline"}}/>
+        </IconButton>
+      :
         <img src={jigsaw} style={{width: "40px",display: "inline"}}/>
-      </IconButton>
+      }
       <img src={logo} style={{height: "65px", display: "inline"}}></img>
     </Toolbar>
   </AppBar>

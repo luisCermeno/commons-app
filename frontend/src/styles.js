@@ -1,10 +1,14 @@
 import {makeStyles } from '@material-ui/core/styles';
+import background from './img/background.png'
+
 
 const drawerWidth = 240;
 
 const useStyles = makeStyles((theme) => ({
   root: {
     display: 'flex',
+    height: "100vh",
+    backgroundImage: `url(${background})`,
     flexGrow: 1
   },
   appBar: {
