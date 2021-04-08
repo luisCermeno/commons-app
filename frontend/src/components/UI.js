@@ -49,10 +49,10 @@ const UI = (props) => {
           {props.children}
         </Grid>
       </main>
-      {/* {!md?
+      {!md?
        <CustomBottomNavigation></CustomBottomNavigation>
       : <></>
-      } */}
+      }
     </div>
   );
 }

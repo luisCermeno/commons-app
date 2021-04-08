@@ -16,7 +16,7 @@ const CustomBottomNavigation= () => {
         setValue(newValue);
       }}
       showLabels
-      style={{width: "500"}}
+      style={{width: "100vw", position: "absolute", bottom: "0"}}
     >
       <BottomNavigationAction label="Home" icon={<DeckTwoToneIcon/>} />
       <BottomNavigationAction label="Create" icon={<BorderColorTwoToneIcon/>} />
