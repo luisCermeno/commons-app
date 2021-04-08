@@ -23,7 +23,6 @@ const md = useMediaQuery(theme.breakpoints.up('md'));
 //xs and up:
 let styles = {
   grid: {
-    border: "solid 1px black",
     width: "100%",
     padding: "1vh 1vw",
   },
@@ -71,7 +70,7 @@ const getRooms = () => {
       direction= {styles.direction}
       justify="flex-start" //aligns horizontally
       alignItems="flex-start" //aligns vertically
-      style={{border: "solid 1px black", height:"100%", width: "100%", overflow: "auto"}}
+      style={{height:"100%", width: "100%", overflow: "auto"}}
       >
         {loading?
           <CircularProgress style={{margin: "0 auto"}}/>

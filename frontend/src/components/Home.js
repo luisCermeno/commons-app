@@ -11,7 +11,6 @@ const sm = useMediaQuery(theme.breakpoints.up('sm'));
 //xs and up:
 let styles = {
   grid: {
-    border: "solid 1px green",
   },
   gridRoomList: {
     height: "75%", 
@@ -29,7 +28,7 @@ if (sm) {
       container
       justify="flex-start" //aligns horizontally
       alignItems="flex-start" //aligns vertically
-      style={{border: "solid 1px blue", height: "100%"}}
+      style={{height: "100%"}}
       >
         <Grid item md={12} sm={12} style={styles.grid} >
           <Paper elevation={3} style={{padding: "1vh 1vw", textAlign: "center", borderRadius: "15px", margin: "0 auto"}}>

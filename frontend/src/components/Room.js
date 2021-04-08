@@ -204,7 +204,6 @@ const Room = props => {
   const md = useMediaQuery(theme.breakpoints.up('md'));
   let styles = {
     grid: {
-      border: "1px solid black", 
       height: "100%", 
       padding: "1vh 1vw"
     },
@@ -225,10 +224,10 @@ const Room = props => {
     direction = {direction}
     justify="flex-start"
     alignItems="stretch"
-    style={{border: "1px solid blue", height: "100%"}}
+    style={{height: "100%"}}
     >
       {md?
-      <Grid item md={5} xs={12} style={{border: "1px solid black", width: "25vw", padding: "1vh 1vw"}}>
+      <Grid item md={5} xs={12} style={{width: "25vw", padding: "1vh 1vw"}}>
         <Paper elevation={3} style={{padding: "1vh 1vw", textAlign: "center", height: "100%",  borderRadius: "15px", margin: "0 auto"}}>
           <h2>{roomID}</h2>
             <div style={{height: "70%",overflow: "auto"}}>
@@ -239,10 +238,10 @@ const Room = props => {
       : <></>
       }
       {md?
-        <Grid item md={7} xs={12} style={{border: "1px solid black", width: "25vw",  padding: "1vh 1vw"}}>
+        <Grid item md={7} xs={12} style={{width: "25vw",  padding: "1vh 1vw"}}>
         <Paper elevation={3} style={{padding: "2vh 2vw", height: "100%", textAlign: "center",borderRadius: "15px"}}>
             <h3 ref={MessagesRef}>Active users:</h3>
-            <List style= {{border: "black solid 1px", height: "80%",overflow: "auto"}}>
+            <List style= {{height: "80%",overflow: "auto"}}>
               {participants.map( (peer,index) => (
                 <ListItem key={index} button>
                   <ListItemAvatar>

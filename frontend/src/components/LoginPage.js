@@ -32,7 +32,6 @@ const LoginPage = (props) => {
   //xs and up:
   let styles = {
     grid: {
-      border: "1px solid black",
     },
     paper: {
       padding: "2vh 2vw", 

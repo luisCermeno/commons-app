@@ -45,19 +45,15 @@ const md = useMediaQuery(theme.breakpoints.up('md'));
 let styles = {
   gridTexts: {
     height:"85%", 
-    border: "solid green 1px",
   },
   gridInput: {
     height:"10%", 
-    border: "solid green 1px",
   },
   div_listitem : {
     self: {
-      border: "1px brown solid", 
       textAlign: "right"
     },
     incoming: {
-      border: "1px brown solid", 
     }
   },
   listitem : {
@@ -89,10 +85,10 @@ if (md) {
       direction = "row"
       justify = "flex-start"
       alignItems = "strecth"
-      style = {{height: "100%", border: "solid black 1px"}}
+      style = {{height: "100%"}}
       >
         {!md?
-        <Grid item xs={12} style = {{height:"5%", border: "solid green 1px", textAlign: "center", fontSize: "1.5em"}}>
+        <Grid item xs={12} style = {{height:"5%",textAlign: "center", fontSize: "1.5em"}}>
           <b>{props.roomID}</b>
         </Grid>
         :<></>
@@ -137,7 +133,7 @@ if (md) {
                       }
                     
                       {(!self && md)?
-                      <ListItemSecondaryAction style={{border: "1px solid purple"}}>
+                      <ListItemSecondaryAction>
                         <IconButton aria-label="reply">
                           <ReplyTwoToneIcon />
                         </IconButton>

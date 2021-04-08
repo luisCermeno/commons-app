@@ -44,7 +44,7 @@ const UI = (props) => {
         container
         justify="center" //aligns horizontally
         alignItems="center" //aligns vertically
-        style={{border: "dashed 1px red", height: "90%"}}
+        style={{height: "85%"}}
         >
           {props.children}
         </Grid>

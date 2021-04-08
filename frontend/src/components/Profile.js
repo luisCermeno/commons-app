@@ -11,7 +11,7 @@ import IconButton from "@material-ui/core/IconButton";
 import EditTwoToneIcon from '@material-ui/icons/EditTwoTone';
 
 
-let gridstyle  = { border: "1px solid green", padding: "1vh 1vw"}
+let gridstyle  = {padding: "1vh 1vw"}
 let fieldstyle = { margin: "0.5vh 0"}
 
 const Profile = (props) => {
@@ -104,7 +104,7 @@ const Profile = (props) => {
               container
               justify="flex-start"
               alignItems="center"
-              style={{minHeight: "35vh", border: "1px solid purple"}}
+              style={{minHeight: "35vh"}}
             >
               {loading?
                 <CircularProgress style={{margin: "0 auto"}}/>
