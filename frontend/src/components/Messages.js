@@ -93,11 +93,11 @@ const Messages = props => {
           <List ref={listRef} style={{height: "100%", overflow: "auto"}}>
             {props.messages.map( (msg, index) => {
               let self
-              if (msg.username == props.username) self = true
+              if (msg.username === props.username) self = true
               else self = false
               return (
                 <>
-                {msg.username == 'Bot'?
+                { (msg.username === 'Bot')?
                   <div style={{textAlign: "center", color: "gray"}}> {msg.body}</div>
                 :
                   <div style={self? styles.div_listitem.self: styles.div_listitem.incoming}>

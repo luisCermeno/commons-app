@@ -34,12 +34,12 @@ const CustomAppBar = (props) => {
             [classes.hide]: props.open,
           })}
         >
-          <img src={jigsaw} style={{width: "40px",display: "inline"}}/>
+          <img alt="jigsaw" src={jigsaw} style={{width: "40px",display: "inline"}}/>
         </IconButton>
       :
-        <img src={jigsaw} style={{width: "40px",display: "inline"}}/>
+        <img alt="jigsaw" src={jigsaw} style={{width: "40px",display: "inline"}}/>
       }
-      <img src={logo} style={{height: "65px", display: "inline"}}></img>
+      <img alt="logo" src={logo} style={{height: "65px", display: "inline"}}></img>
     </Toolbar>
   </AppBar>
   )

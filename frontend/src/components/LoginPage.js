@@ -68,8 +68,8 @@ const LoginPage = (props) => {
       >
         <Grid item md={7} sm={12} style={styles.grid}>
           <Paper elevation={3} style={styles.paper}>
-            <img src={jigsaw} style={{width: "80px",display: "inline"}}/>
-            <img src={logo} style={styles.logo}></img>
+            <img alt="jigsaw" src={jigsaw} style={{width: "80px",display: "inline"}}/>
+            <img alt="logo" src={logo} style={styles.logo}/>
             {md? 
               <div className="description" style={{paddingBottom: "5vh"}}>
                 {lg?

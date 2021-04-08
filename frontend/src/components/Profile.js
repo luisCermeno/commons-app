@@ -32,6 +32,7 @@ const Profile = (props) => {
   // ******** EFFECT HOOKS ********
   useEffect(() => {
     getprofile()
+    // eslint-disable-next-line 
   }, [])
 
   // ******** UTIL FUNCTIONS ********
@@ -53,13 +54,13 @@ const Profile = (props) => {
   const printChoice = (key, arr) => {
     var i
     for (i = 0; i < arr.length; i++) {
-      if (arr[i][0] == key) return arr[i][1]
+      if (arr[i][0] === key) return arr[i][1]
     }
   }
   const printSchool = (key, arr) => {
     var i
     for (i = 0; i < arr.length; i++) {
-      if (arr[i].id == key) return arr[i].name
+      if (arr[i].id === key) return arr[i].name
     }
   }
   const handleSubmit = e => {

@@ -86,7 +86,7 @@ const App = () => {
   }
   const handle_logout = () => {
     //first delete any active peer if there is any
-    if (active_peer != '') {
+    if (active_peer !== '') {
       fetch('http://localhost:8000/logpeer/', {
         method: 'POST',
         headers: {

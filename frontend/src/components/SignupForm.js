@@ -37,6 +37,7 @@ const SignupForm = props => {
   useEffect(() => {
     setloading(false)
     console.log(props.data.schools)
+    // eslint-disable-next-line
   }, [props.errormsg])
 
   // ******** UTIL FUNCTIONS ********
@@ -48,7 +49,7 @@ const SignupForm = props => {
   const handleChange = e => {
     const name = e.target.name;
     const value = e.target.value;
-    if (name == 'username' || name == 'password') {
+    if (name === 'username' || name === 'password') {
       setcredentials({...credentials, ...JSON.parse(`{"${name}": "${value}"}`)})
     }
     else {

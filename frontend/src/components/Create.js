@@ -4,7 +4,7 @@ import history from '../history'
 import {Grid, Paper, TextField, Button, FormHelperText} from '@material-ui/core';
 import CircularProgress from '@material-ui/core/CircularProgress';
 
-const Create = (props) => {
+const Create = () => {
   // ******** STATE HOOKS ********
   const [roomID, setroomID] = useState('')
   const [error, seterror] = useState('')
@@ -47,6 +47,7 @@ const Create = (props) => {
             break
         case 'description':
             setdescription(value)
+            break
         default:
             console.log('hanldechange error: no name for target')
     }
@@ -64,7 +65,6 @@ const Create = (props) => {
             <TextField
               id="outlined-full-width"
               label="Name:"
-              style={{ margin: 8 }}
               placeholder=' "Mr. X Physics 230 Class" '
               margin="normal"
               InputLabelProps={{
@@ -80,7 +80,6 @@ const Create = (props) => {
             <TextField
               id="outlined-full-width"
               label="Description:"
-              style={{ margin: 8 }}
               placeholder=' "Mr.X former students club! The struggle is real!
                             join if you want the swag to pass the class" '
               helperText= "Tell what it is about in 250 characters"
@@ -100,7 +99,7 @@ const Create = (props) => {
             {loading?
               <CircularProgress style={{margin: "0 auto"}}/>
               :
-              <Button style={{width:"100%"}} disabled={(roomID === '' || description == '')} type="submit" variant="contained" color="primary">Start group!</Button>
+              <Button style={{width:"100%"}} disabled={(roomID === '' || description === '')} type="submit" variant="contained" color="primary">Start group!</Button>
             }
               <FormHelperText style={{textAlign: "center"}}>
                 Warning! If your group gets too popular you may not be able to delete it!

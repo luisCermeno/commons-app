@@ -65,7 +65,7 @@ const Room = props => {
       dataConnection.on('data', data => setmessages(messages => [...messages, createMsgObj(dataConnection.metadata.username,data)]))
       // when the data channel is closed update participants state 
       dataConnection.on('close', () => {
-        setparticipants(oldparticipants => oldparticipants.filter( obj => { return obj.peerID != dataConnection.peer } ))
+        setparticipants(oldparticipants => oldparticipants.filter( obj => { return obj.peerID !== dataConnection.peer } ))
         setmessages(messages => [...messages, createMsgObj('Bot',`${dataConnection.metadata.username} left the group`)])
       })
     })
@@ -78,6 +78,7 @@ const Room = props => {
         peer.destroy()
       }
     }
+    // eslint-disable-next-line 
   }, [])
 
   //****** DJANGO SERVER SIGNALING *******
@@ -130,7 +131,7 @@ const Room = props => {
         //(establish a new connection)
         json.participants.forEach(par => {
           //Exclude self peer
-          if (par.peerID != peerID){
+          if (par.peerID !== peerID){
             // call the peer and get the data channel
             const newDataConnection = peer.connect(par.peerID,{metadata: {username: props.username}})
             // push the data channel obtained to the global constant
@@ -142,10 +143,10 @@ const Room = props => {
             })
             // when the data channel is closed update participants state 
             newDataConnection.on('close', () => {
-              setparticipants(oldparticipants => oldparticipants.filter( obj => { return obj.peerID != par.peerID } ))
+              setparticipants(oldparticipants => oldparticipants.filter( obj => { return obj.peerID !== par.peerID } ))
             })
             // when there is a error, log it to the console
-            newDataConnection.on('error', error => console.log(error))
+            newDataConnection.on('error', error => seterror(error))
           }
         })
     })
