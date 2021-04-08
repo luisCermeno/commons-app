@@ -50,7 +50,7 @@ const UI = (props) => {
         </Grid>
       </main>
       {!md?
-       <CustomBottomNavigation></CustomBottomNavigation>
+       <CustomBottomNavigation {...props}/>
       : <></>
       }
     </div>

@@ -5,8 +5,10 @@ import BorderColorTwoToneIcon from '@material-ui/icons/BorderColorTwoTone';
 import DeckTwoToneIcon from '@material-ui/icons/DeckTwoTone';
 import MeetingRoomTwoToneIcon from '@material-ui/icons/MeetingRoomTwoTone';
 import ContactMailTwoToneIcon from '@material-ui/icons/ContactMailTwoTone';
+import {Link} from 'react-router-dom'
 
-const CustomBottomNavigation= () => {
+
+const CustomBottomNavigation= (props) => {
   const [value, setValue] = useState(0);
 
   return (
@@ -18,10 +20,10 @@ const CustomBottomNavigation= () => {
       showLabels
       style={{width: "100vw", position: "absolute", bottom: "0"}}
     >
-      <BottomNavigationAction label="Home" icon={<DeckTwoToneIcon/>} />
-      <BottomNavigationAction label="Create" icon={<BorderColorTwoToneIcon/>} />
-      <BottomNavigationAction label="ID" icon={<ContactMailTwoToneIcon/>} />
-      <BottomNavigationAction label="Logout" icon={<MeetingRoomTwoToneIcon/>} />
+      <BottomNavigationAction label="Home" icon={<DeckTwoToneIcon/>} component={Link} to="/"/>
+      <BottomNavigationAction label="Create" component={Link} to="/create" icon={<BorderColorTwoToneIcon/>} />
+      <BottomNavigationAction label="ID" component={Link} to={`/profile/${props.username}`} icon={<ContactMailTwoToneIcon/>} />
+      <BottomNavigationAction label="Logout" onClick = {props.handle_logout} icon={<MeetingRoomTwoToneIcon/>} />
     </BottomNavigation>
   );
 }
