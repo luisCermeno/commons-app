@@ -26,7 +26,7 @@ if (sm) {
     return (
       <Grid 
       container
-      justify="flex-start" //aligns horizontally
+      justify="center" //aligns horizontally
       alignItems="flex-start" //aligns vertically
       style={{height: "100%"}}
       >
