@@ -6,8 +6,9 @@ import reportWebVitals from './reportWebVitals';
 
 import { createMuiTheme } from '@material-ui/core/styles';
 import { ThemeProvider } from '@material-ui/core/styles';
-import {deepOrange, lightGreen, red} from '@material-ui/core/colors/';
+import {deepOrange, lightGreen} from '@material-ui/core/colors/';
 
+// ******** THEME STYLING ************
 const theme = createMuiTheme({
   palette: {
     primary: lightGreen,
@@ -17,6 +18,7 @@ const theme = createMuiTheme({
 
 ReactDOM.render(
   <React.StrictMode>
+    {/* insert theme provider */}
     <ThemeProvider theme={theme}>
       <App />
     </ThemeProvider>

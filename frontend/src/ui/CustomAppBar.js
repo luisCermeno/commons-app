@@ -2,21 +2,20 @@ import clsx from 'clsx';
 
 import {AppBar, Toolbar, IconButton} from '@material-ui/core';
 
-import useStyles from '../styles'
-
-import jigsaw from '../img/jigsaw.png'
-import logo from '../img/logocrop.png'
-
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import { useTheme } from '@material-ui/core/styles';
 
-const CustomAppBar = (props) => {
-  const classes = useStyles();
+import useStyles from '../styles'
+import jigsaw from '../img/jigsaw.png'
+import logo from '../img/logocrop.png'
 
+const CustomAppBar = (props) => {
   // ******** STYLING ************
+  const classes = useStyles();
   const theme = useTheme();
   const md = useMediaQuery(theme.breakpoints.up('md'));
 
+  // ******** RENDER ********
   return(
   <AppBar
     position="fixed"

@@ -1,18 +1,18 @@
-import {useState, useEffect, useRef} from 'react'
+import {useState, useEffect} from 'react'
 import {matchPath} from "react-router";
 import history from '../history'
 
 import {TextField, Button} from '@material-ui/core';
 import {Grid, Paper} from '@material-ui/core';
 import Avatar from '@material-ui/core/Avatar';
-import FaceTwoToneIcon from '@material-ui/icons/FaceTwoTone';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import IconButton from "@material-ui/core/IconButton";
+
 import EditTwoToneIcon from '@material-ui/icons/EditTwoTone';
+import FaceTwoToneIcon from '@material-ui/icons/FaceTwoTone';
 
 
-let gridstyle  = {padding: "1vh 1vw"}
-let fieldstyle = { margin: "0.5vh 0"}
+
 
 const Profile = (props) => {
   // ******** CONSTANTS *********
@@ -34,6 +34,7 @@ const Profile = (props) => {
     getprofile()
   }, [])
 
+  // ******** UTIL FUNCTIONS ********
   const getprofile = () => {
     fetch(`http://localhost:8000/getprofile?username=${username}`, {
       headers: {
@@ -49,21 +50,18 @@ const Profile = (props) => {
       console.log(json)
     })
   }
-
   const printChoice = (key, arr) => {
     var i
     for (i = 0; i < arr.length; i++) {
       if (arr[i][0] == key) return arr[i][1]
     }
   }
-
   const printSchool = (key, arr) => {
     var i
     for (i = 0; i < arr.length; i++) {
       if (arr[i].id == key) return arr[i].name
     }
   }
-
   const handleSubmit = e => {
     console.log(profile)
     e.preventDefault()
@@ -83,14 +81,23 @@ const Profile = (props) => {
     })
     
   }
-
   const handleChange = e => {
     const name = e.target.name;
     const value = e.target.value;
     setprofile({...profile, ...JSON.parse(`{"${name}": "${value}"}`)})
   }
 
-
+  // ******** STYLING ************
+  let styles = {
+    grid: {
+      padding: "1vh 1vw"
+    },
+    field: {
+      margin: "0.5vh 0"
+    }
+  }
+  
+  // ******** RENDER ********
   return(
       <Grid
         container
@@ -110,7 +117,7 @@ const Profile = (props) => {
                 <CircularProgress style={{margin: "0 auto"}}/>
               :
               <>
-                <Grid item xs={12} lg={3} style={{...gridstyle, height: "60%"}}>
+                <Grid item xs={12} lg={3} style={{...styles.grid, height: "60%"}}>
                   <Grid container style={{height: "100%"}} justify="center" alignItems="center">
                     <Grid item xs={12} style = {{height: "70%"}}>
                       <Avatar style={{height: "100px", width: "100px", margin: "0 auto"}}>
@@ -121,17 +128,17 @@ const Profile = (props) => {
                   </Grid>
                 </Grid>
 
-                <Grid item xs={12} lg={9} style={{...gridstyle, height: "60%"}}>
-                  <div style={fieldstyle}> <b>First Name:</b> {profile.first_name}</div>
-                  <div style={fieldstyle}> <b>Last Name:</b> {profile.last_name}</div>
-                  <div style={fieldstyle}> <b>School:</b> {printSchool(profile.school, schools)}</div>
-                  <div style={fieldstyle}> <b>Major:</b> {printChoice(profile.major, choices.MAJOR_CHOICES)}</div>
-                  <div style={fieldstyle}> <b>Year:</b> {printChoice(profile.year, choices.YEAR_CHOICES)}</div>
-                  <div style={fieldstyle}> <b>Member since:</b> {profile.timestamp}</div>
+                <Grid item xs={12} lg={9} style={{...styles.grid, height: "60%"}}>
+                  <div style={styles.field}> <b>First Name:</b> {profile.first_name}</div>
+                  <div style={styles.field}> <b>Last Name:</b> {profile.last_name}</div>
+                  <div style={styles.field}> <b>School:</b> {printSchool(profile.school, schools)}</div>
+                  <div style={styles.field}> <b>Major:</b> {printChoice(profile.major, choices.MAJOR_CHOICES)}</div>
+                  <div style={styles.field}> <b>Year:</b> {printChoice(profile.year, choices.YEAR_CHOICES)}</div>
+                  <div style={styles.field}> <b>Member since:</b> {profile.timestamp}</div>
                 </Grid>
                 
-                <Grid item xs={12} style={gridstyle}>
-                  <div style={fieldstyle}> 
+                <Grid item xs={12} style={styles.grid}>
+                  <div style={styles.field}> 
                     <b>About:</b> 
                   </div>
                   {edit.description?

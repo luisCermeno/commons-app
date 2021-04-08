@@ -1,16 +1,15 @@
 import { useState, useEffect } from 'react';
-import {Paper, Button} from '@material-ui/core';
-import Grid from '@material-ui/core/Grid';
-import jigsaw from '../img/jigsaw.png'
-import logo from '../img/logocrop.png'
-import background from '../img/background.png'
+
+import {Paper, Button, Grid} from '@material-ui/core';
+import useMediaQuery from '@material-ui/core/useMediaQuery';
+import { useTheme } from '@material-ui/core/styles';
 
 import LoginForm from './LoginForm'
 import SignupForm from './SignupForm'
 
-import useMediaQuery from '@material-ui/core/useMediaQuery';
-import { useTheme } from '@material-ui/core/styles';
-
+import jigsaw from '../img/jigsaw.png'
+import logo from '../img/logocrop.png'
+import background from '../img/background.png'
 
 const LoginPage = (props) => {
   // ******** STATE HOOKS ********
@@ -27,8 +26,6 @@ const LoginPage = (props) => {
   const sm = useMediaQuery(theme.breakpoints.up('sm'));
   const md = useMediaQuery(theme.breakpoints.up('md'));
   const lg = useMediaQuery(theme.breakpoints.up('lg'));
-
-
   //xs and up:
   let styles = {
     grid: {
@@ -50,6 +47,7 @@ const LoginPage = (props) => {
     styles.logo = {...styles.logo, display: "inline",} 
   }
 
+  // ******** UTIL FUNCTIONS ********
   const getdata = () => {
     fetch(`http://localhost:8000/getprofile`)
     .then (res => res.json())
@@ -59,6 +57,7 @@ const LoginPage = (props) => {
     })
   }
 
+  // ******** RENDER ********
   return (
     <div style={{height: "100vh", backgroundImage: `url(${background})`, alignItems: "center", display: "flex"}}>
       <Grid
@@ -122,7 +121,6 @@ const LoginPage = (props) => {
       </Grid>
     </div>
   )
-
 }
 
 export default LoginPage;

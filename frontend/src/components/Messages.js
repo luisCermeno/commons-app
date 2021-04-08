@@ -2,12 +2,8 @@ import React from 'react'
 import {useState, useEffect, useRef} from 'react'
 
 import {Grid, Paper, TextField} from '@material-ui/core';
-
 import InputAdornment from "@material-ui/core/InputAdornment";
-import SendTwoToneIcon from '@material-ui/icons/SendTwoTone';
 import IconButton from "@material-ui/core/IconButton";
-
-
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';
@@ -15,12 +11,12 @@ import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import ListItemText from '@material-ui/core/ListItemText';
 import Avatar from '@material-ui/core/Avatar';
 
+import SendTwoToneIcon from '@material-ui/icons/SendTwoTone';
 import FaceTwoToneIcon from '@material-ui/icons/FaceTwoTone';
 import ReplyTwoToneIcon from '@material-ui/icons/ReplyTwoTone';
 
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import { useTheme } from '@material-ui/core/styles';
-
 
 const Messages = props => {
   // ******** STATE HOOKS ********
@@ -40,43 +36,43 @@ const Messages = props => {
   }
 
   // ******** STYLING ************
-const theme = useTheme();
-const md = useMediaQuery(theme.breakpoints.up('md'));
-let styles = {
-  gridTexts: {
-    height:"85%", 
-  },
-  gridInput: {
-    height:"10%", 
-  },
-  div_listitem : {
-    self: {
-      textAlign: "right"
+  const theme = useTheme();
+  const md = useMediaQuery(theme.breakpoints.up('md'));
+  let styles = {
+    gridTexts: {
+      height:"85%", 
     },
-    incoming: {
-    }
-  },
-  listitem : {
-    self: {
-      textAlign: "right"
+    gridInput: {
+      height:"10%", 
     },
-    incoming: {
-      textAlign: "left"
+    div_listitem : {
+      self: {
+        textAlign: "right"
+      },
+      incoming: {
+      }
+    },
+    listitem : {
+      self: {
+        textAlign: "right"
+      },
+      incoming: {
+        textAlign: "left"
+      }
+    },
+  }
+  //md and up:
+  if (md) {
+    styles.div_listitem.self = {
+      ...styles.div_listitem.self,
+      maxWidth: "60%",
+      marginLeft: "40%", 
     }
-  },
-}
-//md and up:
-if (md) {
-  styles.div_listitem.self = {
-    ...styles.div_listitem.self,
-    maxWidth: "60%",
-    marginLeft: "40%", 
+    styles.div_listitem.incoming = {
+      ...styles.div_listitem.incoming,
+      marginRight: "40%"
+    }
   }
-  styles.div_listitem.incoming = {
-    ...styles.div_listitem.incoming,
-    marginRight: "40%"
-  }
-}
 
   // ******** RENDER ********
   return (

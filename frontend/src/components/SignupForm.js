@@ -1,22 +1,20 @@
 import { useState, useEffect } from 'react';
+
 import {TextField, Button} from '@material-ui/core';
 import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
 import InputLabel from '@material-ui/core/InputLabel';
-import {Divider} from '@material-ui/core';
-
-
-
-
 import InputAdornment from "@material-ui/core/InputAdornment";
 import IconButton from "@material-ui/core/IconButton";
+import CircularProgress from '@material-ui/core/CircularProgress';
+
 import VisibilityTwoToneIcon from '@material-ui/icons/VisibilityTwoTone';
 import VisibilityOffTwoToneIcon from '@material-ui/icons/VisibilityOffTwoTone';
 import AccountCircleTwoToneIcon from '@material-ui/icons/AccountCircleTwoTone';
-import CircularProgress from '@material-ui/core/CircularProgress';
 
 const SignupForm = props => {
+  // ******** STATE HOOKS ********
   const [credentials, setcredentials] = useState({username: '', password: ''})
   const [profile, setprofile] = useState({
     first_name: '',
@@ -29,41 +27,39 @@ const SignupForm = props => {
   const [showPassword, setshowPassword] = useState(false)
   const [loading, setloading] = useState(false)
 
-  //effect hooks
+  // ******** EFFECT HOOKS ********
   useEffect(() => {
     return () => {
       props.seterrormsg('')
     }
     // eslint-disable-next-line
   }, [])
-
   useEffect(() => {
     setloading(false)
     console.log(props.data.schools)
   }, [props.errormsg])
 
+  // ******** UTIL FUNCTIONS ********
   const handleSubmit = e => {
     e.preventDefault()
     setloading(true) 
     props.handle_signup(credentials, profile)
   }
-
-
   const handleChange = e => {
     const name = e.target.name;
     const value = e.target.value;
-    if (name == 'username' || name == 'password'){
+    if (name == 'username' || name == 'password') {
       setcredentials({...credentials, ...JSON.parse(`{"${name}": "${value}"}`)})
     }
     else {
       setprofile({...profile, ...JSON.parse(`{"${name}": "${value}"}`)})
     }
   }
-
   const handleClickShowPassword = () => {
     setshowPassword(!showPassword)
   }
 
+  // ******** RENDER ********
   return (
     <form style={ {marginBottom: "20px",} } autoComplete="off" onSubmit={handleSubmit}>
       <div style={{marginBottom: "20px",}}>

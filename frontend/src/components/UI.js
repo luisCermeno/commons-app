@@ -1,34 +1,31 @@
 import {useState} from 'react';
 
+import {Grid} from '@material-ui/core';
 import CssBaseline from '@material-ui/core/CssBaseline';
-
-import CustomAppBar from '../ui/CustomAppBar';
-import CustomDrawer from '../ui/CustomDrawer';
-import CustomBottomNavigation from '../ui/BottomNavigation'
-
-import useStyles from '../styles'
-
-import {BottomNavigation, Grid} from '@material-ui/core';
 
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import { useTheme } from '@material-ui/core/styles';
 
+import CustomAppBar from '../ui/CustomAppBar';
+import CustomDrawer from '../ui/CustomDrawer';
+import CustomBottomNavigation from '../ui/CustomBottomNavigation'
+
+import useStyles from '../styles'
+
 const UI = (props) => {
-  const classes = useStyles();
+  // ******** STATE HOOKS ********
   const [open, setOpen] = useState(false);
 
-  const handleDrawerOpen = () => {
-    setOpen(true);
-  };
-
-  const handleDrawerClose = () => {
-    setOpen(false);
-  };
+  // ******** UTIL FUNCTIONS ********
+  const handleDrawerOpen = () => setOpen(true);
+  const handleDrawerClose = () => setOpen(false);
 
   // ******** STYLING ************
+  const classes = useStyles();
   const theme = useTheme();
   const md = useMediaQuery(theme.breakpoints.up('md'));
 
+  // ******** RENDER ********
   return (
     <div className={classes.root}>
       <CssBaseline />

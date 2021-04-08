@@ -1,44 +1,42 @@
 import {useState} from 'react'
 import history from '../history'
-import {Grid, Paper, TextField, Button,FormHelperText} from '@material-ui/core';
+
+import {Grid, Paper, TextField, Button, FormHelperText} from '@material-ui/core';
 import CircularProgress from '@material-ui/core/CircularProgress';
 
-
-
-const marginFields = "2vh 0"
-
 const Create = (props) => {
+  // ******** STATE HOOKS ********
   const [roomID, setroomID] = useState('')
   const [error, seterror] = useState('')
   const [description, setdescription] = useState('')
   const [loading, setloading] = useState(false)
-  
-  const handleSubmit = e => {
-      setloading(true)
-      e.preventDefault()
-      //create rooom on server
-      fetch('http://localhost:8000/room/', {
-        method: 'post',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `JWT ${localStorage.getItem('token')}`,
-        },
-        body: JSON.stringify({
-          action: 'create',
-          roomID: roomID,
-          description: description,
-        })
-      })
-      .then(res => res.json())
-      .then(json => {
-        console.log(json)
-        if (json.error === undefined){
-          history.replace(`/room/${roomID}`)
-        }
-        else seterror(json.error)
-      })
-  }
 
+  // ******** UTIL FUNCTIONS ********
+  const handleSubmit = e => {
+    setloading(true)
+    e.preventDefault()
+    //create rooom on server
+    fetch('http://localhost:8000/room/', {
+      method: 'post',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `JWT ${localStorage.getItem('token')}`,
+      },
+      body: JSON.stringify({
+        action: 'create',
+        roomID: roomID,
+        description: description,
+      })
+    })
+    .then(res => res.json())
+    .then(json => {
+      console.log(json)
+      if (json.error === undefined){
+        history.replace(`/room/${roomID}`)
+      }
+      else seterror(json.error)
+    })
+  }
   const handleChange = e => {
     e.preventDefault()
     const name = e.target.name;
@@ -54,6 +52,9 @@ const Create = (props) => {
     }
   }
 
+  // ******** STYLING ************
+  const marginFields = "2vh 0"
+  // ******** RENDER ********
   return (
     <Grid item lg={6} xs ={12}>
       <Paper elevation={3} style={{padding: "2vh 2vw", textAlign: "center", width: "100%", borderRadius: "15px", margin: "0 auto"}}>
@@ -101,9 +102,9 @@ const Create = (props) => {
               :
               <Button style={{width:"100%"}} disabled={(roomID === '' || description == '')} type="submit" variant="contained" color="primary">Start group!</Button>
             }
-            <FormHelperText style={{textAlign: "center"}}>
-              Warning! If your group gets too popular you may not be able to delete it!
-            </FormHelperText>
+              <FormHelperText style={{textAlign: "center"}}>
+                Warning! If your group gets too popular you may not be able to delete it!
+              </FormHelperText>
             </div>
           </form>
       </Paper>

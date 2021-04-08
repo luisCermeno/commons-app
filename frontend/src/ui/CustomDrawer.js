@@ -1,28 +1,31 @@
 import clsx from 'clsx';
 import {Link} from 'react-router-dom'
 
-import {useTheme } from '@material-ui/core/styles';
 import {Drawer, IconButton, Divider, List, ListItem, ListItemIcon, ListItemText} from '@material-ui/core';
+import {useTheme } from '@material-ui/core/styles';
+
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import BorderColorTwoToneIcon from '@material-ui/icons/BorderColorTwoTone';
 import DeckTwoToneIcon from '@material-ui/icons/DeckTwoTone';
 import MeetingRoomTwoToneIcon from '@material-ui/icons/MeetingRoomTwoTone';
 import ContactMailTwoToneIcon from '@material-ui/icons/ContactMailTwoTone';
+
 import useStyles from '../styles'
 
 
 const CustomDrawer = (props) => {
+  // ******** STYLING ************
   const classes = useStyles();
   const theme = useTheme();
-
- let styles = {
-  a: {
-    textDecoration: "none", 
-    color: "black",
+  let styles = {
+    a: {
+      textDecoration: "none", 
+      color: "black",
+    }
   }
- }
 
+  // ******** RENDER ********
   return (
     <Drawer
       variant="permanent"

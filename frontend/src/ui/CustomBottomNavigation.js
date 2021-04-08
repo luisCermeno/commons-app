@@ -1,16 +1,20 @@
 import {useState}  from 'react';
+import {Link} from 'react-router-dom'
+
 import BottomNavigation from '@material-ui/core/BottomNavigation';
 import BottomNavigationAction from '@material-ui/core/BottomNavigationAction';
+
 import BorderColorTwoToneIcon from '@material-ui/icons/BorderColorTwoTone';
 import DeckTwoToneIcon from '@material-ui/icons/DeckTwoTone';
 import MeetingRoomTwoToneIcon from '@material-ui/icons/MeetingRoomTwoTone';
 import ContactMailTwoToneIcon from '@material-ui/icons/ContactMailTwoTone';
-import {Link} from 'react-router-dom'
+
 
 
 const CustomBottomNavigation= (props) => {
+  // ******** STATE HOOKS ********
   const [value, setValue] = useState(0);
-
+  // ******** RENDER ********
   return (
     <BottomNavigation
       value={value}
