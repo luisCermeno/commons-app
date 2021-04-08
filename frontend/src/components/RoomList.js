@@ -24,7 +24,6 @@ const RoomList = (props) => {
     })
     .then(res => res.json())
     .then(json => {
-      console.log(json)
       setrooms(json.rooms)
       setloading(false)
     })
@@ -72,9 +71,9 @@ const RoomList = (props) => {
         <CircularProgress style={{margin: "0 auto"}}/>
       :
         <>
-        {rooms.map(room =>
+        {rooms.map( (room, index) =>
           (
-            <Grid item xs={12} style={styles.grid}>
+            <Grid key={index} item xs={12} style={styles.grid}>
               <Paper elevation={3} style={styles.paper}>
                 <Link 
                 to={`/room/${room.roomID}`}
@@ -87,7 +86,7 @@ const RoomList = (props) => {
                 </Link>
                 <p>{room.description}</p>
                 <ul>
-                  {room.participants.map(participant => (<li>{participant.username}</li>))}
+                  {room.participants.map( (participant, index) => (<li key={index}> {participant.username} </li>))}
                 </ul>
               </Paper>
             </Grid>
