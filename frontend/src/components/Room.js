@@ -43,11 +43,12 @@ const Room = props => {
   // onMount:
   useEffect(() => {
     // create a new peer object for local participant
+    // peer server is hosted locally so the host server
+    // should be running 'peerjs --port 3001' 
     peer = new Peer(undefined, {
       host: '/',
       port: '3001'
     })
-  
     // when the connection is established, signal django server(peer login)
     peer.on('open', id => djangoLogPeer('login', id))
     // when the connection is closed, signal django server(peer logout)
