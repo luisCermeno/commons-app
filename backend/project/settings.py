@@ -41,7 +41,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'corsheaders',
     # installed apps
-    'handsflow'
+    'commons',
 ]
 
 MIDDLEWARE = [

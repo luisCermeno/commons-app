@@ -7,18 +7,18 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('handsflow', '0016_auto_20210401_1701'),
+        ('commons', '0017_auto_20210401_1702'),
     ]
 
     operations = [
         migrations.AlterField(
             model_name='message',
             name='timestamp',
-            field=models.DateTimeField(default=datetime.datetime(2021, 4, 1, 17, 2, 0, 762929)),
+            field=models.DateTimeField(default=datetime.datetime(2021, 4, 1, 17, 2, 36, 509284)),
         ),
         migrations.AlterField(
             model_name='profile',
             name='timestamp',
-            field=models.DateTimeField(default=datetime.datetime(2021, 4, 1, 17, 2, 0, 762462)),
+            field=models.DateTimeField(default=datetime.datetime(2021, 4, 1, 17, 2, 36, 508782)),
         ),
     ]

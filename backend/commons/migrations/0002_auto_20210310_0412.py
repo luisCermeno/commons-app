@@ -9,7 +9,7 @@ class Migration(migrations.Migration):
 
     dependencies = [
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
-        ('handsflow', '0001_initial'),
+        ('commons', '0001_initial'),
     ]
 
     operations = [

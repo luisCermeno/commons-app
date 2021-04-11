@@ -7,7 +7,7 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('handsflow', '0013_auto_20210331_1708'),
+        ('commons', '0013_auto_20210331_1708'),
     ]
 
     operations = [

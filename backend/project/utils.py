@@ -1,4 +1,4 @@
-from handsflow.serializers import UserSerializer
+from commons.serializers import UserSerializer
 
 # modify the default response  of DRF JWT to token-auth/ so that it also 
 # returns the user data

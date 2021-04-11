@@ -8,7 +8,7 @@ import django.db.models.deletion
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('handsflow', '0019_auto_20210401_1710'),
+        ('commons', '0019_auto_20210401_1710'),
     ]
 
     operations = [
@@ -20,7 +20,7 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='profile',
             name='school',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, to='handsflow.school'),
+            field=models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, to='commons.school'),
         ),
         migrations.AlterField(
             model_name='profile',

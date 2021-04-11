@@ -10,14 +10,14 @@ class Migration(migrations.Migration):
 
     dependencies = [
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
-        ('handsflow', '0005_message'),
+        ('commons', '0005_message'),
     ]
 
     operations = [
         migrations.AddField(
             model_name='message',
             name='room',
-            field=models.ForeignKey(null=True, on_delete=django.db.models.deletion.CASCADE, related_name='messages', to='handsflow.room'),
+            field=models.ForeignKey(null=True, on_delete=django.db.models.deletion.CASCADE, related_name='messages', to='commons.room'),
         ),
         migrations.AlterField(
             model_name='message',

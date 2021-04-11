@@ -9,7 +9,7 @@ class Migration(migrations.Migration):
 
     dependencies = [
         ('auth', '0012_alter_user_first_name_max_length'),
-        ('handsflow', '0010_auto_20210324_1559'),
+        ('commons', '0010_auto_20210324_1559'),
     ]
 
     operations = [
@@ -35,7 +35,7 @@ class Migration(migrations.Migration):
                 ('year', models.CharField(blank=True, max_length=100)),
                 ('timestamp', models.DateTimeField(default=datetime.datetime(2021, 3, 31, 16, 52, 58, 800166))),
                 ('description', models.TextField(blank=True)),
-                ('school', models.OneToOneField(on_delete=django.db.models.deletion.PROTECT, to='handsflow.school')),
+                ('school', models.OneToOneField(on_delete=django.db.models.deletion.PROTECT, to='commons.school')),
             ],
         ),
     ]
