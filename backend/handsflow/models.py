@@ -39,12 +39,12 @@ class School(models.Model):
 class Profile(models.Model):
   user = models.OneToOneField(User, on_delete= models.CASCADE, primary_key=True,)
   school = models.ForeignKey(School, on_delete = models.PROTECT)
-  first_name = models.CharField(blank=True, max_length=100)
-  last_name = models.CharField(blank=True, max_length=100)
-  major = models.CharField(blank=True, max_length=2, choices = MAJOR_CHOICES)
-  year = models.CharField(blank=True, max_length=2, choices = YEAR_CHOICES)
+  first_name = models.CharField(blank=True, max_length=100, null=True)
+  last_name = models.CharField(blank=True, max_length=100, null=True)
+  major = models.CharField(blank=True, max_length=2, choices = MAJOR_CHOICES, null=True)
+  year = models.CharField(blank=True, max_length=2, choices = YEAR_CHOICES, null=True)
   timestamp = models.DateTimeField(default = datetime.datetime.now())
-  description = models.TextField(blank=True,)
+  description = models.TextField(blank=True, null=True)
   def serialize(self):
     return {
       "school" : self.school.id,
