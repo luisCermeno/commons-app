@@ -73,7 +73,7 @@ const Room = props => {
     // when the window is suddenly closed , destroy peer object
     window.onunload = (e) => { if (peer !== undefined) peer.destroy() }
     // when component is unmounted, destroy peer
-    return () => { 
+    return () => {
       if (peer !== undefined) {
         props.setactive_peer('')
         peer.destroy()
