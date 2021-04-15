@@ -9,11 +9,11 @@ The Commons' mission is to build a platform that empowers college students's rol
 
 ## Objectives
 
-1. ***Helping students to find like-minded peers and providing them with an easier way to establish contact.*** Not every student plans their college life the same way. Some may want to join the school football team, some others may be thinking on joining the school band. For this reason, The Commons objective is to be the bridge between each individual and their potential niches where they can take an active role.
+1. ***Help students to find like-minded peers and providing them with an easier way to establish contact.*** Not every student plans their college life the same way. Some may want to join the school football team, some others may be thinking on joining the school band. For this reason, The Commons objective is to be the bridge between each individual and their potential niches where they can take an active role.
 
-2. ***Learning and sharing useful knowledge that  could only be aquired  through experience otherwise.*** College success is not always an easy formula. Learning from senior students is unvaluable when it comes to determining the right decision. Whether it is choosing the right teacher or the right class for a specic major, The Commons solves the problem. Each commuunity in the platform is provided with a message and file history allowing newly joined members to grasp on the knowledge and ideas previous students shared.
+2. ***Allow students to share and learn useful knowledge that could only be aquired  through experience otherwise.*** College success is not always an easy formula. Learning from senior students is unvaluable when it comes to determining the right decision. Whether it is choosing the right teacher or the right class for a specic major, The Commons solves the problem. Each commuunity in the platform is provided with a message and file history allowing newly joined members to grasp on the knowledge and ideas previous students shared.
 
-3. ***Encouraging collaboration and active school involvement.*** Team formation is difficult when an idea goes beyond an specific class. The Commons platform helps those who are looking to collaborate in group projects and those who are recruiting team members.
+3. ***Promote collaboration and active school involvement.*** Team formation is difficult when an idea goes beyond an specific class. The Commons platform helps those who are looking to collaborate in group projects and those who are recruiting team members.
 
  ## How to run:
  
