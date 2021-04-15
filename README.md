@@ -2,7 +2,9 @@
 
 The Commons' mission is to build a platform that empowers college students's role in their institutions by providing them with the tools to improve their college life. The application strives to emulate a campus common area, where students can explore different communities founded in their schools.
 
-<img src="/ss_laptop" title="commons app">
+<img src="/ss_laptop.png" title="commons app">
+<img src="/ss_mobile.png" title="commons app">
+
 
 
 ## Objectives
