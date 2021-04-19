@@ -24,28 +24,26 @@ To run the app in development mode, we'll need **three** terminal windows
 which will run three live servers: 
 
    ***Open a terminal window and cd into backend folder***
-1. Install python requirements and run django server:
-	`pip3 install -r requirements.txt`
+1. Install python requirements and run django server:  
+	`pip3 install -r requirements.txt` 
     `python3 manage.py runserver`
 
 ***Open a new terminal and cd into frontend folder***
 
-2. Install react-app
-	`npm install`
-	(or with yarn preinstalled)
-	`yarn install`
+2. Install react-app:  
+	`npm install`  
+	(or with yarn preinstalled)  
+	`yarn install`  
 
-3. Run the React development mode server:
-	`npm start`
-	(or with yarn preinstalled)
-	`yarn start`
+3. Run the React development mode server:  
+	`npm start`  
+	(or with yarn preinstalled)  
+	`yarn start`  
 	
 ***Open a new terminal and cd into frontend folder***
 
-4. Run the Peerjs server on port 3001:
+4. Run the Peerjs server on port 3001: 
 	`peerjs --port 3001`
-
-
 	
 ## How it is built:
 
