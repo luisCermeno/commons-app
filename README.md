@@ -62,17 +62,17 @@ The backend is used to handle authentication, manage databases, and listen for A
  - **Django REST Framework:** Provides an easier way to handle API views through a user-friendly interface to test them. Also, provides a
    serializer tool that simplifies the work.
    
-   Files using this technology:   
-  /backend/commons/views.py : used in all views.    
-  /backend/commons/serializer: used to write the serializer for user model    
+		 Files using this technology:   
+		/backend/commons/views.py : used in all views.    
+		/backend/commons/serializer: used to write the serializer for user model    
    
  - **Django REST Framework JWT**: Provides functionalities to use JSON Web
    Token Authentication.
 
-	Files using this technology:   
-	/backend/commons/urls.py : obtain_jwt_token decodes a token received from the front end. 
-	/backend/commons/views.py: api_settings provides methods to encode a payload (credentials received from the front end) and send back a response.  
-	/backend/project/utils.py : JWT configuration.  
+		Files using this technology:   
+		/backend/commons/urls.py : obtain_jwt_token decodes a token received from the front end. 
+		/backend/commons/views.py: api_settings provides methods to encode a payload (credentials received from the front end) and send back a response.  
+		/backend/project/utils.py : JWT configuration.  
 	
  - **Django CORS Headers:**  Allows API requests from an external server, localhost:3000 (frontend) for development mode.
 
@@ -85,16 +85,18 @@ The front-end renders the web application interface which is built based on mate
 #### Dependencies used:
 
  - **Material-UI:** Provides a extentful library of beautifully and mobile-responsive components.
-   
-   Files using this technology: /frontend/src/*
+  
+		 Files using this technology:   
+		 /frontend/src/*
    
   - **PeerJS:** Provides a simplified library of methods to manage WebRTC peer-to-peer communication.
    
-	   Files using this technology: /frontend/src/component/Room.js
+		 Files using this technology:  
+		 /frontend/src/component/Room.js
    
    - **React Router DOM:** Provides components to easily manage browser history. 
    
-	   Files using this technology:  
-	   /frontend/src/App.js /frontend/components/RoomList.js  
-	   /frontend/components/BottomNavigation.js.   
-	   /frontend/components/CustomDrawer.js.   
+		 Files using this technology:  
+		 /frontend/src/App.js /frontend/components/RoomList.js  
+		 /frontend/components/BottomNavigation.js.   
+		 /frontend/components/CustomDrawer.js.   
