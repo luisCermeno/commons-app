@@ -94,7 +94,7 @@ The front-end renders the web application interface which is built based on mate
    
    - **React Router DOM:** Provides components to easily manage browser history. 
    
-	 		Files using this technology:  
+	   Files using this technology:  
 	   /frontend/src/App.js /frontend/components/RoomList.js  
 	   /frontend/components/BottomNavigation.js.   
 	   /frontend/components/CustomDrawer.js.   
