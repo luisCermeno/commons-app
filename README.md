@@ -13,7 +13,11 @@ The Commons' mission is to build a platform that empowers college students's rol
 3. ***Promote collaboration and active school involvement.*** Team formation is difficult when an idea goes beyond an specific class. The Commons platform helps those who are looking to collaborate in group projects and those who are recruiting team members.
 
 <img src="/ss/homepage.png" title="homepage">
-<img src="/ss/homepage_mobile" height="150px" title="homepage_mobile">
+<img src="/ss/homepage_mobile.png" height="150px" title="homepage_mobile">
+
+## Requirements:
+ - python 3.8.2 or higher
+ - node 14.15.5 or higher
 
  ## How to run:
  
@@ -97,8 +101,3 @@ The front-end renders the web application interface which is built based off mat
 	   /frontend/src/App.js /frontend/components/RoomList.js
 	   /frontend/components/BottomNavigation.js
 	   /frontend/components/CustomDrawer.js
-
-## Runtime Requirements:
-
-python 3.8.2 or higher
-node 14.15.5 or higher
