@@ -2,18 +2,18 @@
 
 The Commons' mission is to build a platform that empowers college students's role in their institutions by providing them with the tools to improve their college life. The application strives to emulate a campus common area, where students can explore different communities founded in their schools.
 
-<img src="/ss_laptop.png" title="commons app">
-<img src="/ss_mobile.png" title="commons app">
-
-
+<img src="/ss/loginpage.png" title="loginpage">
 
 ## Objectives
 
 1. ***Help students to find like-minded peers and providing them with an easier way to establish contact.*** Not every student plans their college life the same way. Some may want to join the school football team, some others may be thinking on joining the school band. For this reason, The Commons objective is to be the bridge between each individual and their potential niches where they can take an active role.
 
-2. ***Allow students to share and learn useful knowledge that could only be aquired  through experience otherwise.*** College success is not always an easy formula. Learning from senior students is unvaluable when it comes to determining the right decision. Whether it is choosing the right teacher or the right class for a specic major, The Commons solves the problem. Each commuunity in the platform is provided with a message and file history allowing newly joined members to grasp on the knowledge and ideas previous students shared.
+2. ***Allow students to share and learn useful knowledge that could only be aquired  through experience otherwise.*** College success is not always an easy formula. Learning from senior students is unvaluable when it comes to determining the right decision. Whether it is choosing the right teacher or the right class for a specic major, The Commons solves the problem. By running through the chat history, new members of a group can find useful ideas previous students shared.
 
 3. ***Promote collaboration and active school involvement.*** Team formation is difficult when an idea goes beyond an specific class. The Commons platform helps those who are looking to collaborate in group projects and those who are recruiting team members.
+
+<img src="/ss/homepage.png" title="homepage">
+<img src="/ss/homepage_mobile" height="150px" title="homepage_mobile">
 
  ## How to run:
  
@@ -46,10 +46,15 @@ which will run three live servers:
 	
 ## How it is built:
 
-The web application uses Django (Python) in the back-end and React (Javascript) in the front-end.
+The web application uses Django (Python) in the back-end and React (Javascript) in the front-end. The application uses
+peer-to-peer real time communication to hold chatrooms. The connections are established using: a live PeerJS which utilizes
+webRTC to create peer connections and the django server to handle the peer "signaling" process. In total the application.
+
+<img src="/ss/chatroom.png" title="chatroom">
+
 
 ### BACK-END:
-The backend is only used to handle authentication and databases. It does not render any static templates and it is completely independent from the frontend. It's main purposesis to listen from API calls, validate them and send back useful data.
+The backend is used to handle authentication, manage databases, and listen for API calls. It does not render any static template and it runs independantly to the frontend. Once it receives an API call from the frontend, it handles the incoming JSON and creates a response (also JSON) which is sent back to client's end. In the peer-to-peer communication, the django server plays a major role because it takes care of the signaling process, keeps track of each room's active users and stores the history of messages in the database.
 
 #### Packages used:
 
@@ -73,7 +78,9 @@ The backend is only used to handle authentication and databases. It does not ren
 
 ### FRONT-END:
 
-The front-end renders the web application interface. The design is based off material-UI components and the peer to peer comunication is established through the PeerJS library.
+The front-end renders the web application interface which is built based off material-UI's components. The peer-to-peer connection is established using the PeerJS library in Room.js.
+
+(Details in the file)
 
 #### Dependancies used:
 

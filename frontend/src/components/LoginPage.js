@@ -75,21 +75,21 @@ const LoginPage = (props) => {
                 {lg?
                 <>
                   <p>
-                    How many times have you wished a senior student would have told you about that bad class you regret taking so much?
+                    Have you ever wished a senior student had told you about that bad professor you regret taking so much?
                   </p>
                   <p>
-                    Are you a freshman and you feel your campus is so big that you will never find your future squad?
+                    Are you a freshman and you feel your campus is so big to find a squad? 
                   </p>
                 </>
                 :
                 <></>
                 }
               <p>
-                Whether you are a senior or a freshman, a nerd or a jock. Whatever you want to know about your school, you'll find it here!
+                Whether you are a senior or a freshman, a geek or the team captain. Everything you want to know about your school, you'll find it here!
               </p> 
               <p>
                 TheCommons&#174; team have envisioned a community where students learn from each other experiences
-                and build a common knowledge about their schools! Hop on, a bring your piece to the puzzle!
+                and build a common knowledge about their schools! Hop on, and bring your piece to the puzzle!
               </p>
               </div>
             :

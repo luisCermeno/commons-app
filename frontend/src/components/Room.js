@@ -157,10 +157,12 @@ const Room = props => {
   // getTimestamp function
   // Objective: returns a string of the current date
   const getTimestamp = () => {
+    const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun",
+    "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
     var today = new Date();
-    var date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
-    var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
-    var dateTime = date+' '+time;
+    var date = monthNames[today.getMonth()] + " " + today.getDate() + " " + today.getFullYear();
+    var time = today.toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true })
+    var dateTime = date +', '+ time;
     return dateTime
   }
 

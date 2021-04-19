@@ -114,7 +114,7 @@ const Messages = props => {
 
                       <ListItemText
                         primary={!self? `${msg.username} : ${msg.body}`: msg.body}
-                        secondary="Timestamp"
+                        secondary={msg.timestamp}
                         style= {{marginRight: "15px"}}
                       />
 
@@ -128,14 +128,15 @@ const Messages = props => {
                         <></>
                       }
                     
-                      {(!self && md)?
+                      {/* Future feature: reply button */}
+                      {/* {(!self && md)?
                       <ListItemSecondaryAction>
                         <IconButton aria-label="reply">
                           <ReplyTwoToneIcon />
                         </IconButton>
                       </ListItemSecondaryAction>
                       : <></>
-                      }
+                      } */}
                     </ListItem>
                   </div>
                 }
