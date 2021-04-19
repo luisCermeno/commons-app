@@ -1,6 +1,6 @@
 # The Commons App
 
-The Commons' mission is to build a platform that empowers college students' role in their institutions by providing them with the tools to improve their college life. The application strives to emulate a campus common area, where students can explore different communities founded in their schools.
+The Commons App mission is to create a platform where students help each other to improve their college life. The application strives to emulate any campus common area, where students can explore different active communities in their schools.
 
 <img src="/ss/loginpage.png" title="loginpage">
 
@@ -18,15 +18,15 @@ The Commons' mission is to build a platform that empowers college students' role
  - python 3.8.2 or higher
  - node 14.15.5 or higher
 
- ## How to run:
+## How to run:
  
 To run the app in development mode, we'll need **three** terminal windows
 which will run three live servers: 
 
    ***Open a terminal window and cd into backend folder***
-1. Install python requirements and run django server:  
-	`pip3 install -r requirements.txt` 
-    `python3 manage.py runserver`
+1. Install python requirements and run django server:    
+	`pip3 install -r requirements.txt`      
+    `python3 manage.py runserver`    
 
 ***Open a new terminal and cd into frontend folder***
 
@@ -42,7 +42,7 @@ which will run three live servers:
 	
 ***Open a new terminal and cd into frontend folder***
 
-4. Run the Peerjs server on port 3001: 
+4. Run the Peerjs server on port 3001:  
 	`peerjs --port 3001`
 	
 ## How it is built:
@@ -62,17 +62,17 @@ The backend is used to handle authentication, manage databases, and listen for A
  - **Django REST Framework:** Provides an easier way to handle API views through a user-friendly interface to test them. Also, provides a
    serializer tool that simplifies the work.
    
-   Files using this technology: 
-  /backend/commons/views.py : all views /backend/commons/    serializer
-   : serializer for user model
+   Files using this technology:   
+  /backend/commons/views.py : used in all views.    
+  /backend/commons/serializer: used to write the serializer for user model    
    
  - **Django REST Framework JWT**: Provides functionalities to use JSON Web
    Token Authentication.
 
-	Files using this technology:
-	/backend/commons/urls.py : obtain_jwt_token decodes a token received from 			the front end
-	/backend/commons/views.py: api_settings provides methods to encode a payload (credentials received from the front end) and send back a response
-	/backend/project/utils.py : JWT configuration
+	Files using this technology:   
+	/backend/commons/urls.py : obtain_jwt_token decodes a token received from the front end. 
+	/backend/commons/views.py: api_settings provides methods to encode a payload (credentials received from the front end) and send back a response.  
+	/backend/project/utils.py : JWT configuration.  
 	
  - **Django CORS Headers:**  Allows API requests from an external server, localhost:3000 (frontend) for development mode.
 
@@ -92,8 +92,9 @@ The front-end renders the web application interface which is built based on mate
    
 	   Files using this technology: /frontend/src/component/Room.js
    
-   - **React Router DOM:** Provides components to easily manage browser history. Files using this technology:
+   - **React Router DOM:** Provides components to easily manage browser history. 
    
-	   /frontend/src/App.js /frontend/components/RoomList.js
-	   /frontend/components/BottomNavigation.js
-	   /frontend/components/CustomDrawer.js
+	 		Files using this technology:  
+	   /frontend/src/App.js /frontend/components/RoomList.js  
+	   /frontend/components/BottomNavigation.js.   
+	   /frontend/components/CustomDrawer.js.   
