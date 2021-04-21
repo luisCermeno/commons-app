@@ -27,7 +27,9 @@ Terminal 1:
 1. Cd into backend folder.  
 	`cd backend/`
 2. Install python requirements and run django server.    
-	`pip3 install -r requirements.txt`      
+	`pip3 install -r requirements.txt --user`   
+	(if you don't want to install the python requirements at an
+	 user level, create a virtual enviorement before running this command)
 3. Run django server.   
 	`python3 manage.py runserver`
 
