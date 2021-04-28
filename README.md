@@ -47,10 +47,10 @@ Terminal 2:
 	`yarn start`  
 	
 Terminal 3:
-1. Cd into frontend folder.  
+1. Cd into frontend folder:  
 	`cd frontend/`
-2. Install peerjs server:
-	`npm i -g peer`
+2. Install the Peerjs server:  
+	`npm i -g peer`  
 3. Run the Peerjs server on port 3001:  
 	`peerjs --port 3001`
 	
