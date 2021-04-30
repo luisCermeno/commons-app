@@ -3,7 +3,6 @@ from .models import *
 
 admin.site.register(School)
 admin.site.register(Profile)
-admin.site.register(Room,)
-admin.site.register(Peer,)
+admin.site.register(Room)
+admin.site.register(Peer)
 admin.site.register(Message)
-

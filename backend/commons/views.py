@@ -116,11 +116,11 @@ class getroom(APIView):
       try: 
         room = Room.objects.get(roomID= roomID)
         # create an array of objects for messages
-        querySet = room.messages.all()
-        if (querySet):
+        try:
+          querySet = room.messages.all()
           messages = [message.serialize() for message in querySet]
-        else:
-          messages = []
+        except:
+          messages = [] 
         # create response
         response = {'success': f"Room {roomID} get request complete", **room.serialize(), 'messages': messages}
         return Response(response, status=status.HTTP_202_ACCEPTED)

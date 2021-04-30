@@ -66,6 +66,7 @@ class Profile(models.Model):
     return f"{self.user.username}"
 
 class Room(models.Model):
+  id = models.AutoField(primary_key=True)
   roomID = models.CharField(blank=False, max_length=100, unique=True)
   description = models.TextField(blank=False,)
   def __str__(self):
@@ -79,6 +80,7 @@ class Room(models.Model):
     }
 
 class Peer(models.Model):
+  id = models.AutoField(primary_key=True)
   user = models.ForeignKey(User, on_delete=models.CASCADE)
   peerID = models.CharField(blank=True, max_length=100, unique=True)
   room = models.ForeignKey(Room, on_delete=models.CASCADE, related_name="participants")
@@ -86,6 +88,7 @@ class Peer(models.Model):
     return f"{self.user} @ {self.peerID}"
 
 class Message(models.Model):
+  id = models.AutoField(primary_key=True)
   room = models.ForeignKey(Room, on_delete=models.CASCADE, related_name="messages", null=True)
   user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="messages")
   body = models.TextField(null=True, blank=True)
