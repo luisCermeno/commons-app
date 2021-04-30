@@ -7,13 +7,13 @@ import IconButton from "@material-ui/core/IconButton";
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';
-import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
+// import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import ListItemText from '@material-ui/core/ListItemText';
 import Avatar from '@material-ui/core/Avatar';
 
 import SendTwoToneIcon from '@material-ui/icons/SendTwoTone';
 import FaceTwoToneIcon from '@material-ui/icons/FaceTwoTone';
-import ReplyTwoToneIcon from '@material-ui/icons/ReplyTwoTone';
+// import ReplyTwoToneIcon from '@material-ui/icons/ReplyTwoTone';
 
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import { useTheme } from '@material-ui/core/styles';
@@ -80,7 +80,7 @@ const Messages = props => {
       <Grid container
       direction = "row"
       justify = "flex-start"
-      alignItems = "strecth"
+      alignItems = "stretch"
       style = {{height: "100%"}}
       >
         {!md?
@@ -147,7 +147,7 @@ const Messages = props => {
         </Grid>
 
         <Grid item xs={12} style = {styles.gridInput}>
-          <form onSubmit= {handleSubmit} autocomplete="off">
+          <form onSubmit= {handleSubmit} autoComplete="off">
             <TextField
               variant="outlined"
               fullWidth
