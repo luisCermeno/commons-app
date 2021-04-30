@@ -11,9 +11,6 @@ import IconButton from "@material-ui/core/IconButton";
 import EditTwoToneIcon from '@material-ui/icons/EditTwoTone';
 import FaceTwoToneIcon from '@material-ui/icons/FaceTwoTone';
 
-
-
-
 const Profile = (props) => {
   // ******** CONSTANTS *********
   const username = matchPath(history.location.pathname, {

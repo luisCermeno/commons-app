@@ -52,7 +52,7 @@ class Profile(models.Model):
       "last_name" : self.last_name,
       "major" : self.major,
       "year" : self.year,
-      "timestamp" : self.timestamp.strftime("%b %-d %Y"),
+      "timestamp" : self.timestamp.strftime("%b %d %Y"),
       "description": self.description,
     }
     
@@ -95,11 +95,11 @@ class Message(models.Model):
   timestamp = models.DateTimeField(default = datetime.datetime.now())
 
   def __str__(self):
-    return f'{self.user} @ {self.timestamp.strftime("%b %-d %Y, %-I:%M %p")}: "{self.body}"'
+    return f'{self.user} @ {self.timestamp.strftime("%b %d %Y, %I:%M %p")}: "{self.body}"'
 
   def serialize(self):
     return {
         "username" : self.user.username,
         "body": self.body,
-        "timestamp": self.timestamp.strftime("%b %-d %Y, %-I:%M %p"),
+        "timestamp": self.timestamp.strftime("%b %d %Y, %I:%M %p"),
     }
