@@ -44,11 +44,13 @@ const Profile = (props) => {
     })
     .then (res => res.json())
     .then (json => {
-      setchoices(json.choices)
-      setprofile(json.profile)
-      setschools(json.schools)
-      setloading(false)
       console.log(json)
+      if (json.success) {
+        setchoices(json.choices)
+        setprofile(json.profile)
+        setschools(json.schools)
+        setloading(false)
+      }
     })
   }
   const printChoice = (key, arr) => {
