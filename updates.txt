@@ -1,0 +1,2 @@
+FIX:
+-> peer object is not deleted from django server when unloading window (just when no other peer is connected to the room chat)
