@@ -21,7 +21,7 @@ The Commons App mission is to create a platform where students help each other t
 ## How to run (development mode):
  
 To run the app in development mode, we'll need **2** terminal windows
-which will run 3 live servers at the same time: 
+running in parallel:
 
 Terminal 1:
 1. Cd into backend folder.  
