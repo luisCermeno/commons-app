@@ -18,9 +18,9 @@ The Commons App mission is to create a platform where students help each other t
  - python 3.8.2 or higher
  - node 14.15.5 or higher
 
-## How to run:
+## How to run (development mode):
  
-To run the app in development mode, we'll need **3** terminal windows
+To run the app in development mode, we'll need **2** terminal windows
 which will run 3 live servers at the same time: 
 
 Terminal 1:
@@ -28,8 +28,8 @@ Terminal 1:
 	`cd backend/`
 2. Install python requirements and run django server.    
 	`pip3 install -r requirements.txt --user`   
-	(if you don't want to install the python requirements at an
-	 user level, create a virtual enviorement before running this command)
+	(if you don't want to install the python requirements at
+	 user level, create a virtual enviroment)
 3. Run django server.   
 	`python3 manage.py runserver`
 
@@ -45,14 +45,6 @@ Terminal 2:
 	`npm start`  
 	(or with yarn preinstalled)  
 	`yarn start`  
-	
-Terminal 3:
-1. Cd into frontend folder:  
-	`cd frontend/`
-2. Install the Peerjs server:  
-	`npm i -g peer`  
-3. Run the Peerjs server on port 3001:  
-	`peerjs --port 3001`
 	
 ## How it is built:
 
