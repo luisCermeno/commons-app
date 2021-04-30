@@ -122,34 +122,36 @@ const Room = props => {
     .then(res => res.json())
     .then(json => {
         console.log(json)
-        setloading(false)
-        //With the response, update the participants
-        //and messages state
-        setdescription(json.description)
-        setparticipants(json.participants)
-        setmessages(json.messages)
-        //Call each participant in the response.
-        //(establish a new connection)
-        json.participants.forEach(par => {
-          //Exclude self peer
-          if (par.peerID !== peerID){
-            // call the peer and get the data channel
-            const newDataConnection = peer.connect(par.peerID,{metadata: {username: props.username}})
-            // push the data channel obtained to the global constant
-            dataConnections.push({peerID: par.peerID, dataConnection: newDataConnection})
-            // when the connection is established...
-            newDataConnection.on('open',() => {
-              // when a message is received from the data channel, update the state
-              newDataConnection.on('data',data => setmessages(messages => [...messages, createMsgObj(par.username,data)]))
-            })
-            // when the data channel is closed update participants state 
-            newDataConnection.on('close', () => {
-              setparticipants(oldparticipants => oldparticipants.filter( obj => { return obj.peerID !== par.peerID } ))
-            })
-            // when there is a error, log it to the console
-            newDataConnection.on('error', error => seterror(error))
-          }
-        })
+        if (json.success) {
+          setloading(false)
+          //With the response, update the participants
+          //and messages state
+          setdescription(json.description)
+          setparticipants(json.participants)
+          setmessages(json.messages)
+          //Call each participant in the response.
+          //(establish a new connection)
+          json.participants.forEach(par => {
+            //Exclude self peer
+            if (par.peerID !== peerID){
+              // call the peer and get the data channel
+              const newDataConnection = peer.connect(par.peerID,{metadata: {username: props.username}})
+              // push the data channel obtained to the global constant
+              dataConnections.push({peerID: par.peerID, dataConnection: newDataConnection})
+              // when the connection is established...
+              newDataConnection.on('open',() => {
+                // when a message is received from the data channel, update the state
+                newDataConnection.on('data',data => setmessages(messages => [...messages, createMsgObj(par.username,data)]))
+              })
+              // when the data channel is closed update participants state 
+              newDataConnection.on('close', () => {
+                setparticipants(oldparticipants => oldparticipants.filter( obj => { return obj.peerID !== par.peerID } ))
+              })
+              // when there is a error, log it to the console
+              newDataConnection.on('error', error => seterror(error))
+            }
+          })
+        }
     })
   }
 
