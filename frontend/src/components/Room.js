@@ -44,9 +44,18 @@ const Room = props => {
   // ******** EFFECT HOOKS ********
   // onMount:
   useEffect(() => {
-    // create a new peer object for local participant
-    // peer server is hosted locally so the host server
-    // should be running 'peerjs --port 3001' 
+    // Create a new peer object for local participant:
+        // For this app, peer server is hosted online by third party PeerJS
+        // To host it locally and improve response speed:
+        // 1. Install the Peerjs server:  
+        //`npm i -g peer`  
+        // 2. Run the Peerjs server on port 3001:  
+        //`peerjs --port 3001`
+        // 3. Give arguments to peer object:
+        // peer = new Peer(undefined, {
+        //   host: '/',
+        //   port: '3001'
+    // })
     peer = new Peer()
     // when the connection is established, signal django server(peer login)
     peer.on('open', id => djangoLogPeer('login', id))
