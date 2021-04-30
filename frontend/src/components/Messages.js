@@ -7,6 +7,8 @@ import IconButton from "@material-ui/core/IconButton";
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';
+import LinearProgress from '@material-ui/core/LinearProgress';
+
 // import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import ListItemText from '@material-ui/core/ListItemText';
 import Avatar from '@material-ui/core/Avatar';
@@ -26,7 +28,9 @@ const Messages = props => {
   // ******** EFFECT HOOKS ********
   //when receiving new messages as prop, scroll!
   useEffect(() => {
-    listRef.current.scrollTop = listRef.current.scrollHeight;
+    if (listRef.current !== null) {
+      listRef.current.scrollTop = listRef.current.scrollHeight;
+    }
   }, [props.messages])
 
   const handleSubmit = e => {
@@ -90,60 +94,64 @@ const Messages = props => {
         :<></>
         }
         <Grid item xs={12} style = {styles.gridTexts}>
-          <List ref={listRef} style={{height: "100%", overflow: "auto"}}>
-            {props.messages.map( (msg, index) => {
-              let self
-              if (msg.username === props.username) self = true
-              else self = false
-              return (
-                <>
-                { (msg.username === 'Bot')?
-                  <div style={{textAlign: "center", color: "gray"}}> {msg.body}</div>
-                :
-                  <div style={self? styles.div_listitem.self: styles.div_listitem.incoming}>
-                    <ListItem key= {index} style={self? styles.listitem.self: styles.listitem.incoming}>
-                      {!self?
-                        <ListItemAvatar>
-                          <Avatar>
-                            <FaceTwoToneIcon />
-                          </Avatar>
-                        </ListItemAvatar>
-                      :
-                        <></>
-                      }
+          {props.loading?
+            <LinearProgress />
+          :
+            <List ref={listRef} style={{height: "100%", overflow: "auto"}}>
+              {props.messages.map( (msg, index) => {
+                let self
+                if (msg.username === props.username) self = true
+                else self = false
+                return (
+                  <>
+                  { (msg.username === 'Bot')?
+                    <div style={{textAlign: "center", color: "gray"}}> {msg.body}</div>
+                  :
+                    <div style={self? styles.div_listitem.self: styles.div_listitem.incoming}>
+                      <ListItem key= {index} style={self? styles.listitem.self: styles.listitem.incoming}>
+                        {!self?
+                          <ListItemAvatar>
+                            <Avatar>
+                              <FaceTwoToneIcon />
+                            </Avatar>
+                          </ListItemAvatar>
+                        :
+                          <></>
+                        }
 
-                      <ListItemText
-                        primary={!self? `${msg.username} : ${msg.body}`: msg.body}
-                        secondary={msg.timestamp}
-                        style= {{marginRight: "15px"}}
-                      />
+                        <ListItemText
+                          primary={!self? `${msg.username} : ${msg.body}`: msg.body}
+                          secondary={msg.timestamp}
+                          style= {{marginRight: "15px"}}
+                        />
 
-                      {self?
-                        <ListItemAvatar>
-                          <Avatar>
-                            <FaceTwoToneIcon />
-                          </Avatar>
-                        </ListItemAvatar>
-                      :
-                        <></>
-                      }
-                    
-                      {/* Future feature: reply button */}
-                      {/* {(!self && md)?
-                      <ListItemSecondaryAction>
-                        <IconButton aria-label="reply">
-                          <ReplyTwoToneIcon />
-                        </IconButton>
-                      </ListItemSecondaryAction>
-                      : <></>
-                      } */}
-                    </ListItem>
-                  </div>
-                }
-                </>
+                        {self?
+                          <ListItemAvatar>
+                            <Avatar>
+                              <FaceTwoToneIcon />
+                            </Avatar>
+                          </ListItemAvatar>
+                        :
+                          <></>
+                        }
+                      
+                        {/* Future feature: reply button */}
+                        {/* {(!self && md)?
+                        <ListItemSecondaryAction>
+                          <IconButton aria-label="reply">
+                            <ReplyTwoToneIcon />
+                          </IconButton>
+                        </ListItemSecondaryAction>
+                        : <></>
+                        } */}
+                      </ListItem>
+                    </div>
+                  }
+                  </>
+                )}
               )}
-            )}
-          </List>
+            </List>
+          }
         </Grid>
 
         <Grid item xs={12} style = {styles.gridInput}>

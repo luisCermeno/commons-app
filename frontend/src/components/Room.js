@@ -9,6 +9,7 @@ import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';
+import CircularProgress from '@material-ui/core/CircularProgress';
 import Avatar from '@material-ui/core/Avatar';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import { useTheme } from '@material-ui/core/styles';
@@ -35,6 +36,7 @@ const Room = props => {
   const [messages, setmessages] = useState([])
   const [error, seterror] = useState('')
   const [description, setdescription] = useState('')
+  const [loading, setloading] = useState(true)
   
   // ******** REF HOOKS ********
   const MessagesRef = useRef(null)
@@ -45,10 +47,7 @@ const Room = props => {
     // create a new peer object for local participant
     // peer server is hosted locally so the host server
     // should be running 'peerjs --port 3001' 
-    peer = new Peer(undefined, {
-      host: '/',
-      port: '3001'
-    })
+    peer = new Peer()
     // when the connection is established, signal django server(peer login)
     peer.on('open', id => djangoLogPeer('login', id))
     // when the connection is closed, signal django server(peer logout)
@@ -122,7 +121,8 @@ const Room = props => {
     })
     .then(res => res.json())
     .then(json => {
-      console.log(json)
+        console.log(json)
+        setloading(false)
         //With the response, update the participants
         //and messages state
         setdescription(json.description)
@@ -235,9 +235,13 @@ const Room = props => {
       <Grid item md={5} xs={12} style={{width: "25vw", padding: "1vh 1vw"}}>
         <Paper elevation={3} style={{padding: "1vh 1vw", textAlign: "center", height: "100%",  borderRadius: "15px", margin: "0 auto"}}>
           <h2>{roomID}</h2>
+          {loading?
+            <CircularProgress style={{margin: "0 auto"}}/>
+          :
             <div style={{height: "70%",overflow: "auto"}}>
               <p>{description}</p>
             </div>
+          }
         </Paper>
       </Grid>
       : <></>
@@ -245,7 +249,10 @@ const Room = props => {
       {md?
         <Grid item md={7} xs={12} style={{width: "25vw",  padding: "1vh 1vw"}}>
         <Paper elevation={3} style={{padding: "2vh 2vw", height: "100%", textAlign: "center",borderRadius: "15px"}}>
-            <h3 ref={MessagesRef}>Active users:</h3>
+          <h3 ref={MessagesRef}>Active users:</h3>
+          {loading?
+            <CircularProgress style={{margin: "0 auto"}}/>
+          :
             <List style= {{height: "80%",overflow: "auto"}}>
               {participants.map( (peer,index) => (
                 <ListItem key={index} button>
@@ -258,13 +265,14 @@ const Room = props => {
                 </ListItem>
               ))}
             </List>
+          }
         </Paper>
         </Grid>
       : <></>
       }
 
       <Grid item md={12} style={styles.grid}>
-        <Messages messages={messages} handleSend={handleSend} error={error} username={props.username} roomID={roomID}/>
+          <Messages messages={messages} handleSend={handleSend} error={error} username={props.username} roomID={roomID} loading={loading}/>
       </Grid>
     </Grid>
     </>
