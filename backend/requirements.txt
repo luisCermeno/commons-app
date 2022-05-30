@@ -1,4 +1,4 @@
-django
+django==3.2.13
 djangorestframework
 djangorestframework-jwt
 django-cors-headers
