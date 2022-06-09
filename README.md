@@ -28,7 +28,9 @@ The Commons App mission is to create a platform where students help each other t
 `docker pull luiscermeno/commons-frontend`  
 `docker run -p 3000:3000 luiscermeno/commons-frontend`  
 
-3. Open localhost:3000 in your web browser.  
+4. Open localhost:3000 in your web browser.  
+
+Superuser: admin Password: admin
 
 ## How to run (development mode):
  
