@@ -24,7 +24,7 @@ The Commons App mission is to create a platform where students help each other t
 2. Run:  
 `docker pull luiscermeno/commons-backend`  
 `docker run -p 8000:8000 luiscermeno/commons-backend`
-3. Open another terminal an run:
+3. Open another terminal an run:  
 `docker pull luiscermeno/commons-frontend`  
 `docker run -p 3000:3000 luiscermeno/commons-frontend`  
 
