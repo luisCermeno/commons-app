@@ -18,7 +18,7 @@ The Commons App mission is to create a platform where students help each other t
  - python 3.8.2 or higher
  - node 14.15.5 or higher
 
-## How to run (dockerize development package):
+## How to run (dockerized package):
 
 1. Install and sign in into docker using `docker login`.  
 2. Run:  
