@@ -18,6 +18,17 @@ The Commons App mission is to create a platform where students help each other t
  - python 3.8.2 or higher
  - node 14.15.5 or higher
 
+## How to run (dockerize development package):
+
+1. Install and sign in into docker using `docker login`.  
+2. Run:  
+`docker pull luiscermeno/commons-backend`  
+`docker run -p 8000:8000 luiscermeno/commons-backend`  
+`docker pull luiscermeno/commons-frontend`  
+`docker run -p 3000:3000 luiscermeno/commons-frontend`  
+
+3. Open localhost:3000 in your web browser.  
+
 ## How to run (development mode):
  
 To run the app in development mode, we'll need **2** terminal windows
