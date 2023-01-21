@@ -54,7 +54,12 @@ const LoginPage = (props) => {
     .then (json => {
       console.log(json)
       setdata(json)
+      console.log(data)
     })
+  }
+
+  const isServerUp = () => {
+    return Object.keys(data).length === 0
   }
 
   // ******** RENDER ********
@@ -75,21 +80,21 @@ const LoginPage = (props) => {
                 {lg?
                 <>
                   <p>
-                    Have you ever wished a senior student had told you about that bad professor you regret taking so much?
+                    Have you ever wished someone told you about that professor you regret taking so much?
                   </p>
                   <p>
-                    Are you a freshman and you feel your campus is so big to find a squad? 
+                    Are you a freshman and you feel your campus is so big you can't find your community? 
                   </p>
                 </>
                 :
                 <></>
                 }
               <p>
-                Whether you are a senior or a freshman, a geek or the team captain. Everything you want to know about your school, you'll find it here!
+                Whether you are a senior or a freshman, an artist or a geek. Everything you want to know about your school, you'll find it here!
               </p> 
               <p>
-                TheCommons&#174; team have envisioned a community where students learn from each other experiences
-                and build a common knowledge about their schools! Hop on, and bring your piece to the puzzle!
+                TheCommons&#174; team are envisioning a community where students can learn from each other experiences
+                and build accessible and common knowledge about their schools! Hop on, and bring your piece to the puzzle!
               </p>
               </div>
             :
@@ -105,14 +110,16 @@ const LoginPage = (props) => {
               <>
                 <LoginForm {...props}/>
                 <div>
-                  Not part of your school commons yet? <Button style={{display: "inline-block"}}color="secondary" onClick={() => {setmode("signup")}}>Sign up</Button>
+                  Not part of your school commons yet? 
+                  <Button disabled = {isServerUp()} style={{display: "inline-block"}}color="secondary" onClick={() => {setmode("signup")}}> Sign up</Button>
+                  {isServerUp()? <div> <b>Backend not currently live </b></div>: <></>}
                 </div>
               </>
             :
               <>
                 <SignupForm {...props} data={data}/>
                 <div>
-                  Already have an account? <Button style={{display: "inline-block"}}color="secondary" onClick={() => {setmode("login")}}>Log in</Button>
+                  Already have an account? <Button  style={{display: "inline-block"}}color="secondary" onClick={() => {setmode("login")}}>Log in</Button>
                 </div>
               </>
             }
