@@ -49,7 +49,7 @@ const LoginPage = (props) => {
 
   // ******** UTIL FUNCTIONS ********
   const getdata = () => {
-    fetch(`http://localhost:8000/getprofile`)
+    fetch(props.host + 'getprofile')
     .then (res => res.json())
     .then (json => {
       console.log(json)

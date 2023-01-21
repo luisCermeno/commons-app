@@ -150,6 +150,7 @@ const App = () => {
             <Switch>
               <Route exact path='/' > 
                 <LoginPage 
+                host = {host}
                 handle_login={handle_login}
                 handle_signup={handle_signup}
                 errormsg = {errormsg} 

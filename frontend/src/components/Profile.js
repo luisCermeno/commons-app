@@ -34,7 +34,7 @@ const Profile = (props) => {
 
   // ******** UTIL FUNCTIONS ********
   const getprofile = () => {
-    fetch(`http://localhost:8000/getprofile?username=${username}`, {
+    fetch(props.host + `getprofile?username=${username}`, {
       headers: {
         Authorization: `JWT ${localStorage.getItem('token')}`
       }

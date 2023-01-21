@@ -123,7 +123,7 @@ const Room = props => {
   // Objective: Pull room data from the server (active participants,
   // message history, etc and updates the state of the component)
   const djangoGetRoom = (peerID) => {
-    fetch(`http://localhost:8000/getroom?roomID=${roomID}`, {
+    fetch(props.host +`getroom?roomID=${roomID}`, {
       headers: {
         Authorization: `JWT ${localStorage.getItem('token')}`
       }
