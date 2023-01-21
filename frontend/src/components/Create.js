@@ -4,7 +4,7 @@ import history from '../history'
 import {Grid, Paper, TextField, Button, FormHelperText} from '@material-ui/core';
 import CircularProgress from '@material-ui/core/CircularProgress';
 
-const Create = () => {
+const Create = (props) => {
   // ******** STATE HOOKS ********
   const [roomID, setroomID] = useState('')
   const [error, seterror] = useState('')
@@ -16,7 +16,7 @@ const Create = () => {
     setloading(true)
     e.preventDefault()
     //create rooom on server
-    fetch('http://localhost:8000/room/', {
+    fetch(props.host + 'room/', {
       method: 'post',
       headers: {
         'Content-Type': 'application/json',

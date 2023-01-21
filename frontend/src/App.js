@@ -10,6 +10,7 @@ import Room from './components/Room'
 import Create from './components/Create'
 
 const App = () => {
+  const host = 'http://localhost:8000/'
   //STATE HOOKS
   const [logged_in, setlogged_in] = useState(localStorage.getItem('token')? true : false)
   const [username, setusername] = useState('')
@@ -20,7 +21,7 @@ const App = () => {
   //onMount (when user returns to the app after closing it)
   useEffect(() => {
     if (logged_in) {
-      fetch('http://localhost:8000/getuser/', {
+      fetch(host + 'getuser/', {
         headers: {
           Authorization: `JWT ${localStorage.getItem('token')}`
         }
@@ -44,7 +45,7 @@ const App = () => {
 
   //AUTHENTICATION HANDLERS
   const handle_login = (credentials) => {
-    fetch('http://localhost:8000/login/', {
+    fetch(host + 'login/', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -64,7 +65,7 @@ const App = () => {
     })
   }
   const handle_signup = (credentials, profile) => {
-    fetch('http://localhost:8000/signup/', {
+    fetch(host + 'signup/', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -87,7 +88,7 @@ const App = () => {
   const handle_logout = () => {
     //first delete any active peer if there is any
     if (active_peer !== '') {
-      fetch('http://localhost:8000/logpeer/', {
+      fetch(host + 'logpeer/', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -125,19 +126,20 @@ const App = () => {
             >
               <Switch>
                 <Route exact path='/'>
-                  <Home 
+                  <Home
+                  host = {host}
                   logged_in={logged_in} 
                   username={username}
                   /> 
                 </Route>
                 <Route exact path='/create'>
-                  <Create/> 
+                  <Create host = {host}/> 
                 </Route>
                 <Route exact path='/profile/:username'>
-                  <Profile username={username}/> 
+                  <Profile username={username} host = {host}/> 
                 </Route>
                 <Route exact path='/room/:roomID'>
-                  <Room username={username} setactive_peer={setactive_peer}/> 
+                  <Room username={username} setactive_peer={setactive_peer} host = {host}/> 
                 </Route>
                 <Route path='/' > 
                   <Redirect  to='/' />

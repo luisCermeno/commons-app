@@ -66,7 +66,7 @@ const Profile = (props) => {
     console.log(profile)
     e.preventDefault()
     setloading(true)
-    fetch('http://localhost:8000/editprofile/', {
+    fetch(props.host + 'editprofile/', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

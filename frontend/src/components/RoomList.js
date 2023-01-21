@@ -17,7 +17,7 @@ const RoomList = (props) => {
   }, [])
   // ******** UTIL FUNCTIONS ********
   const getRooms = () => {
-    fetch('http://localhost:8000/getroom?getall=true', {
+    fetch(props.host + 'getroom?getall=true', {
       headers: {
         Authorization: `JWT ${localStorage.getItem('token')}`
       }

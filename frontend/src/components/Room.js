@@ -97,7 +97,7 @@ const Room = props => {
   const djangoLogPeer = (action, peerID) => {
     // Log in/out the peer in the django server
     // (destroy or create the peer in the database)
-    fetch('http://localhost:8000/logpeer/', {
+    fetch(props.host + 'logpeer/', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -195,7 +195,7 @@ const Room = props => {
   // the message to django server
   const handleSend = input => {
     //post message to django server
-    fetch('http://localhost:8000/message/', {
+    fetch(props.host + 'message/', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
