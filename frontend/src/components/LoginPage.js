@@ -112,7 +112,7 @@ const LoginPage = (props) => {
                 <div>
                   Not part of your school commons yet? 
                   <Button disabled = {isServerUp()} style={{display: "inline-block"}}color="secondary" onClick={() => {setmode("signup")}}> Sign up</Button>
-                  {isServerUp()? <div> <b>Backend not currently live </b></div>: <></>}
+                  {isServerUp()? <div> <b>Backend server is not live </b></div>: <></>}
                 </div>
               </>
             :
